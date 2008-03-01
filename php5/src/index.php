@@ -51,6 +51,11 @@ if ( !is_dir(LIBS_DIR) ) {
     exit('Invalid LIBS_DIR setting!');
 }
 
+/*
+ * Dzit's configuration file (located in include_path)
+ */
+define('DZIT_CONFIG_FILE', 'dzit.properties');
+
 /* set up include path */
 $includePath = '.'.PATH_SEPARATOR.CONFIG_DIR;
 if ( $dh = @opendir(LIBS_DIR) ) {
@@ -64,4 +69,21 @@ if ( $dh = @opendir(LIBS_DIR) ) {
 }
 ini_set('include_path', $includePath);
 
+/* load configurations */
+$config = new Ddth_Dzit_Configurations(DZIT_CONFIG_FILE);
+$appClass = $config->getApplicationClass();
+$app = new $appClass();
+if ( !($app instanceof Ddth_Dzit_IApplication) ) {
+    exit("[$appClass] does not implement interface Ddth_Dzit_IApplication!"); 
+}
+//register the application instance
+Ddth_Dzit_ApplicationRegistry::$CURRENT_APP = $app;
+$hasError = false;
+try {
+    $app->init();
+    $app->execute();
+} catch ( Exception $e ) {
+    $hasError = true;
+}
+$app->destroy($hasError);
 ?>
