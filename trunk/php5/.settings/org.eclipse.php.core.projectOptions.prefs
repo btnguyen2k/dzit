@@ -1,5 +1,5 @@
-#Thu Feb 28 07:50:53 ICT 2008
+#Sat Mar 01 09:32:58 ICT 2008
 eclipse.preferences.version=1
 org.eclipse.php.core.contextRoot=
 org.eclipse.php.core.defaultEncoding=
-org.eclipse.php.core.includePath=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<includepath>\r\n</includepath>\r\n
+org.eclipse.php.core.includePath=<?xml version\="1.0" encoding\="UTF-8"?>\n<includepath>\n\t<includepathentry kind\="prj" path\="/dphp" resource\="dphp" createdReference\="true" contentKind\="source">\n</includepathentry>\n</includepath>\n

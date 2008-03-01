@@ -3,6 +3,7 @@
 	<name>Dzit</name>
 	<comment></comment>
 	<projects>
+		<project>dphp</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
