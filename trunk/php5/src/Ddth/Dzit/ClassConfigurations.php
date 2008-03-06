@@ -30,9 +30,11 @@
  */
 class Ddth_Dzit_Configurations {
     
-    const DEFAULT_APPLICATION_CLASS = 'Ddth_Dzit_GenericApplication';
+    const DEFAULT_APPLICATION_CLASS = 'Ddth_Dzit_App_GenericApplication';
     
     const PROPERTY_APPLICATION_CLASS = 'dzit.application.class';
+    
+    const PROPERTY_ADODB_CONFIG_FILE = 'dzit.adodb.config.file';
     
     /**
      * @var Ddth_Commons_Logging_ILog
@@ -59,6 +61,26 @@ class Ddth_Dzit_Configurations {
             $msg = $e->getMessage();
             $this->LOGGER->error($msg, $e);
         }
+    }
+    
+    /**
+     * Returns ADOdb support status.
+     *
+     * @return bool
+     */
+    public function supportAdodb() {
+        $adodbConfigFile = $this->getAdodbConfigFile();
+        return $adodbConfigFile != NULL && trim($adodbConfigFile) != "";
+    }
+    
+    /**
+     * Gets name of configuration file for ADOdb factory. 
+     *
+     * @return String
+     */
+    public function getAdodbConfigFile() {
+        $key = self::PROPERTY_ADODB_CONFIG_FILE;
+        return $this->getSetting($key);
     }
 
     /**
