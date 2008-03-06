@@ -20,15 +20,33 @@
 
 /**
  * OO way to retrieve the currently running application instance.
- * 
+ *
  * @package    	Dzit
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1
- * @since      	Class available since v0.1 
+ * @since      	Class available since v0.1
  */
 class Ddth_Dzit_ApplicationRegistry {
     public static $CURRENT_APP = NULL;
+
+    /**
+     * Registers the currently running application.
+     *
+     * @param Ddth_Dzit_IApplication
+     */
+    public static function registerApplication($app) {
+        self::$CURRENT_APP = $app;
+    }
+
+    /**
+     * Gets the currently running application.
+     *
+     * @return Ddth_Dzit_IApplication
+     */
+    public static function getCurrentApplication() {
+        return self::$CURRENT_APP;
+    }
 }
 ?>

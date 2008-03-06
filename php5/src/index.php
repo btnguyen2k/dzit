@@ -80,7 +80,7 @@ if ( !($app instanceof Ddth_Dzit_IApplication) ) {
 Ddth_Dzit_ApplicationRegistry::$CURRENT_APP = $app;
 $hasError = false;
 try {
-    $app->init();
+    $app->init($config);
     $app->execute();
 } catch ( Exception $e ) {
     $hasError = true;

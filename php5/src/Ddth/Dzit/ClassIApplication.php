@@ -52,8 +52,9 @@ interface Ddth_Dzit_IApplication {
      * 
      * This method is called just after the application instance is created.
      *
+     * @param Ddth_Dzit_Configurations
      * @throws Ddth_Dzit_DzitException
      */
-    public function init();
+    public function init($config);
 }
 ?>
