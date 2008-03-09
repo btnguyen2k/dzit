@@ -151,7 +151,7 @@ abstract class Ddth_Dzit_AbstractApplication implements Ddth_Dzit_IApplication {
      * @param bool indicate if an error has occurred
      */
     public function closeAdodbConnection($hasError=false) {
-        if ( $this->adodbConn != NULL ) {
+        if ( $this->adodbConn !== NULL ) {
             if ( $hasError ) {
                 $this->adodbConn->FailTrans();
             }

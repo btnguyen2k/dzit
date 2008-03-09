@@ -70,7 +70,7 @@ class Ddth_Dzit_Configurations {
      */
     public function supportAdodb() {
         $adodbConfigFile = $this->getAdodbConfigFile();
-        return $adodbConfigFile != NULL && trim($adodbConfigFile) != "";
+        return $adodbConfigFile !== NULL && trim($adodbConfigFile) != "";
     }
     
     /**
