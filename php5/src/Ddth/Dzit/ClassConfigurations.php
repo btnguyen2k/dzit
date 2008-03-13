@@ -18,8 +18,41 @@
  * @since      	File available since v0.1
  */
 
+if ( !function_exists('__autoload') ) {
+    /**
+     * Automatically loads class source file when used.
+     *
+     * @param string
+     * @ignore
+     */
+    function __autoload($className) {
+        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
+        require_once 'Ddth/Commons/ClassLoader.php';
+        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
+        Ddth_Commons_Loader::loadClass($className, $translator);
+    }
+}
+
 /**
  * Encapsulates Dzit's start up configurations.
+ * 
+ * Dzit's start-up configurations are stored in a .properties file with the
+ * following format:
+ * <code>
+ * # Name of the application class. It must implement interface
+ * # Ddth_Dzit_IApplication, and is recommended to extends class
+ * # Ddth_Dzit_App_AbstractApplication
+ * # Default value is Ddth_Dzit_App_GenericApplication
+ * dzit.application.class=Ddth_Dzit_App_GenericApplication
+ * 
+ * # Action mapping configuration settings file
+ * dzit.action_mapping.file=dzit-action_mapping.properties
+ * 
+ * # Name of Ddth_Adodb's configuration file. If this property is set,
+ * # application is adodb-enabled.
+ * # This configuration setting is supported by Ddth_Dzit_App_AbstractApplication
+ * dzit.adodb.config.file=ddth-adodb.properties
+ * </code>
  * 
  * @package    	Dzit
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
@@ -33,6 +66,8 @@ class Ddth_Dzit_Configurations {
     const DEFAULT_APPLICATION_CLASS = 'Ddth_Dzit_App_GenericApplication';
     
     const PROPERTY_APPLICATION_CLASS = 'dzit.application.class';
+    
+    const PROPERTY_ACTION_MAPPING_FILE = 'dzit.action_mapping.file';
     
     const PROPERTY_ADODB_CONFIG_FILE = 'dzit.adodb.config.file';
     
@@ -51,10 +86,10 @@ class Ddth_Dzit_Configurations {
      *
      * @param string
      */
-    public function __constructs($configFile) {
+    public function __construct($configFile) {
         $clazz = 'Ddth_Dzit_Configurations';
-        $this->LOGGER = Ddth_Commons_Loggings_LogFactory::getLog($clazz);
-        $this->settings = new Ddth_Commons_Properties();
+        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);        
+        $this->settings = new Ddth_Commons_Properties();        
         try {
             $this->settings->load($configFile);
         } catch ( Exception $e ) {
@@ -64,13 +99,23 @@ class Ddth_Dzit_Configurations {
     }
     
     /**
+     * Gets name of action mapping configurations file.
+     *
+     * @return string
+     */
+    public function getActionMappingFile() {
+        $key = self::PROPERTY_ACTION_MAPPING_FILE;
+        return $this->getSetting($key);
+    }
+    
+    /**
      * Returns ADOdb support status.
      *
      * @return bool
      */
     public function supportAdodb() {
         $adodbConfigFile = $this->getAdodbConfigFile();
-        return $adodbConfigFile !== NULL && trim($adodbConfigFile) != "";
+        return $adodbConfigFile !== NULL && trim($adodbConfigFile) !== "";
     }
     
     /**
@@ -82,6 +127,7 @@ class Ddth_Dzit_Configurations {
         $key = self::PROPERTY_ADODB_CONFIG_FILE;
         return $this->getSetting($key);
     }
+        
 
     /**
      * Gets application class name setting.
