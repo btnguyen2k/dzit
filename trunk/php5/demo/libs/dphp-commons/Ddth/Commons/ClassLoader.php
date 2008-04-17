@@ -32,7 +32,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: ClassLoader.php 116 2008-02-16 16:39:38Z btnguyen2k@gmail.com $
+ * @id			$Id: ClassLoader.php 147 2008-03-09 06:00:32Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
@@ -50,7 +50,7 @@ require_once 'ClassDefaultClassNameTranslator.php';
  * @return bool true if success, false otherwise
  */
 function Ddth_Commons_Loader_loadClass($className, $classNameTranslator=NULL) {
-    if ( $classNameTranslator==NULL || !is_object($classNameTranslator)
+    if ( $classNameTranslator===NULL || !is_object($classNameTranslator)
     || !($classNameTranslator instanceof Ddth_Commons_IClassNameTranslator) ) {
         $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
         return Ddth_Commons_Loader::loadClass($className, $translator);

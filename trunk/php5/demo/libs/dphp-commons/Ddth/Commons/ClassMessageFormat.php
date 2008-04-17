@@ -14,7 +14,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: ClassMessageFormat.php 140 2008-02-28 16:26:06Z nbthanh@vninformatics.com $
+ * @id			$Id: ClassMessageFormat.php 147 2008-03-09 06:00:32Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
@@ -97,7 +97,7 @@ class Ddth_Commons_MessageFormat {
      */
     public function format($substitutes=Array()) {
         $result = "";
-        $text = $this->pattern != NULL ? $this->pattern : "";
+        $text = $this->pattern !== NULL ? $this->pattern : "";
         if ( !is_array($substitutes) ) {
             $substitutes = Array();
         }
@@ -121,7 +121,7 @@ class Ddth_Commons_MessageFormat {
             $result .= $prefix;
             $text = substr($text, strlen($prefix));
 
-            if ( $pos == $pEsc ) {
+            if ( $pos === $pEsc ) {
                 //found escape character
                 if ( strlen($text) > 1 ) {
                     //take the next character

@@ -14,7 +14,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: ClassDefaultClassNameTranslator.php 116 2008-02-16 16:39:38Z btnguyen2k@gmail.com $
+ * @id			$Id: ClassDefaultClassNameTranslator.php 148 2008-03-12 05:38:09Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
@@ -62,7 +62,7 @@ implements Ddth_Commons_IClassNameTranslator {
     }
 
     /**
-     * @see Ddth_Commons_IClassNameTranslator::translateClassNameToFileName()
+     * {@see Ddth_Commons_IClassNameTranslator::translateClassNameToFileName()}
      */
     public function translateClassNameToFileName($className) {
         $tokens = explode("_", $className);

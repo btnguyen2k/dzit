@@ -14,7 +14,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassAdodbFactory.php 140 2008-02-28 16:26:06Z nbthanh@vninformatics.com $
+ * @id			$Id: ClassAdodbFactory.php 148 2008-03-12 05:38:09Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
@@ -51,15 +51,16 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
 
     /**
      * Gets an instance of Ddth_Adodb_AdodbFactory.
+     * 
+     * See: {@link Ddth_Adodb_AdodbConfig configuration file format}.
      *
      * @param string name of the configuration file (located in
      * {@link http://www.php.net/manual/en/ini.core.php#ini.include-path include-path})
      * @return Ddth_Adodb_AdodbFactory
-     * @throws {@link Ddth_Adodb_AdodbException AdodbException}
-     * @see {@link Ddth_Adodb_AdodbConfig configuration file format}.
+     * @throws {@link Ddth_Adodb_AdodbException AdodbException} 
      */
     public static function getInstance($configFile=NULL) {
-        if ( $configFile == NULL ) {
+        if ( $configFile === NULL ) {
             return self::getInstance(self::DEFAULT_CONFIG_FILE);
         }
         if ( !isset(self::$cacheInstances[$configFile]) ) {
@@ -108,6 +109,12 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
         if ( $conn === false ) {
             return NULL;
         }
+
+        foreach ( $this->config->getSetupSqls() as $sql ) {
+            //run setup sqls
+            $conn->Execute($sql);
+        }
+
         if ( $startTransaction ) {
             $conn->StartTrans();
         }
@@ -121,7 +128,7 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
      * @param bool
      */
     public function closeConnection($conn, $hasError=false) {
-        if ( $conn != NULL ) {
+        if ( $conn !== NULL ) {
             if ( $hasError ) {
                 $conn->CompleteTrans($hasError);
             }

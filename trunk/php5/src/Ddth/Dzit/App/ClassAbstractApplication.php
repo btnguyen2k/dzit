@@ -11,6 +11,7 @@
  * so we can email you a copy.
  *
  * @package		Dzit
+ * @subpackage  App
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
@@ -22,13 +23,14 @@
  * Abstract implementation of IApplication.
  *
  * @package    	Dzit
+ * @subpackage 	App
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-abstract class Ddth_Dzit_AbstractApplication implements Ddth_Dzit_IApplication {
+abstract class Ddth_Dzit_App_AbstractApplication implements Ddth_Dzit_IApplication {
 
     /**
      * @var Ddth_Commons_Logging_ILog
@@ -53,10 +55,10 @@ abstract class Ddth_Dzit_AbstractApplication implements Ddth_Dzit_IApplication {
     private $countAdodbConn = 0;
 
     /**
-     * Constructs a new Ddth_Dzit_AbstractApplication object.
+     * Constructs a new Ddth_Dzit_App_AbstractApplication object.
      */
     public function __construct() {
-        $clazz = 'Ddth_Dzit_AbstractApplication';
+        $clazz = __CLASS__;
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
         Ddth_Dzit_ApplicationRegistry::registerApplication($this);
     }
@@ -73,13 +75,6 @@ abstract class Ddth_Dzit_AbstractApplication implements Ddth_Dzit_IApplication {
     }
 
     /**
-     * Executes the application (serves the Http request).
-     *
-     * @throws Ddth_Dzit_DzitException
-     */
-    public function execute();
-
-    /**
      * Gets Dzit's configuration instance.
      *
      * @return Ddth_Dzit_Configurations
@@ -93,8 +88,8 @@ abstract class Ddth_Dzit_AbstractApplication implements Ddth_Dzit_IApplication {
      */
     public function init($config) {
         $this->dzitConfig = $config;
-        initSession();
-        initAdodbFactory();
+        $this->initSession();
+        $this->initAdodbFactory();
     }
 
     /**
@@ -106,14 +101,15 @@ abstract class Ddth_Dzit_AbstractApplication implements Ddth_Dzit_IApplication {
         try {
             if ( $this->getDzitConfig()->supportAdodb() ) {
                 $adodbConfigFile = $this->getDzitConfig()->getAdodbConfigFile();
-                if ( trim($adodbConfigFile) == "" ) {
+                if ( trim($adodbConfigFile) === "" ) {
                     $adodbConfigFile = NULL;
                 }
                 $this->adodbFactory = Ddth_Adodb_AdodbFactory::getInstance($adodbConfigFile);
+                echo __LINE__;
             } else {
                 $this->adodbFactory = NULL;
             }
-        } catch ( Exception  $e ) {
+        } catch ( Exception $e ) {
             $msg = $e->getMessage();
             throw new Ddth_Dzit_DzitException($msg);
         }

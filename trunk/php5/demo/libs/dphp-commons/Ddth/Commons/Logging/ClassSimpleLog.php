@@ -15,7 +15,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: ClassSimpleLog.php 116 2008-02-16 16:39:38Z btnguyen2k@gmail.com $
+ * @id			$Id: ClassSimpleLog.php 149 2008-03-12 06:02:50Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
@@ -130,13 +130,13 @@ extends Ddth_Commons_Logging_AbstractLog {
         $datetimeFormat = $prop->getProperty(self::SETTING_DATETIME_FORMAT);
         
         //setup log message format
-        if ( $logFormat == NULL || trim($logFormat) == "" ) {
+        if ( $logFormat === NULL || trim($logFormat) === "" ) {
             $logFormat = self::DEFAULT_LOG_FORMAT;
         }
         $this->logFormat = trim($logFormat);
         
         //setup date/time format
-        if ( $datetimeFormat == NULL || trim($datetimeFormat) == "" ) {
+        if ( $datetimeFormat === NULL || trim($datetimeFormat) === "" ) {
             $datetimeFormat = self::DEFAULT_DATETIME_FORMAT;
         }
         $this->datetimeFormat = trim($datetimeFormat);
@@ -145,18 +145,18 @@ extends Ddth_Commons_Logging_AbstractLog {
     private function buildLogMessage($level, $message, $e=NULL) {
         $datetime = date($this->datetimeFormat, time());
         $level = strtoupper($level);
-        $stacktrace = $e!=NULL ? $e->getTraceAsString() : NULL;
+        $stacktrace = $e!==NULL ? $e->getTraceAsString() : NULL;
         $msgAutoStacktrace = $message;
-        if ( $e != NULL ) {
-            $msgAutoStacktrace .= '\n' . $e->getTraceAsString();
+        if ( $e !== NULL ) {
+            $msgAutoStacktrace .= "\n" . $e->getTraceAsString();
         }
         $msg = $this->logFormat;
-        $msg = str_ireplace(self::PLACE_HOLDER_NL, '\n', $msg);
+        $msg = str_ireplace(self::PLACE_HOLDER_NL, "\n", $msg);
         $msg = str_ireplace(self::PLACE_HOLDER_DATETIME, $datetime, $msg);
         $msg = str_ireplace(self::PLACE_HOLDER_LEVEL, strtoupper($level), $msg);
         $msg = str_ireplace(self::PLACE_HOLDER_MESSAGE, $message, $msg);
         $msg = str_ireplace(self::PLACE_HOLDER_MSG_AUTO_STACKTRACE, $msgAutoStacktrace, $msg);
-        if ( $stacktrace != NULL ) {
+        if ( $stacktrace !== NULL ) {
             $msg = str_ireplace(self::PLACE_HOLDER_STACKTRACE, $stacktrace, $msg);
         }
         return $msg; 

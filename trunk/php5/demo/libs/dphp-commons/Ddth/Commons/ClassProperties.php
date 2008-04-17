@@ -14,7 +14,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: ClassProperties.php 116 2008-02-16 16:39:38Z btnguyen2k@gmail.com $
+ * @id			$Id: ClassProperties.php 147 2008-03-09 06:00:32Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
@@ -122,7 +122,7 @@ class Ddth_Commons_Properties {
         $result = "";
         foreach ( $this->properties as $key=>$node ) {                        
             $comment = count($node) > 1 ? $node[1] : NULL;
-            if ( $comment != NULL ) {
+            if ( $comment !== NULL ) {
                 $lines = explode("\n", $comment);
                 if ( $lines !== false ) {
                     foreach ( $lines as $line ) {
@@ -142,7 +142,7 @@ class Ddth_Commons_Properties {
                         $result .= "\t";                        
                     }
                     $result .= $lines[$i];
-                    if ( $i != $n-1 ) {
+                    if ( $i !== $n-1 ) {
                         $result .= " \\";    
                     }
                     $result .= "\n";
@@ -161,7 +161,7 @@ class Ddth_Commons_Properties {
      * @throws {@link Ddth_Commons_Exceptions_IllegalStateException IllegalStateException}
      */
     public function import($input) {
-        if ( $input == NULL ) {
+        if ( $input === NULL ) {
             $msg = "Null input!";
             throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
         }
@@ -244,7 +244,7 @@ class Ddth_Commons_Properties {
                     break;
             }
         }
-        if ( $key!=NULL && $value!=NULL ) {
+        if ( $key!==(NULL) && $value!==NULL ) {
             $this->setProperty($key, $value, $comment);
         }
     }
@@ -257,7 +257,7 @@ class Ddth_Commons_Properties {
     }
 
     private function parseComment(&$state, &$comment, $input) {
-        if ( $comment != NULL ) {
+        if ( $comment !== NULL ) {
             $comment .= "\n" . $input;
         } else {
             $comment = $input;
@@ -267,17 +267,17 @@ class Ddth_Commons_Properties {
 
     private function parseValue(&$state, &$key, &$value, &$comment, $input) {
         $tokens = preg_split("/\s*=\s*/", $input, 2);
-        if ( count($tokens) != 2 ) {
+        if ( count($tokens) !== 2 ) {
             $msg = 'Invalid input near "'.substr($input, 0, 20).'"';
             throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
         }
         $key = trim($tokens[0]);
         $value = trim($tokens[1]);
-        if ( $key == "" ) {
+        if ( $key === "" ) {
             $msg = 'Empty property key at "'.substr($input, 0, 20).'"';
             throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
         }
-        if ( $value!="" && $value[strlen($value)-1]==self::$MULTILINE_FLAG) {
+        if ( $value!=="" && $value[strlen($value)-1]===self::$MULTILINE_FLAG) {
             $value = trim(substr($value, 0, strlen($value)-1)); //ignore the last char
             $state = self::$STATE_IN_PROPERTY_VALUE;
         } else {
@@ -289,7 +289,7 @@ class Ddth_Commons_Properties {
 
     private function parseStateStart(&$state, $line, &$key, &$value, &$comment) {
         $line = trim($line);
-        if ( $line == "" ) {
+        if ( $line === "" ) {
             //reset
             $this->parseReset($state, $key, $value, $comment);
         } elseif ( in_array($line[0], self::$COMMENT_START) ) {
@@ -303,7 +303,7 @@ class Ddth_Commons_Properties {
 
     private function parseStateInComment(&$state, $line, &$key, &$value, &$comment) {
         $line = trim($line);
-        if ( $line == "" ) {
+        if ( $line === "" ) {
             //reset
             $this->parseReset($state, $key, $value, $comment);
         } elseif ( in_array($line[0], self::$COMMENT_START) ) {
@@ -317,7 +317,7 @@ class Ddth_Commons_Properties {
 
     private function parseStateInPropertyValue(&$state, $line, &$key, &$value, &$comment) {
         $line = trim($line);
-        if ( $line == "" ) {
+        if ( $line === "" ) {
             $this->setProperty($key, $value, $comment);
             //reset
             $this->parseReset($state, $key, $value, $comment);
@@ -328,7 +328,7 @@ class Ddth_Commons_Properties {
             //comment
             $this->parseComment($state, $comment, substr($line, 1));
         } else {
-            if ( $line[strlen($line)-1]==self::$MULTILINE_FLAG) {
+            if ( $line[strlen($line)-1]===self::$MULTILINE_FLAG) {
                 //property value continues
                 $value .= "\n".substr($line, 0, strlen($line)-1); //ignore the last char
                 $value = trim($value);
