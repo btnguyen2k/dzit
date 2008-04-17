@@ -28,7 +28,9 @@ if ( !function_exists('__autoload') ) {
         require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
         require_once 'Ddth/Commons/ClassLoader.php';
         $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        Ddth_Commons_Loader::loadClass($className, $translator);
+        if ( !Ddth_Commons_Loader::loadClass($className, $translator) ) {
+            trigger_error("Can not load class [$className]!");
+        }
     }
 }
 
@@ -80,7 +82,9 @@ if ( !($app instanceof Ddth_Dzit_IApplication) ) {
 Ddth_Dzit_ApplicationRegistry::$CURRENT_APP = $app;
 $hasError = false;
 try {
+    echo 'init';
     $app->init($config);
+    echo $appClass;
     $app->execute();
 } catch ( Exception $e ) {
     $hasError = true;

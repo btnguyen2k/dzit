@@ -15,7 +15,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: ClassLogFactory.php 116 2008-02-16 16:39:38Z btnguyen2k@gmail.com $
+ * @id			$Id: ClassLogFactory.php 149 2008-03-12 06:02:50Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
@@ -43,9 +43,11 @@ if ( !function_exists('__autoload') ) {
  * 
  * The factory configuration file has the following format:
  * <code>
- * ddth.commons.logging.Logger=class name of the logger (an implementation of ILog)
- * logger.setting.xxx=setting xxx for the underlying logger
+ * # Class name of the logger (an implementation of ILog)
+ * # Default value is Ddth_Commons_Logging_SimpleLog
+ * ddth.commons.logging.Logger=Ddth_Commons_Logging_SimpleLog
  * 
+ * # logger.setting.xxx=setting xxx for the underlying logger
  * logger.setting.default=default log level (TRACE, DEBUG, INFO, WARN, ERROR, or FATAL) 
  * 
  * # The following settings are used by class AbstractLog:
@@ -97,7 +99,7 @@ final class Ddth_Commons_Logging_LogFactory {
      */
     public static function getLog($className, $configFile=NULL) {
         if ( self::$reloadConfig ) {
-            if ( $configFile == NULL ) {
+            if ( $configFile === NULL ) {
                 self::loadFactorySettings(self::FACTORY_SETTINGS_FILE);                 
             } else {
                 self::loadFactorySettings($configFile);
@@ -107,7 +109,7 @@ final class Ddth_Commons_Logging_LogFactory {
         }        
         $prop = self::$factorySettings;        
         $loggerClass = $prop->getProperty(self::SETTING_LOGGER);        
-        if ( $loggerClass == NULL || trim($loggerClass)=="" ) {
+        if ( $loggerClass === NULL || trim($loggerClass)==="" ) {
             $loggerClass = self::DEFAULT_LOGGER;
             //$msg = 'Invalid setting for "'.self::SETTING_LOGGER.'"';
             //throw new Ddth_Commons_Logging_LogConfigurationException($msg);
@@ -133,11 +135,11 @@ final class Ddth_Commons_Logging_LogFactory {
      * @throws {@link Ddth_Commons_Exceptions_IllegalStateException IllegalStateException}
      */
     private static function loadFactorySettings($configFile=NULL) {
-        if ( $configFile == NULL ) {
+        if ( $configFile === NULL ) {
             $configFile = self::FACTORY_SETTINGS_FILE;
         }
         $config = Ddth_Commons_Loader::loadFileContent($configFile);
-        if ( $config == NULL ) {           
+        if ( $config === NULL ) {           
             $msg = 'Can not load log factory configuration file "'.$configFile.'"';
             throw new Ddth_Commons_Logging_LogConfigurationException($msg);
         }        

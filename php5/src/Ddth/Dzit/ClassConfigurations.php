@@ -87,7 +87,7 @@ class Ddth_Dzit_Configurations {
      * @param string
      */
     public function __construct($configFile) {
-        $clazz = 'Ddth_Dzit_Configurations';
+        $clazz = __CLASS__;
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);        
         $this->settings = new Ddth_Commons_Properties();        
         try {

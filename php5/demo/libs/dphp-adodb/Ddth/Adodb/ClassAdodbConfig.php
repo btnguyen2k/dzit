@@ -14,7 +14,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassAdodbConfig.php 137 2008-02-28 00:27:48Z btnguyen2k@gmail.com $
+ * @id			$Id: ClassAdodbConfig.php 147 2008-03-09 06:00:32Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
@@ -47,6 +47,10 @@ if ( !function_exists('__autoload') ) {
 class Ddth_Adodb_AdodbConfig {
 
     const PROPERTY_URL = "adodb.url";
+    
+    const PROPERTY_SETUP_SQLS = "adodb.setup_sqls";
+    
+    private $setupSqls = NULL;
 
     //    const PROPERTY_USER = "adodb.user";
     //
@@ -107,6 +111,29 @@ class Ddth_Adodb_AdodbConfig {
     //        return $this->properties->getProperty(self::PROPERTY_PASSWORD);
     //    }
 
+    /**
+     * Gets the setup SQLs.
+     * 
+     * @return Array()
+     * @since Method available since v0.1.1
+     */
+    public function getSetupSqls() {
+        if ( $this->setupSqls === NULL ) {
+            $this->setupSqls = Array();
+            $setupSqls = $this->properties->getProperty(self::PROPERTY_SETUP_SQLS);
+            if ( $setupSqls !== NULL ) {
+                $sqls = split(";", $setupSqls);
+                foreach ( $sqls as $sql ) {
+                    $sql = trim($sql);
+                    if ( $sql !== "" ) {
+                        $this->setupSqls[] = $sql;
+                    }
+                }
+            }
+        }
+        return $this->setupSqls;
+    }
+    
     /**
      * Gets the connection url configuration setting.
      *

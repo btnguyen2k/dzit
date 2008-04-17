@@ -1,2 +1,5 @@
+* 09-Mar-2008: version 0.1.1
+	- Added "setup" SQLs support.
+	
 * 28-Feb-2008: version 0.1 (initial version)
 	- Class(es): AdodbConfig, AdodbException, AdodbFactory

@@ -14,7 +14,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: index.php 11 2008-03-06 09:14:18Z btnguyen2k@gmail.com $
+ * @id			$Id: index.php 13 2008-03-13 04:22:52Z btnguyen2k@gmail.com $
  * @since      	File available since v0.1
  */
 if ( !function_exists('__autoload') ) {
@@ -28,7 +28,9 @@ if ( !function_exists('__autoload') ) {
         require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
         require_once 'Ddth/Commons/ClassLoader.php';
         $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        Ddth_Commons_Loader::loadClass($className, $translator);
+        if ( !Ddth_Commons_Loader::loadClass($className, $translator) ) {
+            trigger_error("Can not load class [$className]!");
+        }
     }
 }
 
@@ -80,7 +82,9 @@ if ( !($app instanceof Ddth_Dzit_IApplication) ) {
 Ddth_Dzit_ApplicationRegistry::$CURRENT_APP = $app;
 $hasError = false;
 try {
+    echo 'init';
     $app->init($config);
+    echo $appClass;
     $app->execute();
 } catch ( Exception $e ) {
     $hasError = true;
