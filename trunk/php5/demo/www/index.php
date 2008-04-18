@@ -14,7 +14,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: index.php 13 2008-03-13 04:22:52Z btnguyen2k@gmail.com $
+ * @id			$Id: index.php 14 2008-04-17 07:27:48Z btnguyen2k@gmail.com $
  * @since      	File available since v0.1
  */
 if ( !function_exists('__autoload') ) {
@@ -71,6 +71,11 @@ if ( $dh = @opendir(LIBS_DIR) ) {
 }
 ini_set('include_path', $includePath);
 
+/**
+ * @var Ddth_Commons_Logging_ILog
+ */
+$logger = Ddth_Commons_Logging_LogFactory::getLog('Dzit');
+
 /* load configurations */
 $config = new Ddth_Dzit_Configurations(DZIT_CONFIG_FILE);
 $appClass = $config->getApplicationClass();
@@ -82,12 +87,11 @@ if ( !($app instanceof Ddth_Dzit_IApplication) ) {
 Ddth_Dzit_ApplicationRegistry::$CURRENT_APP = $app;
 $hasError = false;
 try {
-    echo 'init';
     $app->init($config);
-    echo $appClass;
     $app->execute();
 } catch ( Exception $e ) {
     $hasError = true;
+    $logger->error($e->getMessage());
 }
 $app->destroy($hasError);
 ?>
