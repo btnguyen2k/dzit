@@ -71,6 +71,11 @@ if ( $dh = @opendir(LIBS_DIR) ) {
 }
 ini_set('include_path', $includePath);
 
+/**
+ * @var Ddth_Commons_Logging_ILog
+ */
+$logger = Ddth_Commons_Logging_LogFactory::getLog('Dzit');
+
 /* load configurations */
 $config = new Ddth_Dzit_Configurations(DZIT_CONFIG_FILE);
 $appClass = $config->getApplicationClass();
@@ -82,12 +87,11 @@ if ( !($app instanceof Ddth_Dzit_IApplication) ) {
 Ddth_Dzit_ApplicationRegistry::$CURRENT_APP = $app;
 $hasError = false;
 try {
-    echo 'init';
     $app->init($config);
-    echo $appClass;
     $app->execute();
 } catch ( Exception $e ) {
     $hasError = true;
+    $logger->error($e->getMessage());
 }
 $app->destroy($hasError);
 ?>
