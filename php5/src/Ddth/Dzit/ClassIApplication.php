@@ -20,41 +20,101 @@
 
 /**
  * Application declaration.
- * 
+ *
  * Each HTTP request will be handled by an instance of application.
- * 
+ *
  * @package    	Dzit
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1
- * @since      	Class available since v0.1 
+ * @since      	Class available since v0.1
  */
 interface Ddth_Dzit_IApplication {
     /**
      * Clean-up method.
-     * 
-     * This method is called just before the application object is abandoned. 
+     *
+     * This method is called just before the application object is abandoned.
      *
      * @throws Ddth_Dzit_DzitException
      */
     public function destroy($hasError=false);
-    
+
     /**
      * Executes the application (serves the Http request).
      *
      * @throws Ddth_Dzit_DzitException
      */
     public function execute();
-    
+
     /**
      * Initializing the application.
-     * 
+     *
      * This method is called just after the application instance is created.
      *
      * @param Ddth_Dzit_Configurations
      * @throws Ddth_Dzit_DzitException
      */
     public function init($config);
+
+    /**
+     * Gets an application-level attribute.
+     *
+     * @param string
+     * @return mixed
+     */
+    public function getAttribute($name);
+
+    /**
+     * Sets an application-level attribute.
+     *
+     * @param string
+     * @param mixed
+     */
+    public function setAttribute($name, $value);
+
+    /**
+     * Open an ADOdb connection.
+     *
+     * @return ADOConnection
+     */
+    public function getAdodbConnection();
+
+    /**
+     * Gets the current action handler.
+     *
+     * @return Ddth_Dzit_IActionHandler
+     */
+    public function getCurrentActionHandler();
+
+    /**
+     * Gets a HTTP request wrapper.
+     *
+     * @return Ddth_Dzit_IHttpRequest
+     */
+    public function getHttpRequest();
+
+    /**
+     * Gets a specified language pack.
+     *
+     * @param string
+     * @return Ddth_Mls_ILanguage
+     */
+    public function getLanguage($name=NULL);
+
+    /**
+     * Gets a specified template pack.
+     *
+     * @param string
+     * @return Ddth_Template_ITemplate
+     */
+    public function getTemplate($name=NULL);
+
+    /**
+     * Gets an URL creator instance.
+     *
+     * @return Ddth_Dzit_IUrlCreator
+     */
+    public function getUrlCreator();
 }
 ?>

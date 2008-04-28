@@ -91,7 +91,7 @@ try {
     $app->execute();
 } catch ( Exception $e ) {
     $hasError = true;
-    $logger->error($e->getMessage());
+    $logger->error($e->getMessage(), $e);
 }
 $app->destroy($hasError);
 ?>

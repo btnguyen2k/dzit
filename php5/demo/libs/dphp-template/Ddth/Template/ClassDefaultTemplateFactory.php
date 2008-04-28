@@ -248,6 +248,7 @@ class Ddth_Template_DefaultTemplateFactory implements Ddth_Template_ITemplateFac
                 $key = Ddth_Template_AbstractTemplate::PROPERTY_TYPE;
                 $templateType = $props->getProperty($key);
                 $template = NULL;
+                echo 'hehe', __LINE__;
                 if ( strtolower($templateType) === 'smarty' ) {
                     $template = new Ddth_Template_Smarty_SmartyTemplate();
                 } elseif ( strtolower($templateType) === 'php' ) {

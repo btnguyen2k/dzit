@@ -23,7 +23,7 @@ if ( !function_exists('__autoload') ) {
      * Automatically loads class source file when used.
      *
      * @param string
-     * @ignore 
+     * @ignore
      */
     function __autoload($className) {
         require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
@@ -35,19 +35,19 @@ if ( !function_exists('__autoload') ) {
 
 /**
  * Factory to create instances of ILanguageFactory.
- * 
+ *
  * Configuration file format: the configurations are stored in
  * .properties file; supported properties are:
  * <code>
  * # Class name of the concrete factory.
  * # Default value is Ddth_Mls_FileLanguageFactory.
  * factory.class=Ddth_Mls_FileLanguageFactory
- * 
+ *
  * # Each concrete factory will have its own configuration properties,
  * # eee its phpDocs for details.
  * </code>
  * The default configuration file is dphp-mls.properties located in
- * {@link http://www.php.net/manual/en/ini.core.php#ini.include-path include-path}. 
+ * {@link http://www.php.net/manual/en/ini.core.php#ini.include-path include-path}.
  *
  * @package    	Mls
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
@@ -58,34 +58,39 @@ if ( !function_exists('__autoload') ) {
  */
 class Ddth_Mls_LanguageFactory {
     private static $cacheInstances = Array();
-    
+
     const DEFAULT_CONFIG_FILE = "dphp-mls.properties";
-    
+
     const DEFAULT_FACTORY_CLASS = 'Ddth_Mls_FileLanguageFactory';
-    
+
     const PROPERTY_FACTORY_CLASS = "factory.class";
 
     /**
      * Gets an instance of Ddth_Mls_ILanguageFactory.
-     * 
+     *
      * Note: {@link Ddth_Mls_LanguageFactory configuration file format}.
      *
      * @param string name of the configuration file (located in
      * {@link http://www.php.net/manual/en/ini.core.php#ini.include-path include-path})
      * @return Ddth_Mls_ILanguageFactory
-     * @throws {@link Ddth_Mls_MlsException MlsException} 
+     * @throws {@link Ddth_Mls_MlsException MlsException}
      */
     public static function getInstance($configFile=NULL) {
         if ( $configFile === NULL ) {
             return self::getInstance(self::DEFAULT_CONFIG_FILE);
         }
         if ( !isset(self::$cacheInstances[$configFile]) ) {
+            $fileContent = Ddth_Commons_Loader::loadFileContent($configFile);
+            if ( $fileContent === NULL ) {
+                $msg = "Can not read file [$configFile]!";
+                throw new Ddth_Mls_MlsException($msg);
+            }
             $prop = new Ddth_Commons_Properties();
             try {
-                $prop->load($configFile);
+                $prop->import($fileContent);
             } catch ( Exception $e ) {
                 $msg = $e->getMessage();
-                throw new Ddth_Mls_MlsException($msg);
+                throw new Ddth_Mls_MlsException($msg, $e->getCode());
             }
             $factoryClass = $prop->getProperty(self::PROPERTY_FACTORY_CLASS);
             if ( $factoryClass===NULL || trim($factoryClass)==="" ) {

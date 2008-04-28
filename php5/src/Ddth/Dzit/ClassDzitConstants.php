@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * APIs to generate URLs for application.
+ * Definitions of Dzit Constants.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -19,7 +19,7 @@
  */
 
 /**
- * APIs to generate URLs for application.
+ * Definitions of Dzit Constants.
  *
  * @package    	Dzit
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
@@ -28,18 +28,7 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-interface Ddth_Dzit_IUrlCreator {
-    /**
-     * Constructs an URL.
-     *
-     * @param string
-     * @param Array() index array
-     * @param Array() associative array
-     * @param string
-     * @param bool include domain (and schema, e.g. http://) in the constructed URL
-     * @param bool
-     */
-    public function createUrl($action, $pathInfoParams=Array(), $urlParams=Array(),
-        $script="", $includeDomain=false, $forceHttps=false);
+class Ddth_Dzit_DzitConstants {
+    const APP_ATTR_ROOT_DATA_MODELS    = 'ROOT_DATA_MODELS';
 }
 ?>

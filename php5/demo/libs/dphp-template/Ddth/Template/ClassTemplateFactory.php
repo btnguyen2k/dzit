@@ -80,12 +80,17 @@ class Ddth_Template_TemplateFactory {
             return self::getInstance(self::DEFAULT_CONFIG_FILE);
         }
         if ( !isset(self::$cacheInstances[$configFile]) ) {
+            $fileContent = Ddth_Commons_Loader::loadFileContent($configFile);
+            if ( $fileContent === NULL ) {
+                $msg = "Can not read file [$configFile]!";
+                throw new Ddth_Template_TemplateException($msg);
+            }
             $prop = new Ddth_Commons_Properties();
             try {
-                $prop->load($configFile);
+                $prop->import($fileContent);
             } catch ( Exception $e ) {
                 $msg = $e->getMessage();
-                throw new Ddth_Template_TemplateException($msg);
+                throw new Ddth_Template_TemplateException($msg, $e->getCode());
             }
             $factoryClass = $prop->getProperty(self::PROPERTY_FACTORY_CLASS);
             if ( $factoryClass===NULL || trim($factoryClass)==="" ) {
