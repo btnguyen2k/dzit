@@ -14,7 +14,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: index.php 15 2008-04-18 10:30:42Z btnguyen2k@gmail.com $
+ * @id			$Id: index.php 16 2008-04-28 14:55:53Z btnguyen2k@gmail.com $
  * @since      	File available since v0.1
  */
 if ( !function_exists('__autoload') ) {
