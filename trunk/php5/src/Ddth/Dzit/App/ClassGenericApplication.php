@@ -30,7 +30,7 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-class Ddth_Dzit_App_GenericApplication implements Ddth_Dzit_IApplication {
+class Ddth_Dzit_App_GenericApplication extends Ddth_Dzit_App_AbstractApplication {
 
     /**
      * @var Ddth_Commons_Logging_ILog
@@ -38,45 +38,12 @@ class Ddth_Dzit_App_GenericApplication implements Ddth_Dzit_IApplication {
     private $LOGGER;
 
     /**
-     * @var Ddth_Dzit_Configurations
-     */
-    private $dzitConfig;
-
-    /**
-     * @var Ddth_Adodb_IAdodbFactory
-     */
-    private $adodbFactory = NULL;
-
-    /**
-     * @var ADOConnection
-     */
-    private $adodbConn = NULL;
-
-    /**
-     * @var Ddth_Dzit_IHttpRequest
-     */
-    private $httpRequest = NULL;
-
-    private $countAdodbConn = 0;
-
-    /**
      * Constructs a new Ddth_Dzit_App_GenericApplication object.
      */
     public function __construct() {
         $clazz = __CLASS__;
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
-        Ddth_Dzit_ApplicationRegistry::registerApplication($this);
-    }
-
-    /**
-     * Clean-up method.
-     *
-     * This method is called just before the application object is abandoned.
-     *
-     * @throws Ddth_Dzit_DzitException
-     */
-    public function destroy($hasError=false) {
-        $this->closeAdodbConnection($hasError);
+        parent::__construct();
     }
 
     /**
@@ -90,120 +57,34 @@ class Ddth_Dzit_App_GenericApplication implements Ddth_Dzit_IApplication {
     }
 
     /**
-     * Gets handler for an action.
+     * Executes an action handler.
      *
-     * @param string
-     * @return IActionHandler
-     */
-    protected function getActionHandler($action) {
-        if ( $action === NULL ) {
-            return NULL;
-        }
-    }
-
-    /**
-     * Gets Dzit's configuration instance.
-     *
-     * @return Ddth_Dzit_Configurations
-     */
-    protected function getDzitConfig() {
-        return $this->dzitConfig;
-    }
-
-    /**
-     * Gets a HTTP request wrapper.
-     *
-     * @return Ddth_Dzit_IHttpRequest
-     */
-    protected function getHttpRequest() {
-        if ( $this->httpRequest === NULL ) {
-            $this->httpRequest = new Ddth_Dzit_DefaultHttpRequest();
-        }
-        return new $this->httpRequest;
-    }
-
-    /**
-     * {@see Ddth_Dzit_IApplication::init()}
-     */
-    public function init($config) {
-        $this->dzitConfig = $config;
-        $this->initSession();
-        $this->initAdodbFactory();
-        $this->initActionMapping();
-    }
-
-    /**
-     * Initializes action mapping table.
-     *
+     * @param Ddth_Dzit_IActionHandler
      * @throws Ddth_Dzit_DzitException
      */
-    protected function initActionMapping() {
-
-    }
-
-    /**
-     * Initializes ADOdb factory.
-     *
-     * @throws Ddth_Dzit_DzitException
-     */
-    protected function initAdodbFactory() {
-        try {
-            if ( $this->getDzitConfig()->supportAdodb() ) {
-                $adodbConfigFile = $this->getDzitConfig()->getAdodbConfigFile();
-                if ( trim($adodbConfigFile) === "" ) {
-                    $adodbConfigFile = NULL;
-                }
-                $this->adodbFactory = Ddth_Adodb_AdodbFactory::getInstance($adodbConfigFile);
-            } else {
-                $this->adodbFactory = NULL;
-            }
-        } catch ( Exception $e ) {
-            $msg = $e->getMessage();
+    protected function executeActionHandler($actionHandler) {
+        if ( $actionHandler === NULL ) {
+            $actionHandler = $this->getDefaultActionHandler();
+        }
+        if ( $actionHandler === NULL ) {
+            $msg = "Null action handler!";
             throw new Ddth_Dzit_DzitException($msg);
         }
-    }
-
-    /**
-     * Initializes session.
-     *
-     * @throws Ddth_Dzit_DzitException
-     */
-    protected function initSession() {
-        session_start();
-    }
-
-    /**
-     * Gets the ADOdb connection.
-     *
-     * @return ADOConnection
-     */
-    public function getAdodbConnection() {
-        if ( $this->adodbFactory == NULL ) {
-            return NULL;
-        }
-        if ( $this->adodbConn == NULL ) {
-            $this->adodbConn = $this->adodbFactory->getConnection(true);
-            $this->countAdodbConn = 0;
-        }
-        $this->countAdodbConn++;
-        return $this->adodbConn;
-    }
-
-    /**
-     * Closes the ADOdb connection.
-     *
-     * @param bool indicate if an error has occurred
-     */
-    public function closeAdodbConnection($hasError=false) {
-        if ( $this->adodbConn !== NULL ) {
-            if ( $hasError ) {
-                $this->adodbConn->FailTrans();
-            }
-            $this->countAdodbConn--;
-            if ( $this->countAdodbConn == 0 ) {
-                $this->adodbFactory->closeConnection($this->adodbConn);
-                $this->adodbConn = NULL;
-            }
+        $this->setCurrentActionHandler($actionHandler);
+        $controlForward = $actionHandler->execute();
+        if ( $controlForward instanceof Ddth_Dzit_ControlForward_ActionControlForward ) {
+            $action = $controlForward->getAction();
+            $myActionHandler = $this->getActionHandler($action);
+            $this->executeActionHandler($myActionHandler);
+        } elseif ( $controlForward instanceof Ddth_Dzit_ControlForward_UrlRedirectControlForward ) {
+            $url = $controlForward->getUrl();
+            header("Location: $url");
+        } elseif ( $controlForward instanceof Ddth_Dzit_ControlForward_ViewControlForward ) {
+            $action = $controlForward->getAction();
+            $myViewHandler = $this->getViewRenderer($action);
+            $myViewHandler->render();
+        } else {
+            //do nothing
         }
     }
 }
