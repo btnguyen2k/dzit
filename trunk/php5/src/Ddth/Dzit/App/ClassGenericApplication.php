@@ -53,7 +53,7 @@ class Ddth_Dzit_App_GenericApplication extends Ddth_Dzit_App_AbstractApplication
         $httpRequest = $this->getHttpRequest();
         $action = $httpRequest->getAction();
         $actionHandler = $this->getActionHandler($action);
-        $this->executeActionHandler($actionHandler);
+        $this->executeActionHandler($action, $actionHandler);
     }
 
     /**
@@ -62,7 +62,7 @@ class Ddth_Dzit_App_GenericApplication extends Ddth_Dzit_App_AbstractApplication
      * @param Ddth_Dzit_IActionHandler
      * @throws Ddth_Dzit_DzitException
      */
-    protected function executeActionHandler($actionHandler) {
+    protected function executeActionHandler($action, $actionHandler) {
         if ( $actionHandler === NULL ) {
             $actionHandler = $this->getDefaultActionHandler();
         }
@@ -71,11 +71,11 @@ class Ddth_Dzit_App_GenericApplication extends Ddth_Dzit_App_AbstractApplication
             throw new Ddth_Dzit_DzitException($msg);
         }
         $this->setCurrentActionHandler($actionHandler);
-        $controlForward = $actionHandler->execute();
+        $controlForward = $actionHandler->execute($action);
         if ( $controlForward instanceof Ddth_Dzit_ControlForward_ActionControlForward ) {
             $action = $controlForward->getAction();
             $myActionHandler = $this->getActionHandler($action);
-            $this->executeActionHandler($myActionHandler);
+            $this->executeActionHandler($action, $myActionHandler);
         } elseif ( $controlForward instanceof Ddth_Dzit_ControlForward_UrlRedirectControlForward ) {
             $url = $controlForward->getUrl();
             header("Location: $url");

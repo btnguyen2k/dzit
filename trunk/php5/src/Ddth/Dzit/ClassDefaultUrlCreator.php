@@ -41,7 +41,7 @@ class Ddth_Dzit_DefaultUrlCreator implements Ddth_Dzit_IUrlCreator {
         } else {
             $url = trim($script);
         }
-        $url .= self::GET_PARAM_ACTION.'='.$action;
+        $url .= '?'.self::GET_PARAM_ACTION.'='.$action;
         if ( count($pathInfoParams) > 0 || count($urlParams) > 0 ) {
             $i = 1;
             foreach ( $pathInfoParams as $param ) {

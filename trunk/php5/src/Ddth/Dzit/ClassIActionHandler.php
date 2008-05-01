@@ -32,9 +32,17 @@ interface Ddth_Dzit_IActionHandler {
     /**
      * Handles the action and returns a IControlForward object.
      *
+     * @param string
      * @return IControlForward
      * @throws Ddth_Dzit_DzitException
      */
-    public function execute();
+    public function execute($action);
+
+    /**
+     * Gets the currently executing action.
+     *
+     * @return string
+     */
+    public function getAction();
 }
 ?>
