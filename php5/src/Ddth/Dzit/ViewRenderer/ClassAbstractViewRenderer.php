@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * An abstract implementation of IViewRenderer.
+ * Abstract implementation of IViewRenderer.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -31,12 +31,35 @@
  * @since      	Class available since v0.1
  */
 abstract class Ddth_Dzit_ViewRenderer_AbstractViewRenderer implements Ddth_Dzit_IViewRenderer {
+    /**
+     * @var Ddth_Commons_Logging_ILog
+     */
+    private $LOGGER;
 
     /**
      * Constructs a new Ddth_Dzit_ViewRenderer_AbstractViewRenderer object.
      */
     public function __construct() {
-        //empty
+        $clazz = __CLASS__;
+        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
+    }
+
+    /**
+     * Gets the currently executing action.
+     *
+     * @return string
+     */
+    protected function getAction() {
+        return $this->getActionHandler()->getAction();
+    }
+
+    /**
+     * Gets the currently executing action handler.
+     *
+     * @return Ddth_Dzit_IActionHandler
+     */
+    protected function getActionHandler() {
+        return $this->getApplication()->getCurrentActionHandler();
     }
 
     /**
@@ -56,6 +79,15 @@ abstract class Ddth_Dzit_ViewRenderer_AbstractViewRenderer implements Ddth_Dzit_
      */
     protected function getAppAttribute($name) {
         return $this->getApplication()->getAttribute($name);
+    }
+
+    /**
+     * Gets language pack.
+     *
+     * @return Ddth_Template_ITemplate
+     */
+    protected function getTemplate() {
+        return $this->getApplication()->getTemplate();
     }
 
     /**

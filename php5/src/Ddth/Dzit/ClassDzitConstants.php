@@ -29,6 +29,26 @@
  * @since      	Class available since v0.1
  */
 class Ddth_Dzit_DzitConstants {
-    const APP_ATTR_ROOT_DATA_MODELS    = 'ROOT_DATA_MODELS';
+    const APP_ATTR_ROOT_DATA_MODELS     = 'ROOT_DATA_MODELS';
+
+    const APP_ATTR_CURRENT_ACTION       = 'CURRENT_ACTION';
+
+    const SCRIPT_DEFAULT                = 'index.php';
+
+    const ACTION_DEFAULT                = 'index';
+
+    //roots data models
+    const DATAMODEL_LANGUAGE            = 'language';
+    const DATAMODEL_PAGE                = 'page';
+
+    //page's data models
+    const DATAMODEL_PAGE_HEADER                = 'header';
+    const DATAMODEL_PAGE_HEADER_TITLE          = 'title';
+    const DATAMODEL_PAGE_HEADER_CHARSET        = 'charset';
+    const DATAMODEL_PAGE_HEADER_DESCRIPTION    = 'description';
+    const DATAMODEL_PAGE_HEADER_KEYWORDS       = 'keywords';
+    const DATAMODEL_PAGE_HEADER_REDIRECT_URL   = 'redirectUrl';
+
+    const DATAMODEL_PAGE_CONTENT               = 'content';
 }
 ?>
