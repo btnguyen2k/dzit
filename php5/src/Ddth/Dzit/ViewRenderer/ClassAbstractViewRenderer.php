@@ -82,6 +82,16 @@ abstract class Ddth_Dzit_ViewRenderer_AbstractViewRenderer implements Ddth_Dzit_
     }
 
     /**
+     * Sets an application-level attribute.
+     *
+     * @param string
+     * @param mixed
+     */
+    protected function setAppAttribute($name, $value) {
+        $this->getApplication()->setAttribute($name, $value);
+    }
+
+    /**
      * Gets language pack.
      *
      * @return Ddth_Template_ITemplate
@@ -97,7 +107,10 @@ abstract class Ddth_Dzit_ViewRenderer_AbstractViewRenderer implements Ddth_Dzit_
      */
     protected function getRootDataModels() {
         $rootDataModels = $this->getAppAttribute(Ddth_Dzit_DzitConstants::APP_ATTR_ROOT_DATA_MODELS);
-        //assuming its type is already correct (an associative array)
+        if ( !is_array($rootDataModels) ) {
+            $rootDataModels = Array();
+            $this->setAppAttribute(Ddth_Dzit_DzitConstants::APP_ATTR_ROOT_DATA_MODELS, $rootDataModels);
+        }
         return $rootDataModels;
     }
 }

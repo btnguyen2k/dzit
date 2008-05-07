@@ -88,7 +88,7 @@ abstract class Ddth_Dzit_ActionHandler_AbstractActionHandler implements Ddth_Dzi
     }
 
     /**
-     * sets an application-level attribute.
+     * Sets an application-level attribute.
      *
      * @param string
      * @param mixed
@@ -113,9 +113,9 @@ abstract class Ddth_Dzit_ActionHandler_AbstractActionHandler implements Ddth_Dzi
      */
     protected function getRootDataModels() {
         $dataModel = $this->getAppAttribute(Ddth_Dzit_DzitConstants::APP_ATTR_ROOT_DATA_MODELS);
-        if ( is_array($dataModel) ) {
+        if ( !is_array($dataModel) ) {
             $dataModel = Array();
-            $this->setAppAttribute(self::APP_ATTR_ROOT_DATA_MODELS, $dataModel);
+            $this->setAppAttribute(Ddth_Dzit_DzitConstants::APP_ATTR_ROOT_DATA_MODELS, $dataModel);
         }
         return $dataModel;
     }

@@ -36,6 +36,10 @@ class Ddth_Dzit_DzitConstants {
     const SCRIPT_DEFAULT                = 'index.php';
 
     const ACTION_DEFAULT                = 'index';
+    
+    const LANGUAGE_DEFAULT              = 'default';
+    
+    const TEMPLATE_DEFAULT              = 'default';
 
     //roots data models
     const DATAMODEL_LANGUAGE            = 'language';

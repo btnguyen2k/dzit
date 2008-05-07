@@ -221,7 +221,7 @@ abstract class Ddth_Dzit_App_AbstractApplication implements Ddth_Dzit_IApplicati
     protected function createViewRenderer($className) {
         try {
             $renderer = new $className();
-            if ( !($handler instanceof Ddth_Dzit_IViewRenderer) ) {
+            if ( !($renderer instanceof Ddth_Dzit_IViewRenderer) ) {
                 $msg = "[$className] is not an instance of Ddth_Dzit_IViewRenderer!";
                 throw new Ddth_Dzit_DzitException($msg);
             }
@@ -304,14 +304,16 @@ abstract class Ddth_Dzit_App_AbstractApplication implements Ddth_Dzit_IApplicati
      * {@see Ddth_Dzit_IApplication::getLanguage()}
      */
     public function getLanguage($name=NULL) {
-        return NULL;
+        //TODO
+        return $this->languageFactory->getLanguage(Ddth_Dzit_DzitConstants::LANGUAGE_DEFAULT);
     }
 
     /**
      * {@see Ddth_Dzit_IApplication::getTemplate()}
      */
     public function getTemplate($name=NULL) {
-        return NULL;
+        //TODO
+        return $this->templateFactory->getTemplate(Ddth_Dzit_DzitConstants::TEMPLATE_DEFAULT);
     }
 
     /**

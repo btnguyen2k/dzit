@@ -82,6 +82,17 @@ class Ddth_Dzit_App_GenericApplication extends Ddth_Dzit_App_AbstractApplication
         } elseif ( $controlForward instanceof Ddth_Dzit_ControlForward_ViewControlForward ) {
             $action = $controlForward->getAction();
             $myViewHandler = $this->getViewRenderer($action);
+            if ( $myViewHandler===NULL || !($myViewHandler instanceof Ddth_Dzit_IViewRenderer) ) {
+                if ( $myViewHandler!==NULL && !($myViewHandler instanceof Ddth_Dzit_IViewRenderer) ) {
+                    $msg = "Invalid view handler for action [$action]!";
+                    $this->LOGGER->warn($msg);    
+                }
+                $myViewHandler = $this->getDefaultViewRenderer();
+            }
+            if ( $myViewHandler===NULL || !($myViewHandler instanceof Ddth_Dzit_IViewRenderer) ) {
+                $msg = "Can not find view renderer for action [$action]!";
+                throw new Ddth_Dzit_DzitException($msg);
+            }
             $myViewHandler->render();
         } else {
             //do nothing
