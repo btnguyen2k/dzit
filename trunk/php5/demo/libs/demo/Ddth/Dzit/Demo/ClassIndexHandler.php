@@ -5,7 +5,7 @@ class Ddth_Dzit_Demo_IndexHandler extends Ddth_Dzit_ActionHandler_AbstractAction
      * {@see Ddth_Dzit_ActionHandler_AbstractActionHandler::performAction()}
      */
     protected function performAction() {
-        echo __CLASS__;
+        return new Ddth_Dzit_ControlForward_ViewControlForward($this->getAction());
     }
 }
 ?>
