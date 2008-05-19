@@ -65,5 +65,23 @@ class Ddth_Dzit_DefaultUrlCreator implements Ddth_Dzit_IUrlCreator {
         }
         return $url;
     }
+
+    /**
+     * {@see Ddth_Dzit_IUrlCreator::getHomeUrl()}
+     */
+    public function getHomeUrl($includeDomain=false) {
+        $url = pathinfo($_SERVER['PHP_SELF'], PATHINFO_DIRNAME);
+        if ( $url[strlen($url)-1] !== '/' ) {
+            $url .= '/';
+        }
+        if ( $includeDomain ) {
+            if ( $url[0] !== '/' ) {
+                $url = "/$url";
+            }
+            $url = $_SERVER["HTTP_HOST"].$url;
+            $url = isset($_SERVER['HTTPS']) ? "https://$url" : "http://$url";
+        }
+        return $url;
+    }
 }
 ?>

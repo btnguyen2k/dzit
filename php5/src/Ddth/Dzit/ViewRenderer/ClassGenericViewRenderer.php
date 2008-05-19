@@ -53,9 +53,9 @@ class Ddth_Dzit_ViewRenderer_GenericViewRenderer extends Ddth_Dzit_ViewRenderer_
         $page = $this->getTemplate()->getPage($action);
         if ( $page !== NULL ) {
             $rootDataModels = $this->getRootDataModels();
-            $root = new Ddth_Template_DataModel_List('');
+            $root = new Ddth_Template_DataModel_Map('');
             foreach ( array_values($rootDataModels) as $node ) {
-                $root->addChild($node);
+                $root->addChild($node->getName(), $node);
             }
             $page->render($root);
         } else {
