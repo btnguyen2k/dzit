@@ -41,5 +41,12 @@ interface Ddth_Dzit_IUrlCreator {
      */
     public function createUrl($action, $pathInfoParams=Array(), $urlParams=Array(),
         $script="", $includeDomain=false, $forceHttps=false);
+        
+    /**
+     * Gets "home" URL.
+     *
+     * @return string
+     */
+    public function getHomeUrl($includeDomain=false);
 }
 ?>
