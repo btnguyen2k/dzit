@@ -107,17 +107,27 @@ abstract class Ddth_Dzit_ActionHandler_AbstractActionHandler implements Ddth_Dzi
     }
 
     /**
+     * Gets a root data model by name.
+     *
+     * @param Ddth_Template_DataModel_INode
+     */
+    protected function getRootDataModel($name) {
+        $dataModels = $this->getRootDataModels();
+        return isset($dataModels[$name]) ? $dataModels[$name] : NULL;
+    }
+
+    /**
      * Gets collection of root data models
      *
      * @return Array()
      */
     protected function getRootDataModels() {
-        $dataModel = $this->getAppAttribute(Ddth_Dzit_DzitConstants::APP_ATTR_ROOT_DATA_MODELS);
-        if ( !is_array($dataModel) ) {
-            $dataModel = Array();
-            $this->setAppAttribute(Ddth_Dzit_DzitConstants::APP_ATTR_ROOT_DATA_MODELS, $dataModel);
+        $dataModels = $this->getAppAttribute(Ddth_Dzit_DzitConstants::APP_ATTR_ROOT_DATA_MODELS);
+        if ( !is_array($dataModels) ) {
+            $dataModels = Array();
+            $this->setAppAttribute(Ddth_Dzit_DzitConstants::APP_ATTR_ROOT_DATA_MODELS, $dataModels);
         }
-        return $dataModel;
+        return $dataModels;
     }
 
     /**
@@ -138,7 +148,7 @@ abstract class Ddth_Dzit_ActionHandler_AbstractActionHandler implements Ddth_Dzi
      * @param string
      * @param Ddth_Template_DataModel_INode
      */
-    protected function populateRootDataModels($name, $node) {
+    protected function populateRootDataModel($name, $node) {
         if ( $name!==NULL && $node instanceof Ddth_Template_DataModel_INode ) {
             $root = $this->getRootDataModels();
             $root[$name] = $node;
@@ -179,7 +189,7 @@ abstract class Ddth_Dzit_ActionHandler_AbstractActionHandler implements Ddth_Dzi
     protected function populateModelPage() {
         $name = Ddth_Dzit_DzitConstants::DATAMODEL_PAGE;
         $node = new Ddth_Template_DataModel_Map($name);
-        $this->populateRootDataModels($name, $node);
+        $this->populateRootDataModel($name, $node);
 
         $this->populateModelPageForm($node);
         $this->populateModelPageHeader($node);
@@ -287,7 +297,7 @@ abstract class Ddth_Dzit_ActionHandler_AbstractActionHandler implements Ddth_Dzi
         $language = $this->getLanguage();
         $name = Ddth_Dzit_DzitConstants::DATAMODEL_LANGUAGE;
         $node = new Ddth_Template_DataModel_Bean($name, $language);
-        $this->populateRootDataModels($name, $node);
+        $this->populateRootDataModel($name, $node);
     }
 }
 ?>

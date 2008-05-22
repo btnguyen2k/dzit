@@ -51,11 +51,25 @@ interface Ddth_Template_ITemplate {
     const PROPERTY_CHARSET = "charset";
     
     /**
+     * Gets absolute path of the directory where the template pack is located.
+     * 
+     * @return string
+     */
+    public function getAbsoluteDir();
+    
+    /**
      * Gets description of the template pack.
      *
      * @return string
      */
     public function getDescription();
+    
+    /**
+     * Gets name of the directory where the template pack is located.
+     * 
+     * @return string
+     */
+    public function getDir();
     
     /**
      * Gets display name of the template pack.
