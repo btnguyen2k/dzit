@@ -140,12 +140,26 @@ abstract class Ddth_Template_AbstractTemplate implements Ddth_Template_ITemplate
     protected function getCharset() {
         return $this->getTemplateConfigProperty(self::PROPERTY_CHARSET);
     }
+    
+    /**
+     * {@see Ddth_Template_ITemplate::getAbsoluteDir()}.
+     */
+    public function getAbsoluteDir() {
+        return $this->getLocation();
+    }
 
     /**
      * {@see Ddth_Template_ITemplate::getDescription()}
      */
     public function getDescription() {
         return $this->description;
+    }
+    
+    /**
+     * {@see Ddth_Template_ITemplate::getDir()}.
+     */
+    public function getDir() {
+        return $this->getSetting(self::PROPERTY_LOCATION);
     }
 
     /**

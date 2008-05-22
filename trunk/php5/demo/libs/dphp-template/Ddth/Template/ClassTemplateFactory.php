@@ -14,7 +14,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassTemplateFactory.php 156 2008-04-01 00:36:45Z btnguyen2k@gmail.com $
+ * @id			$Id: ClassTemplateFactory.php 166 2008-04-28 09:25:04Z btnguyen2k@gmail.com $
  * @since      	File available since v0.1
  */
 

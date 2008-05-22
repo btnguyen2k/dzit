@@ -221,7 +221,7 @@ class Ddth_Commons_File {
      * @return string
      */
     public function __toString() {
-        return $this->getPath();
+        return $this->getPathname();
     }
 }
 ?>
