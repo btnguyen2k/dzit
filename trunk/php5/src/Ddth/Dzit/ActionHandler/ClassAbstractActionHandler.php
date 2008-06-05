@@ -188,9 +188,11 @@ abstract class Ddth_Dzit_ActionHandler_AbstractActionHandler implements Ddth_Dzi
      */
     protected function populateModelPage() {
         $name = Ddth_Dzit_DzitConstants::DATAMODEL_PAGE;
-        $node = new Ddth_Template_DataModel_Map($name);
-        $this->populateRootDataModel($name, $node);
-
+        $node = $this->getRootDataModel($name);
+        if ( $node === NULL ) {
+            $node = new Ddth_Template_DataModel_Map($name);
+            $this->populateRootDataModel($name, $node);
+        }
         $this->populateModelPageForm($node);
         $this->populateModelPageHeader($node);
         $this->populateModelPageContent($node);
@@ -294,10 +296,13 @@ abstract class Ddth_Dzit_ActionHandler_AbstractActionHandler implements Ddth_Dzi
      * @throws Ddth_Dzit_DzitException
      */
     protected function populateModelLanguage() {
-        $language = $this->getLanguage();
         $name = Ddth_Dzit_DzitConstants::DATAMODEL_LANGUAGE;
-        $node = new Ddth_Template_DataModel_Bean($name, $language);
-        $this->populateRootDataModel($name, $node);
+        $node = $this->getRootDataModel($name);
+        if ( $node === NULL ) {
+            $language = $this->getLanguage();
+            $node = new Ddth_Template_DataModel_Bean($name, $language);
+            $this->populateRootDataModel($name, $node);
+        }
     }
 }
 ?>
