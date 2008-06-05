@@ -34,22 +34,25 @@ class Ddth_Dzit_DefaultUrlCreator implements Ddth_Dzit_IUrlCreator {
     /**
      * {@see Ddth_Dzit_IUrlCreator::createUrl()}
      */
-    public function createUrl($action, $pathInfoParams=Array(), $urlParams=Array(),
-    $script="", $includeDomain=false, $forceHttps=false) {
+    public function createUrl($action, $pathInfoParams=Array(), $urlParams=Array(), $script="", $includeDomain=false, $forceHttps=false) {
         if ( $script === NULL || trim($script) === "" ) {
             $url = $_SERVER['PHP_SELF'];
         } else {
             $url = trim($script);
         }
         $url .= '?'.self::GET_PARAM_ACTION.'='.$action;
-        if ( count($pathInfoParams) > 0 || count($urlParams) > 0 ) {
+        if ( ($pathInfoParams!==NULL && count($pathInfoParams) > 0) || ($urlParams!==NULL && count($urlParams) > 0) ) {
             $i = 1;
-            foreach ( $pathInfoParams as $param ) {
-                $url .= "&amp;$i=$param";
-                $i++;
+            if ( $pathInfoParams!== NULL ) {
+                foreach ( $pathInfoParams as $param ) {
+                    $url .= "&amp;$i=$param";
+                    $i++;
+                }
             }
-            foreach ( $urlParams as $key=>$value ) {
-                $url .= "&amp;$key=$value";
+            if ( $urlParams !== NULL ) {
+                foreach ( $urlParams as $key=>$value ) {
+                    $url .= "&amp;$key=$value";
+                }
             }
         }
         if ( $includeDomain || $forceHttps ) {
