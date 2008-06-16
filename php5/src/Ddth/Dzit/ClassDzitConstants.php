@@ -53,6 +53,8 @@ class Ddth_Dzit_DzitConstants {
     const DATAMODEL_PAGE_HEADER_KEYWORDS       = 'keywords';
     const DATAMODEL_PAGE_HEADER_REDIRECT_URL   = 'redirectUrl';
 
+    const DATAMODEL_PAGE_FORM                  = 'form';
+    
     const DATAMODEL_PAGE_CONTENT               = 'content';
 }
 ?>
