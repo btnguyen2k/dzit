@@ -47,13 +47,13 @@ class Ddth_Dzit_DefaultUrlCreator implements Ddth_Dzit_IUrlCreator {
             $i = 1;
             if ( $pathInfoParams !== NULL ) {
                 foreach ( $pathInfoParams as $param ) {
-                    $url .= "&amp;$i=$param";
+                    $url .= "&$i=$param";
                     $i++;
                 }
             }
             if ( $urlParams !== NULL ) {
                 foreach ( $urlParams as $key=>$value ) {
-                    $url .= "&amp;$key=$value";
+                    $url .= "&$key=$value";
                 }
             }
         }
