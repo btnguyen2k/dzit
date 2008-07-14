@@ -112,6 +112,41 @@ abstract class Ddth_Dzit_App_AbstractApplication implements Ddth_Dzit_IApplicati
     }
 
     /**
+     * {@see Ddth_Dzit_IApplication::createTransmission()}
+     */
+    public function createTransmission($message, $url=NULL, $timeout=2) {
+        $transmission = Ddth_Dzit_Transmission::createTransmission($message, $url, $timeout);
+        $id = $transmission->getId();
+        $_SESSION[Ddth_Dzit_DzitConstants::SESSION_TRANSMISSION][$id] = $transmission;
+        return $transmission;
+    }
+
+    /**
+     * {@see Ddth_Dzit_IApplication::deleteTransmission()}
+     */
+    public function deleteTransmission($id=NULL) {
+        $transmission = $this->getTransmission($id);
+        if ( $transmission !== NULL ) {
+            unset($_SESSION[Ddth_Dzit_DzitConstants::SESSION_TRANSMISSION][$transmission->getId()]);
+        }
+    }
+
+    /**
+     * {@see Ddth_Dzit_IApplication::getTransmission()}
+     */
+    public function getTransmission($id=NULL) {
+        if ( $id === NULL ) {
+        $key = Ddth_Dzit_DzitConstants::URL_PARAM_TRANSMISSION;
+            $id = isset($_GET[$key]) ? $_GET[$key] : NULL;
+        }
+        if ( $id === NULL ) {
+            return NULL;
+        }
+        $key = Ddth_Dzit_DzitConstants::SESSION_TRANSMISSION;
+        return isset($_SESSION[$key][$id]) ? $_SESSION[$key][$id] : NULL;
+    }
+
+    /**
      * {@see Ddth_Dzit_IApplication::getAttribute()}
      */
     public function getAttribute($name) {

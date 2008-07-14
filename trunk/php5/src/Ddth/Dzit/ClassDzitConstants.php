@@ -30,7 +30,6 @@
  */
 class Ddth_Dzit_DzitConstants {
     const APP_ATTR_ROOT_DATA_MODELS     = 'ROOT_DATA_MODELS';
-
     const APP_ATTR_CURRENT_ACTION       = 'CURRENT_ACTION';
 
     const SCRIPT_DEFAULT                = 'index.php';
@@ -40,6 +39,10 @@ class Ddth_Dzit_DzitConstants {
     const LANGUAGE_DEFAULT              = 'default';
     
     const TEMPLATE_DEFAULT              = 'default';
+    
+    const SESSION_TRANSMISSION          = 'TRANSMISSIONS';
+    
+    const URL_PARAM_TRANSMISSION        = 'trans';
 
     //roots data models
     const DATAMODEL_LANGUAGE            = 'language';
