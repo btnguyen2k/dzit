@@ -56,6 +56,33 @@ interface Ddth_Dzit_IApplication {
      * @throws Ddth_Dzit_DzitException
      */
     public function init($config);
+    
+    /**
+     * Creates a transmission
+     *
+     * @param string $message transmission message
+     * @param string $url redirecting message
+     * @param int $timeout timeout in seconds before auto-redirecting takes place
+     * @return Ddth_Dzit_Transmission
+     */
+    public function createTransmission($message, $url=NULL, $timeout=2);
+    
+    /**
+     * Deletes a transmission entry.
+     *
+     * @param $id id of the transmission to delete. It it is NULL, the default
+     * transmission (if any) is deleted.
+     */
+    public function deleteTransmission($id=NULL);
+    
+    /**
+     * Retrives a transmission entry.
+     *
+     * @param string $id id of the transmission to retrieve. If it is NULL, default
+     * transmission (if any) is returned.
+     * @return Ddth_Dzit_Transmission
+     */
+    public function getTransmission($id=NULL);
 
     /**
      * Gets an application-level attribute.
