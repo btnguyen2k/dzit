@@ -127,7 +127,7 @@ class Ddth_Dzit_Transmission {
      */
     public static function createTransmission($message, $url=NULL, $timeout=2) {
         $id = md5(time().rand(0, time()));
-        return new Ddth_Dzit_Transmission($id, $message, $urlm, $timeout);
+        return new Ddth_Dzit_Transmission($id, $message, $url, $timeout);
     }
 }
 ?>
