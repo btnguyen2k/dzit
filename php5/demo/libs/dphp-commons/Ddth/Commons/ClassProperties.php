@@ -11,7 +11,7 @@
  * so we can email you a copy.
  *
  * @package		Commons
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @id			$Id: ClassProperties.php 147 2008-03-09 06:00:32Z nbthanh@vninformatics.com $
@@ -63,7 +63,7 @@ if ( !function_exists('__autoload') ) {
  * </pre>
  *
  * @package    	Commons
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1

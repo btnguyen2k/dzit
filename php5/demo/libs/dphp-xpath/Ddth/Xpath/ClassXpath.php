@@ -11,7 +11,7 @@
  * so we can email you a copy.
  *
  * @package		Xpath
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @id			$Id:ClassXpath.php 122 2008-02-23 23:20:11Z btnguyen2k@gmail.com $
@@ -26,7 +26,7 @@
  * application's configuration data stored in XML format; hence the name Xconfig.
  *
  * @package    	Xconfig
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1

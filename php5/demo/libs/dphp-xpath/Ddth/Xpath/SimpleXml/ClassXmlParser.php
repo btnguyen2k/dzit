@@ -12,7 +12,7 @@
  *
  * @package		Xpath
  * @subpackage	SimpleXml
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @id			$Id: ClassXmlParser.php 127 2008-02-25 05:21:13Z btnguyen2k@gmail.com $
@@ -41,7 +41,7 @@ if ( !function_exists('__autoload') ) {
  *
  * @package    	Xpath
  * @subpackage	SimpleXml
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1

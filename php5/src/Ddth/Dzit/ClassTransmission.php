@@ -11,7 +11,7 @@
  * so we can email you a copy.
  *
  * @package		Dzit
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @id			$Id: ClassUploadFile.php 15 2008-04-18 10:30:42Z btnguyen2k@gmail.com $
@@ -23,7 +23,7 @@
  * between urls and is identified by an session-scope unique id.
  *
  * @package    	Dzit
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1

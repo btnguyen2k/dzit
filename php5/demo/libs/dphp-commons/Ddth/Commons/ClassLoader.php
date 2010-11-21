@@ -29,7 +29,7 @@
  * <i>Ddth</i>/<i>Commons</i>/<b>Class</b><i>Loader</i><b>.php</b>.
  *
  * @package		Commons
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @id			$Id: ClassLoader.php 147 2008-03-09 06:00:32Z nbthanh@vninformatics.com $
@@ -98,7 +98,7 @@ function loadFileContent($fileName) {
  * Note: {@link ClassLoader.php Classes and files naming conventionn}.
  *
  * @package    	Commons
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1			
