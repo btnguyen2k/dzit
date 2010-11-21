@@ -12,7 +12,7 @@
  *
  * @package		Template
  * @subpackage  Php
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @id			$Id: ClassPhpTemplate.php 159 2008-04-07 19:54:58Z btnguyen2k@gmail.com $
@@ -39,7 +39,7 @@ if ( !function_exists('__autoload') ) {
  *
  * @package    	Template
  * @subpackage  Php
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1

@@ -12,7 +12,7 @@
  *
  * @package		Commons
  * @subpackage	Logging
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @id			$Id: ClassILog.php 116 2008-02-16 16:39:38Z btnguyen2k@gmail.com $
@@ -46,7 +46,7 @@
  *
  * @package    	Commons
  * @subpackage	Logging
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1

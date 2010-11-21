@@ -11,7 +11,7 @@
  * so we can email you a copy.
  *
  * @package		Template
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @id			$Id: ClassTemplateException.php 154 2008-03-31 19:29:21Z btnguyen2k@gmail.com $
@@ -25,7 +25,7 @@ require_once 'Ddth/Commons/Exceptions/ClassAbstractException.php';
  * Thrown to indicate that an error has occurred.
  *
  * @package    	Template
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
