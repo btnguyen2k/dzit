@@ -11,7 +11,7 @@
  * so we can email you a copy.
  *
  * @package		Cache
- * @author		Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
+ * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @id			$Id: ClassAbstractCache.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
@@ -36,7 +36,7 @@ if ( !function_exists('__autoload') ) {
  * An abstract implementation of cache.
  *
  * @package    	Cache
- * @author     	Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
+ * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1

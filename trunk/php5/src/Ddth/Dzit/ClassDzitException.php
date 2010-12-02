@@ -11,7 +11,7 @@
  * so we can email you a copy.
  *
  * @package		Dzit
- * @author		Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
+ * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @id			$Id$
@@ -25,7 +25,7 @@ require_once 'Ddth/Commons/Exceptions/ClassAbstractException.php';
  * Thrown to indicate that an error has occurred.
  *
  * @package    	Dzit
- * @author     	Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
+ * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1

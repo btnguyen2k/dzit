@@ -46,14 +46,16 @@ removeTree('phpDocs');
  *   + PDF:default:default - standard, plain PDF formatting
  * - XML:DocBook:* - output is XML, in DocBook format
  *   + XML:DocBook/peardoc2:default - documentation ready for compiling into peardoc
- *     for online pear.php.net documentation, 2nd revision 
+ *     for online pear.php.net documentation, 2nd revision
  */
 $STYLE = "";
 if ( count($argv) == 2 ) {
     $STYLE = "-o \"$argv[1]\"";
 } else {
     //default stype
-    $STYLE = "-o \"HTML:Smarty:HandS\"";
+    //$STYLE = "-o \"HTML:Smarty:HandS\"";
+    //$STYLE = "-o \"HTML:frames/Extjs:default\"";
+    $STYLE = "-o \"HTML:Smarty/Evolve:default\"";
 }
 $CMD = "$PHP \"$PHP_DOCUMENTOR\" -t \"phpDocs\" $STYLE -d \"src\" -ti \"Dzit Documentation\"";
 echo $CMD, "\n";

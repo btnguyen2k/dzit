@@ -3,20 +3,16 @@
 /**
  * Dzit's bootstrap script.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
  *
- * @package		Dzit
- * @author		Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: index.php 16 2008-04-28 14:55:53Z btnguyen2k@gmail.com $
- * @since      	File available since v0.1
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @package     Dzit
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: index.php 30 2010-11-21 16:08:30Z btnguyen2k@gmail.com $
+ * @since       File available since v0.1
  */
+
 if ( !function_exists('__autoload') ) {
     /**
      * Automatically loads class source file when used.
@@ -24,7 +20,7 @@ if ( !function_exists('__autoload') ) {
      * @param string
      * @ignore
      */
-    function __autoload($className) {        
+    function __autoload($className) {
         require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
         require_once 'Ddth/Commons/ClassLoader.php';
         $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
@@ -53,13 +49,8 @@ if ( !is_dir(LIBS_DIR) ) {
     exit('Invalid LIBS_DIR setting!');
 }
 
-/*
- * Dzit's configuration file (located in include_path)
- */
-define('DZIT_CONFIG_FILE', CONFIG_DIR.'/dzit.properties');
-
 /* set up include path */
-$includePath = '.'.PATH_SEPARATOR.CONFIG_DIR;
+$includePath = '.'.PATH_SEPARATOR.CONFIG_DIR.PATH_SEPARATOR;
 if ( $dh = @opendir(LIBS_DIR) ) {
     while ( ($file = readdir($dh)) !== false ) {
         if ( is_dir(LIBS_DIR."/$file") && $file!="." && $file!=".." ) {
@@ -71,27 +62,19 @@ if ( $dh = @opendir(LIBS_DIR) ) {
 }
 ini_set('include_path', $includePath);
 
-/**
- * @var Ddth_Commons_Logging_ILog
- */
-$logger = Ddth_Commons_Logging_LogFactory::getLog('Dzit');
+require_once CONFIG_DIR.'/dzit-config.php';
 
-/* load configurations */
-$config = new Ddth_Dzit_Configurations(DZIT_CONFIG_FILE);
-$appClass = $config->getApplicationClass();
-$app = new $appClass();
-if ( !($app instanceof Ddth_Dzit_IApplication) ) {
-    exit("[$appClass] does not implement interface Ddth_Dzit_IApplication!"); 
-}
-//register the application instance
-Ddth_Dzit_ApplicationRegistry::$CURRENT_APP = $app;
-$hasError = false;
+$logger = Ddth_Commons_Logging_LogFactory::getLog('Dzit');
 try {
-    $app->init($config);
-    $app->execute();
+    /**
+     * @var Dzit_IDispatcher
+     */
+    $dispatcher = Dzit_Config::get(Dzit_Config::CONF_DISPATCHER);
+    if ( $dispatcher === NULL || !($dispatcher instanceof Dzit_IDispatcher) ) {
+        $dispatcher = new Dzit_DefaultDispatcher();
+    }
+    $dispatcher->dispatch();
 } catch ( Exception $e ) {
-    $hasError = true;
     $logger->error($e->getMessage(), $e);
 }
-$app->destroy($hasError);
 ?>
