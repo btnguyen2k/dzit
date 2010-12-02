@@ -11,7 +11,7 @@
  * so we can email you a copy.
  *
  * @package		Template
- * @author		Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
+ * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @id			$Id: ClassAbstractTemplate.php 159 2008-04-07 19:54:58Z btnguyen2k@gmail.com $
@@ -37,7 +37,7 @@ if ( !function_exists('__autoload') ) {
  * Abstract template pack.
  *
  * @package    	Template
- * @author     	Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
+ * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1

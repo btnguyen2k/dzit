@@ -11,7 +11,7 @@
  * so we can email you a copy.
  *
  * @package		Template
- * @author		Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
+ * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @id			$Id: ClassIPage.php 160 2008-04-17 02:02:42Z btnguyen2k@gmail.com $
@@ -24,7 +24,7 @@
  * This interface represents a single template page.
  *
  * @package    	Template
- * @author     	Thanh Ba Nguyen &lt;btnguyen2k@gmail.com&gt;
+ * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1
