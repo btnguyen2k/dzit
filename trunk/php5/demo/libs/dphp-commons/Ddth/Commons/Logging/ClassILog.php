@@ -3,20 +3,15 @@
 /**
  * A simple logging interface abstracting other logging libraries.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
+ * 
+ * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package		Commons
- * @subpackage	Logging
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: ClassILog.php 116 2008-02-16 16:39:38Z btnguyen2k@gmail.com $
- * @since      	File available since v0.1
+ * @package     Commons
+ * @subpackage  Logging
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassILog.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @since       File available since v0.1
  */
 
 /**
@@ -41,29 +36,27 @@
  *
  * Configuration of the underlying logging system will generally be done external
  * to the Logging APIs, through whatever mechanism is supported by that system.
- * 
+ *
  * Note: The APIs of this package mimics Apache's commons-logging library.
  *
- * @package    	Commons
- * @subpackage	Logging
- * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @since      	Class available since v0.1
+ * @package     Commons
+ * @subpackage  Logging
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since       Class available since v0.1
  */
 interface Ddth_Commons_Logging_ILog {
     const SETTING_DEFAULT_LOG_LEVEL = 'default';
-    
+
     const SETTING_PREFIX_LOGGER_CLASS = 'loggerClass.';
-    
+
     /**
      * Initializes this ILog.
-     * 
+     *
      * @param Ddth_Commons_Properties initializing properties
      * @throws {@link Ddth_Commons_Logging_LogConfigurationException LogConfigurationException}
      */
     public function init($prop);
-    
+
     /**
      * Logs a message with debug log level.
      *

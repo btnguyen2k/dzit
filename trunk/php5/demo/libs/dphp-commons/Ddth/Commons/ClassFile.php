@@ -3,42 +3,21 @@
 /**
  * Abstract representation of file and directory pathnames.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
+ * 
+ * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package		Commons
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: ClassFile.php 158 2008-04-03 00:52:21Z btnguyen2k@gmail.com $
+ * @package     Commons
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassFile.php 223 2010-11-21 16:06:01Z btnguyen2k@gmail.com $
  * @since      	File available since v0.1
  */
-
-if ( !function_exists('__autoload') ) {
-    /**
-     * Automatically loads class source file when used.
-     *
-     * @param string
-     * @ignore
-     */
-    function __autoload($className) {
-        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-        require_once 'Ddth/Commons/ClassLoader.php';
-        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        Ddth_Commons_Loader::loadClass($className, $translator);
-    }
-}
 
 /**
  * An abstract representation of file and directory pathnames.
  *
  * @package    	Commons
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
@@ -111,7 +90,7 @@ class Ddth_Commons_File {
     //    }
 
     /**
-     * Gets base filename of the file (i.e. /etc/test --> test.txt).
+     * Gets base filename of the file (i.e. /etc/test.txt --> test.txt).
      *
      * @see getPathname()
      * @return string
