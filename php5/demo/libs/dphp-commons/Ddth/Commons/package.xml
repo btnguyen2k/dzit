@@ -4,12 +4,12 @@
 	"http://dphp.googlecode.com/svn/trunk/docs/package.dtd">
 <package>
 	<name>Ddth::Commons</name>
-	<version>0.1</version>
+	<version>0.1.6</version>
 	<description>
 		Common interfaces and classes for Ddth packages.
 	</description>
 	<summary>
-		This packages contains common interfaces, classes and helpers
+		This package contains common interfaces, classes and helpers
 		which are heavily used by other Ddth packages.
 	</summary>
 	<author>
