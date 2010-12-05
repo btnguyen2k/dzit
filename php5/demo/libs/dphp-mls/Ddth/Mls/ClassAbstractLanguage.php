@@ -3,45 +3,22 @@
 /**
  * Abstract language pack.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
  *
- * @package		Mls
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassAbstractLanguage.php 147 2008-03-09 06:00:32Z nbthanh@vninformatics.com $
- * @since      	File available since v0.1
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @package     Mls
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassAbstractLanguage.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @since       File available since v0.1
  */
-
-if ( !function_exists('__autoload') ) {
-    /**
-     * Automatically loads class source file when used.
-     *
-     * @param string
-     * @ignore
-     */
-    function __autoload($className) {
-        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-        require_once 'Ddth/Commons/ClassLoader.php';
-        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        Ddth_Commons_Loader::loadClass($className, $translator);
-    }
-}
 
 /**
  * Abstract language pack.
  *
- * @package    	Mls
- * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version    	0.1
- * @since      	Class available since v0.1
+ * @package     Mls
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since       Class available since v0.1
  */
 abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
     const PROPERTY_NAME = "name";
@@ -164,11 +141,11 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
         $this->description = $this->getSetting(self::PROPERTY_DESCRIPTION);
         $this->buildLanguageData();
     }
-    
+
     /**
      * Loads and builds language data. Called by
      * {@link Ddth_Mls_AbstractLanguage::init()} method.
-     * 
+     *
      * @throws Ddth_Mls_MlsException
      */
     protected abstract function buildLanguageData();

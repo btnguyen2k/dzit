@@ -35,7 +35,15 @@
  */
 class Dzit_DefaultActionHandlerMapping implements Dzit_IActionHandlerMapping {
 
+    /**
+     * @var mixed
+     */
     private $router;
+
+    /**
+     * @var Ddth_Commons_Logging_ILog
+     */
+    private $LOGGER;
 
     /**
      * Constructs a new Dzit_DefaultActionHandlerMapping object.
@@ -43,6 +51,7 @@ class Dzit_DefaultActionHandlerMapping implements Dzit_IActionHandlerMapping {
      * @param Array $router router configurations
      */
     public function __construct($router=NULL) {
+        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
         $this->router = $router;
         if ( $this->router == NULL || !is_array($this->router) ) {
             $this->router = Dzit_Config::get(Dzit_Config::CONF_ROUTER);
@@ -69,6 +78,7 @@ class Dzit_DefaultActionHandlerMapping implements Dzit_IActionHandlerMapping {
      * @see Dzit_IActionHandlerMapping::getController()
      */
     public function getController($module, $action) {
+        $this->LOGGER->debug('Locating controller for {'.$module.':'.$action.'}');
         if ( isset($this->router[$module]) ) {
             $controller = NULL;
             if ( is_array($this->router[$module]) ) {
@@ -84,10 +94,12 @@ class Dzit_DefaultActionHandlerMapping implements Dzit_IActionHandlerMapping {
                     $controller = new $controller();
                 }
                 if ( $controller instanceof Dzit_IController ) {
+                    $this->LOGGER->debug('Found controller {'.get_class($controller).'}');
                     return $controller;
                 }
             }
         }
+        $this->LOGGER->warn('Can not find controller for {'.$module.':'.$action.'}');
         return NULL;
     }
 }
