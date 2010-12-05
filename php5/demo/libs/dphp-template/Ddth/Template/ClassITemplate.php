@@ -3,19 +3,14 @@
 /**
  * Represents a template pack.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
  *
- * @package		Template
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassITemplate.php 159 2008-04-07 19:54:58Z btnguyen2k@gmail.com $
- * @since      	File available since v0.1
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @package     Template
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassITemplate.php 227 2010-12-05 06:57:50Z btnguyen2k@gmail.com $
+ * @since       File available since v0.1
  */
 
 /**
@@ -37,9 +32,6 @@
  *
  * @package    	Template
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version    	0.1
  * @since      	Class available since v0.1
  */
 interface Ddth_Template_ITemplate {
@@ -50,12 +42,12 @@ interface Ddth_Template_ITemplate {
     
     const PROPERTY_CHARSET = "charset";
     
-    /**
-     * Gets absolute path of the directory where the template pack is located.
-     * 
-     * @return string
-     */
-    public function getAbsoluteDir();
+//    /**
+//     * Gets absolute path of the directory where the template pack is located.
+//     * 
+//     * @return string
+//     */
+//    public function getAbsoluteDir();
     
     /**
      * Gets description of the template pack.
