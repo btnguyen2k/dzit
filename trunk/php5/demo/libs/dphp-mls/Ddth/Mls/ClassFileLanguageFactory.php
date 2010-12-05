@@ -3,35 +3,15 @@
 /**
  * File-based LanguageFactory.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
  *
- * @package		Mls
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassFileLanguageFactory.php 161 2008-04-17 04:48:57Z btnguyen2k@gmail.com $
- * @since      	File available since v0.1
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @package     Mls
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassFileLanguageFactory.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @since       File available since v0.1
  */
-
-if ( !function_exists('__autoload') ) {
-    /**
-     * Automatically loads class source file when used.
-     *
-     * @param string
-     * @ignore
-     */
-    function __autoload($className) {
-        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-        require_once 'Ddth/Commons/ClassLoader.php';
-        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        Ddth_Commons_Loader::loadClass($className, $translator);
-    }
-}
 
 /**
  * File-based LanguageFactory.
@@ -70,7 +50,7 @@ if ( !function_exists('__autoload') ) {
  * # Other file.<name>.xxx properties are custom properties and will also be passed
  * # to the language pack's Ddth_Mls_ILanguage::init() method.
  * # Also a property file.<name>.name which holds the language pack's name
- * # and a property file.<name>.base.directory which is a copy of file.base.directory 
+ * # and a property file.<name>.base.directory which is a copy of file.base.directory
  * # will be created.
  *
  * # file.<name>.xxx properties will be wrapped inside a Ddth_Commons_Properties
@@ -79,18 +59,15 @@ if ( !function_exists('__autoload') ) {
  * </code>
  * See {@link Ddth_Mls_LanguageFactory configuration file format}.
  *
- * @package    	Mls
+ * @package     Mls
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version    	0.1
  * @since      	Class available since v0.1
  */
 class Ddth_Mls_FileLanguageFactory implements Ddth_Mls_ILanguageFactory {
     const DEFAULT_LANGUAGE_CLASS = 'Ddth_Mls_FileLanguage';
 
     const PROPERTY_PREFIX = 'file.';
-    
+
     const PROPERTY_BASE_DIRECTORY = 'file.base.directory';
 
     const PROPERTY_LANGUAGE_CLASS = 'file.language.class';
@@ -232,9 +209,9 @@ class Ddth_Mls_FileLanguageFactory implements Ddth_Mls_ILanguageFactory {
                 //set up configuration properties
                 $prefix = self::PROPERTY_PREFIX.$langName.".";
                 $len = strlen($prefix);
-                $props = new Ddth_Commons_Properties();                
+                $props = new Ddth_Commons_Properties();
                 foreach ( $this->getSettings()->keys() as $key ) {
-                    if ( $prefix === substr($key, 0, $len) ) {                        
+                    if ( $prefix === substr($key, 0, $len) ) {
                         $value = $this->getSetting($key);
                         $key = substr($key, $len);
                         if ( $key !== '' && $value !== NULL ) {

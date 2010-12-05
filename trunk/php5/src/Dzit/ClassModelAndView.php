@@ -28,10 +28,13 @@ class Dzit_ModelAndView {
 
     /**
      * Constructs a new Dzit_ModelAndView object.
+     *
+     * @param mixed $view
+     * @param mixed $model
      */
-    private function __construct($model=NULL, $view=NULL) {
-        $this->model = $model;
+    public function __construct($view=NULL, $model=NULL) {
         $this->view = $view;
+        $this->model = $model;
     }
 
     /**

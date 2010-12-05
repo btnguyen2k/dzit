@@ -13,6 +13,8 @@
  * @since       File available since v0.2
  */
 
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 /*
  * Action dispatcher configuration: the default dispatcher should work out-of-the-box.
  *
@@ -41,7 +43,9 @@ Dzit_Config::set(Dzit_Config::CONF_DISPATCHER, new $dispatcherClass());
  * }
  * </code>
  */
-$router = Array();
+$router = Array(
+    ''  => 'Dzit_Demo_Controller_Home'
+);
 Dzit_Config::set(Dzit_Config::CONF_ROUTER, $router);
 
 
