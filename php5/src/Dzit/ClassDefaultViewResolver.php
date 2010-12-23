@@ -9,7 +9,7 @@
  *
  * @package     Dzit
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassDefaultHttpRequest.php 30 2010-11-21 16:08:30Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 
@@ -37,7 +37,7 @@ class Dzit_DefaultViewResolver implements Dzit_IViewResolver {
      */
     protected function getTemplateName() {
         $templateName = Dzit_Helper_SessionHelper::getSessionAttribute(Dzit_Constants::SESSION_TEMPLATE_PACK);
-        return $templateName != NULL ? $template : Dzit_Config::get(Dzit_Config::CONF_DEFAULT_TEMPLATE_NAME);
+        return $templateName != NULL ? $templateName : Dzit_Config::get(Dzit_Config::CONF_DEFAULT_TEMPLATE_NAME);
     }
 
     /**
@@ -91,7 +91,7 @@ class Dzit_DefaultViewResolver implements Dzit_IViewResolver {
      * @param Ddth_Template_Smarty_SmartyTemplate $template
      * @return Dzit_IView
      */
-    protected function loadPhpView($viewName, $template) {
+    protected function loadSmartyView($viewName, $template) {
 
     }
 }

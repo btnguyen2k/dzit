@@ -9,7 +9,7 @@
  *
  * @package     Dzit
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassDefaultUrlCreator.php 31 2010-12-02 19:34:46Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since      	File available since v0.2
  */
 
