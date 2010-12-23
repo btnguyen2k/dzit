@@ -51,20 +51,23 @@ class Dzit_View_PhpViewResolver implements Dzit_IViewResolver {
      * @param stringg $prefix
      */
     public function setPrefix($prefix) {
-        if ( $prefix == '' || $prefix == NULL ) {
+        if ( trim($prefix) == '' || $prefix == NULL ) {
             $this->prefix = '';
         } else {
-            $this->prefix = preg_replace('/\\/+$/', '', $prefix) . '/';
+            $this->prefix = trim($prefix);
+            #$this->prefix = preg_replace('/\\/+$/', '', $prefix) . '/';
         }
     }
 
     /**
+     * This function resolves a view name to an instance of {@link Dzit_View_PhpView}.
+     *
      * @see Dzit_IViewResolver::resolveViewName()
      */
     public function resolveViewName($viewName) {
         if ( preg_match('/^[a-z0-9_\\.\\-]+$/i', $viewName) ) {
             $filename = $this->prefix . $viewName . '.php';
-            return $filename;
+            return new Dzit_View_PhpView($filename);
         }
         return NULL;
     }

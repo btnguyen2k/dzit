@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * MVC View for PHP-based template.
+ * MVC View for PHP-based single-template.
  *
  * LICENSE: See the included license.txt file for detail.
  *
@@ -15,7 +15,18 @@
  */
 
 /**
- * MVC View for PHP-based template.
+ * MVC View for PHP-based single-template.
+ *
+ * Usage:
+ * <code>
+ * $filename = 'template/home.php';
+ * $view = new Dzit_View_PhpView($filename);
+ * $view->render($model, $module, $action);
+ * </code>
+ *
+ * Upon the {@link Dzit_View_PhpView::render() render()} method is called, a global variable
+ * $MODEL is created and the specified {@link Dzit_View_PhpView::__construct() php file}
+ * is included.
  *
  * @package     Dzit
  * @subpackage  View
@@ -24,12 +35,17 @@
  */
 class Dzit_View_PhpView extends Dzit_View_AbstractView {
     /**
-     * @var Ddth_Template_IPage
+     * @var string
      */
-    private $page;
+    private $phpFile;
 
-    public function __construct($page) {
-        $this->page = $page;
+    /**
+     * Constructs a new Dzit_View_PhpView object.
+     *
+     * @param string $phpFile specify the PHP view file to be included
+     */
+    public function __construct($phpFile) {
+        $this->phpFile = $phpFile;
     }
 
     /**
@@ -40,12 +56,17 @@ class Dzit_View_PhpView extends Dzit_View_AbstractView {
     public function getPage() {
         return $this->page;
     }
-    
+
     /**
+     * This method creates a global variable $MODEL and includes the specified
+     * {@link Dzit_View_PhpView::__construct() php file}
+     *
      * @see Dzit_IView::render();
      */
-    public function render($model, $module, $action) {
-        $this->page->render($model);
+    public function render($_model, $module, $action) {
+        global $MODEL;
+        $MODEL = $_model;
+        include $this->phpFile;
     }
 }
 ?>

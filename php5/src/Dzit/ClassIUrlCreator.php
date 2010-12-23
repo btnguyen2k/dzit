@@ -1,52 +1,64 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * APIs to generate URLs for application.
+ * URL generator.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
  *
- * @package		Dzit
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: ClassIUrlCreator.php 30 2010-11-21 16:08:30Z btnguyen2k@gmail.com $
- * @since      	File available since v0.1
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @package     Dzit
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassIUrlCreator.php 30 2010-11-21 16:08:30Z btnguyen2k@gmail.com $
+ * @since      	File available since v0.2
  */
 
 /**
- * APIs to generate URLs for application.
+ * URL generator.
+ *
+ * This interface provides centralized APIs for Dzit-based application to generate
+ * URLs. It is recommended that application uses this interface to generate URLs that
+ * invokes server-side actions.
  *
  * @package    	Dzit
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version    	0.1
- * @since      	Class available since v0.1
+ * @since      	Class available since v0.2
  */
-interface Ddth_Dzit_IUrlCreator {
+interface Dzit_IUrlCreator {
+
+    const DEFAULT_HTTPS_PORT = 443;
+
+    const PARAM_MODULE = 'module';
+    const PARAM_ACTION = 'action';
+    const PARAM_PATH_INFO_PARAMS = 'pathInfoParams';
+    const PARAM_QUERY_STRING_PARAMS = 'queryStrParams';
+    const PARAM_SCRIPT_NAME = 'scriptName';
+    const PARAM_FULL_URL = 'fullUrl';
+    const PARAM_FORCE_HTTPS = 'forceHttps';
+    const PARAM_HTTPS_PORT = 'httpsPort';
+
     /**
-     * Constructs an URL.
-     *
-     * @param string
-     * @param Array() index array
-     * @param Array() associative array
-     * @param string
-     * @param bool include domain (and schema, e.g. http://) in the constructed URL
-     * @param bool
+     * Creates a URL. This method takes an associative array as its parameter. The array
+     * contains the following base entries:
+     * <ul>
+     *     <li><b>module</b> (string): the server module to invoke.</li>
+     *     <li><b>action</b> (string): the server action to invoke. Note: if "module" is not
+     *     specified then "action" is ignored.</li>
+     *     <li><b>pathInfoParams</b> (index array, i.e. [value1, value2, value2]): parameters
+     *     to be passed via PATH_INFO.</li>
+     *     <li><b>queryStrParams</b> (associative array, i.e ['name1'=>value1,
+     *     'name2'=>value2, 'name3'=>value2]): parameters to be passed via query string.</li>
+     *     <li><b>scriptName</b> (string): (optional) name of the server script, if different
+     *     from the currently executing one.</li>
+     *     <li><b>fullUrl</b> (bool): indicates whether the full URL (i.e. absolute URL that includes the
+     *     schema and domain: http://domain) or just relative URL is created.</li>
+     *     <li><b>forceHttps</b> (bool): indicates whether the created URL must be https. Note: "forceHttps"
+     *     implies "fullUrl".</li>
+     *     <li><b>httpsPort</b> (int): the server's port number for https. Note: usable only when
+     *     "forceHttps" is true</li>
+     *     <li>
+     * </ul>
      */
-    public function createUrl($action, $pathInfoParams=Array(), $urlParams=Array(),
-        $script="", $includeDomain=false, $forceHttps=false);
-        
-    /**
-     * Gets "home" URL.
-     *
-     * @return string
-     */
-    public function getHomeUrl($includeDomain=false);
+    public function createUrl($params);
 }
 ?>

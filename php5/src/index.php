@@ -25,7 +25,8 @@ if ( !function_exists('__autoload') ) {
         require_once 'Ddth/Commons/ClassLoader.php';
         $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
         if ( !Ddth_Commons_Loader::loadClass($className, $translator) ) {
-            trigger_error("Can not load class [$className]!");
+            $filename = $translator->translateClassNameToFileName($className);
+            trigger_error("Can not load class [$className] (file: \"$filename\")!");
         }
     }
 }
@@ -72,6 +73,9 @@ try {
     $dispatcher = Dzit_Config::get(Dzit_Config::CONF_DISPATCHER);
     if ( $dispatcher === NULL || !($dispatcher instanceof Dzit_IDispatcher) ) {
         $dispatcher = new Dzit_DefaultDispatcher();
+    }
+    if ( $logger->isDebugEnabled() ) {
+        $logger->debug("Use dispatcher class [".get_class($dispatcher)."]");
     }
     $dispatcher->dispatch();
 } catch ( Exception $e ) {
