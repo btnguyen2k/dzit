@@ -46,11 +46,17 @@
  * @since       Class available since v0.2
  */
 class Dzit_DefaultDispatcher implements Dzit_IDispatcher {
+
+    /**
+     * @var Ddth_Commons_Logging_ILog
+     */
+    private $LOGGER;
+
     /**
      * Constructs a new Dzit_DefaultDispatcher object.
      */
     public function __construct() {
-        //empty
+        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
     }
 
     /**
@@ -80,12 +86,19 @@ class Dzit_DefaultDispatcher implements Dzit_IDispatcher {
          */
         $actionHandler = $this->getActionHandler($module, $action);
         if ( $actionHandler != NULL ) {
+            if ( $this->LOGGER->isDebugEnabled() ) {
+                $this->LOGGER->debug("Action handler for {"."$module:$action"."}: [".get_class($actionHandler)."]");
+            }
             /**
              * @var Dzit_ModelAndView
              */
             $mav = $actionHandler->execute($module, $action);
             if ( $mav != NULL ) {
                 $this->renderModelAndView($mav, $module, $action);
+            } else {
+                if ( $this->LOGGER->isDebugEnabled() ) {
+                    $this->LOGGER->debug("Action handler returns a NULL model and view.");
+                }
             }
         } else {
             throw new Dzit_Exception('There is no action handler for {'.$module.':'.$action.'}');
@@ -136,13 +149,23 @@ class Dzit_DefaultDispatcher implements Dzit_IDispatcher {
             if ( !($viewResolver instanceof Dzit_IViewResolver) ) {
                 $viewResolver = new Dzit_DefaultViewResolver();
             }
+            if ( $this->LOGGER->isDebugEnabled() ) {
+                $this->LOGGER->debug("View [$view] of type string. Use view resolver [".get_class($viewResolver)."] to resolve.");
+            }
             $view = $viewResolver->resolveViewName($view);
+
         }
         if ( $view instanceof Dzit_IView ) {
+            if ( $this->LOGGER->isDebugEnabled() ) {
+                $this->LOGGER->debug("Rendering view [".get_class($view)."]");
+            }
             $view->render($model, $module, $action);
             return;
         } else {
             //TODO: no view?
+            if ( $this->LOGGER->isDebugEnabled() ) {
+                $this->LOGGER->debug("No view!");
+            }
         }
     }
 

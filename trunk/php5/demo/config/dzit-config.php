@@ -70,7 +70,7 @@ Dzit_Config::set(Dzit_Config::CONF_ACTION_HANDLER_MAPPING, new $actionHandlerMap
  * </ul>
  */
 $viewResolverClass = 'Dzit_View_PhpViewResolver';
-Dzit_Config::set(Dzit_Config::CONF_VIEW_RESOLVER, new $viewResolverClass('skins/default'));
+Dzit_Config::set(Dzit_Config::CONF_VIEW_RESOLVER, new $viewResolverClass('skins/default/page_'));
 
 /*
  * Name of the default language pack.
