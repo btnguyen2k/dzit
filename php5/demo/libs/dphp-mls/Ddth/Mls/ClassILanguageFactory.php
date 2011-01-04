@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Factory interface to create language pack objects.
+ * Factory to create language packs (objects of type {@link Ddth_Mls_ILanguage}).
  *
  * LICENSE: See the included license.txt file for detail.
  *
@@ -9,12 +9,12 @@
  *
  * @package     Mls
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassILanguageFactory.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassILanguageFactory.php 226 2010-12-05 05:43:59Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 
 /**
- * Factory interface to create language pack objects.
+ * Factory to create language packs (objects of type {@link Ddth_Mls_ILanguage}).
  *
  * @package    	Mls
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
@@ -25,25 +25,23 @@ interface Ddth_Mls_ILanguageFactory {
     /**
      * Gets a language pack.
      *
-     * @param string
+     * @param string $name name of the language pack to get
      * @return Ddth_Mls_ILanguage
-     * @throws Ddth_Mls_MlsException
      */
     public function getLanguage($name);
 
     /**
-     * Gets list of names of available languages.
+     * Gets names of available language packs as an array.
      *
-     * @return Array()
+     * @return Array
      */
     public function getLanguageNames();
 
     /**
      * Initializes the factory.
      *
-     * @param Dddth_Commons_Properties
-     * @throws Ddth_Mls_MlsException
+     * @param Array $config see {@link Ddth_Mls_AbstractLanguageFactory::getInstance()}
      */
-    public function init($settings);
+    public function init($config);
 }
 ?>

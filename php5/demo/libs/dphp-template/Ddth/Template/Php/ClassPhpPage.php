@@ -24,32 +24,18 @@
  */
 class Ddth_Template_Php_PhpPage extends Ddth_Template_AbstractPage {
     /**
-     * Constructs a new Ddth_Template_Php_PhpPage object.
-     *
-     * @param string
-     * @param string
-     * @param Ddth_Template_ITempalte
-     */
-    public function __construct($id, $templateFile, $template) {
-        parent::__construct($id, $templateFile, $template);
-    }
-
-    /**
      * {@see Ddth_Template_IPage::render()}
      */
-    public function render($model=NULL) {
-        if ( $model !== NULL ) {
-            $this->setDataModel($model);
+    public function render($model = NULL) {
+        if ($model !== NULL) {
+            $this->setModel($model);
         }
-        $key = Ddth_Template_Php_PhpTemplate::PROPERTY_BASE_DIRECTORY;
-        $baseDir = new Ddth_Commons_File($this->getTemplateProperty($key));
-        $key = Ddth_Template_Php_PhpTemplate::PROPERTY_LOCATION;
-        $location = new Ddth_Commons_File($this->getTemplateProperty($key), $baseDir);
-        $templateFile = new Ddth_Commons_File($this->getTemplateFile(), $location);
-
+        $key = Ddth_Template_BaseTemplateFactory::CONF_BASE_DIRECTORY;
+        $templateDir = new Ddth_Commons_File($this->getTemplateConfigSetting($key));
+        $templateDir = new Ddth_Commons_File($this->getTemplate()->getDir(), $templateDir);
+        $templateFile = new Ddth_Commons_File($this->getTemplateFile(), $templateDir);
         global $MODEL;
-        $MODEL = $this->getDataModel();
-        //$DATAMODEL = $DATAMODEL->asPhpType();
+        $MODEL = $this->getModel();
         include $templateFile->getPathname();
     }
 }

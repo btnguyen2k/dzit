@@ -4,13 +4,13 @@
  * A simple logging interface abstracting other logging libraries.
  *
  * LICENSE: See the included license.txt file for detail.
- * 
+ *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
  * @package     Commons
  * @subpackage  Logging
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassILog.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassILog.php 255 2010-12-27 09:55:32Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 
@@ -31,7 +31,7 @@
  * 6. fatal (the most serious)
  *
  * The mapping of these log levels to the concepts used by the underlying logging
- * system is implementation dependent. The implemention should ensure, though,
+ * system is implementation dependent. Implementations should ensure, though,
  * that this ordering behaves as expected.
  *
  * Configuration of the underlying logging system will generally be done external
@@ -45,17 +45,16 @@
  * @since       Class available since v0.1
  */
 interface Ddth_Commons_Logging_ILog {
-    const SETTING_DEFAULT_LOG_LEVEL = 'default';
 
+    const SETTING_DEFAULT_LOG_LEVEL = 'default';
     const SETTING_PREFIX_LOGGER_CLASS = 'loggerClass.';
 
     /**
      * Initializes this ILog.
      *
-     * @param Ddth_Commons_Properties initializing properties
-     * @throws {@link Ddth_Commons_Logging_LogConfigurationException LogConfigurationException}
+     * @param Array $config configuration setting
      */
-    public function init($prop);
+    public function init($config);
 
     /**
      * Logs a message with debug log level.

@@ -4,7 +4,7 @@
 	"http://dphp.googlecode.com/svn/trunk/docs/package.dtd">
 <package>
 	<name>Ddth::Commons::Logging</name>
-	<version>0.1.1</version>
+	<version>0.2</version>
 	<description>
 		A Logging interface that is an independent abstraction of other
 		logging libraries.
@@ -28,7 +28,7 @@
 		</dependency>
 		<dependency>
 			<dependency-name>Ddth::Commons</dependency-name>
-			<dependency-version>0.1+</dependency-version>
+			<dependency-version>0.2</dependency-version>
 			<dependency-description>
 				Ddth::Commons::Logging uses several modules from
 				Ddth::Commons package.

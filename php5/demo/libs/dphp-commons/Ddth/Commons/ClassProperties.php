@@ -4,12 +4,12 @@
  * Represents a set of properties as pair of {key => value}.
  *
  * LICENSE: See the included license.txt file for detail.
- * 
+ *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
  * @package     Commons
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassProperties.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassProperties.php 251 2010-12-25 19:21:35Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 
@@ -27,19 +27,19 @@
  * <b>Java-like properties files:</b>
  * - Lines begin with ; or # are comments
  * - Each key/value pair is stored in one or more lines with the following
- *   format: propertyKey=propertyValue
+ * format: propertyKey=propertyValue
  * - Property value can span multiple lines, joining by character \
  *
  * Example:
  * <pre>
  * ;this is a comment
- *     #this is also a comment
+ * #this is also a comment
  * key1=value1
  * key2 = value2
  * key3  =     multiple-line value \
- *     line 2 \
- *     ; line 3 \
- *     # line 4
+ * line 2 \
+ * ; line 3 \
+ * # line 4
  * </pre>
  *
  * @package    	Commons
@@ -99,12 +99,12 @@ class Ddth_Commons_Properties {
      */
     public function export() {
         $result = "";
-        foreach ( $this->properties as $key=>$node ) {
+        foreach ($this->properties as $key => $node) {
             $comment = count($node) > 1 ? $node[1] : NULL;
-            if ( $comment !== NULL ) {
+            if ($comment !== NULL) {
                 $lines = explode("\n", $comment);
-                if ( $lines !== false ) {
-                    foreach ( $lines as $line ) {
+                if ($lines !== false) {
+                    foreach ($lines as $line) {
                         $result .= self::$COMMENT_START[0];
                         $result .= $line;
                         $result .= "\n";
@@ -115,13 +115,13 @@ class Ddth_Commons_Properties {
             $result .= $key;
             $result .= "=";
             $lines = explode("\n", $value);
-            if ( $lines !== false ) {
-                for ( $i = 0, $n = count($lines); $i < $n; $i++ ) {
-                    if ( $i > 0 ) {
+            if ($lines !== false) {
+                for ($i = 0, $n = count($lines); $i < $n; $i++) {
+                    if ($i > 0) {
                         $result .= "\t";
                     }
                     $result .= $lines[$i];
-                    if ( $i !== $n-1 ) {
+                    if ($i !== $n - 1) {
                         $result .= " \\";
                     }
                     $result .= "\n";
@@ -140,7 +140,7 @@ class Ddth_Commons_Properties {
      * @throws {@link Ddth_Commons_Exceptions_IllegalStateException IllegalStateException}
      */
     public function import($input) {
-        if ( $input === NULL ) {
+        if ($input === NULL) {
             $msg = "Null input!";
             throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
         }
@@ -160,10 +160,10 @@ class Ddth_Commons_Properties {
      */
     public function load($fileName) {
         $content = @file_get_contents($fileName);
-        if ( $content !== false ) {
+        if ($content !== false) {
             $this->import($content);
         } else {
-            $msg = 'Error reading file "'.$fileName.'"';
+            $msg = 'Error reading file "' . $fileName . '"';
             throw new Ddth_Commons_Exceptions_IOException($msg);
         }
     }
@@ -177,16 +177,16 @@ class Ddth_Commons_Properties {
     public function store($fileName) {
         $content = $this->export();
         $fh = @fopen($fileName, "wb");
-        if ( $fh === false ) {
-            $msg = 'Can not open file "'.$fileName.'" for writing';
+        if ($fh === false) {
+            $msg = 'Can not open file "' . $fileName . '" for writing';
             throw new Ddth_Commons_Exceptions_IOException($msg);
         }
-        if ( @fwrite($fh, $content)===false ) {
-            $msg = 'Error while writing to file "'.$fileName.'"';
+        if (@fwrite($fh, $content) === false) {
+            $msg = 'Error while writing to file "' . $fileName . '"';
             throw new Ddth_Commons_Exceptions_IOException($msg);
         }
-        if ( @fclose($fh)===false ) {
-            $msg = 'Error while writing to file "'.$fileName.'"';
+        if (@fclose($fh) === false) {
+            $msg = 'Error while writing to file "' . $fileName . '"';
             throw new Ddth_Commons_Exceptions_IOException($msg);
         }
     }
@@ -199,7 +199,7 @@ class Ddth_Commons_Properties {
      * @throws {@link Ddth_Commons_Exceptions_IllegalStateException IllegalStateException}
      */
     private function parse($lines = Array()) {
-        if ( !is_array($lines) ) {
+        if (!is_array($lines)) {
             $msg = "Invalid input";
             throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
         }
@@ -207,8 +207,8 @@ class Ddth_Commons_Properties {
         $comment = NULL;
         $value = NULL;
         $key = NULL;
-        foreach ( $lines as $line ) {
-            switch ( $state ) {
+        foreach ($lines as $line) {
+            switch ($state) {
                 case self::$STATE_START:
                     $this->parseStateStart($state, $line, $key, $value, $comment);
                     break;
@@ -223,7 +223,7 @@ class Ddth_Commons_Properties {
                     break;
             }
         }
-        if ( $key!==(NULL) && $value!==NULL ) {
+        if ($key !== (NULL) && $value !== NULL) {
             $this->setProperty($key, $value, $comment);
         }
     }
@@ -236,7 +236,7 @@ class Ddth_Commons_Properties {
     }
 
     private function parseComment(&$state, &$comment, $input) {
-        if ( $comment !== NULL ) {
+        if ($comment !== NULL) {
             $comment .= "\n" . $input;
         } else {
             $comment = $input;
@@ -245,19 +245,19 @@ class Ddth_Commons_Properties {
     }
 
     private function parseValue(&$state, &$key, &$value, &$comment, $input) {
-        $tokens = preg_split("/\s*=\s*/", $input, 2);
-        if ( count($tokens) !== 2 ) {
-            $msg = 'Invalid input near "'.substr($input, 0, 20).'"';
+        $tokens = preg_split('/\s*=\s*/', $input, 2);
+        if (count($tokens) !== 2) {
+            $msg = 'Invalid input near "' . substr($input, 0, 20) . '"';
             throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
         }
         $key = trim($tokens[0]);
         $value = trim($tokens[1]);
-        if ( $key === "" ) {
-            $msg = 'Empty property key at "'.substr($input, 0, 20).'"';
+        if ($key === "") {
+            $msg = 'Empty property key at "' . substr($input, 0, 20) . '"';
             throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
         }
-        if ( $value!=="" && $value[strlen($value)-1]===self::$MULTILINE_FLAG) {
-            $value = trim(substr($value, 0, strlen($value)-1)); //ignore the last char
+        if ($value !== "" && $value[strlen($value) - 1] === self::$MULTILINE_FLAG) {
+            $value = trim(substr($value, 0, strlen($value) - 1)); //ignore the last char
             $state = self::$STATE_IN_PROPERTY_VALUE;
         } else {
             $this->setProperty($key, $value, $comment);
@@ -268,10 +268,10 @@ class Ddth_Commons_Properties {
 
     private function parseStateStart(&$state, $line, &$key, &$value, &$comment) {
         $line = trim($line);
-        if ( $line === "" ) {
+        if ($line === "") {
             //reset
             $this->parseReset($state, $key, $value, $comment);
-        } elseif ( in_array($line[0], self::$COMMENT_START) ) {
+        } elseif (in_array($line[0], self::$COMMENT_START)) {
             //comment
             $this->parseComment($state, $comment, substr($line, 1));
         } else {
@@ -282,10 +282,10 @@ class Ddth_Commons_Properties {
 
     private function parseStateInComment(&$state, $line, &$key, &$value, &$comment) {
         $line = trim($line);
-        if ( $line === "" ) {
+        if ($line === "") {
             //reset
             $this->parseReset($state, $key, $value, $comment);
-        } elseif ( in_array($line[0], self::$COMMENT_START) ) {
+        } elseif (in_array($line[0], self::$COMMENT_START)) {
             //comment
             $this->parseComment($state, $comment, substr($line, 1));
         } else {
@@ -296,27 +296,27 @@ class Ddth_Commons_Properties {
 
     private function parseStateInPropertyValue(&$state, $line, &$key, &$value, &$comment) {
         $line = trim($line);
-        if ( $line === "" ) {
+        if ($line === "") {
             $this->setProperty($key, $value, $comment);
             //reset
             $this->parseReset($state, $key, $value, $comment);
-        } elseif ( in_array($line[0], self::$COMMENT_START) ) {
+        } elseif (in_array($line[0], self::$COMMENT_START)) {
             $this->setProperty($key, $value, $comment);
             //reset
             $this->parseReset($state, $key, $value, $comment);
             //comment
             $this->parseComment($state, $comment, substr($line, 1));
         } else {
-            if ( $line[strlen($line)-1]===self::$MULTILINE_FLAG) {
+            if ($line[strlen($line) - 1] === self::$MULTILINE_FLAG) {
                 //property value continues
-                $value .= "\n".substr($line, 0, strlen($line)-1); //ignore the last char
+                $value .= "\n" . substr($line, 0, strlen($line) - 1); //ignore the last char
                 $value = trim($value);
                 $state = self::$STATE_IN_PROPERTY_VALUE;
             } else {
                 //last line of property value
-                $value .= "\n".$line;
+                $value .= "\n" . $line;
                 $this->setProperty($key, $value, $comment);
-                $this->parseReset($state, $key, $vale, $comment);
+                $this->parseReset($state, $key, $value, $comment);
             }
         }
     }
@@ -328,9 +328,9 @@ class Ddth_Commons_Properties {
      * @return string the property comment if found, NULL otherwise
      */
     public function getComment($key) {
-        if ( isset($this->properties[$key]) ) {
+        if (isset($this->properties[$key])) {
             $value = $this->properties[$key];
-            if ( is_array($value) && count($value)>1 ) {
+            if (is_array($value) && count($value) > 1) {
                 return $value[1];
             } else {
                 return NULL;
@@ -346,10 +346,10 @@ class Ddth_Commons_Properties {
      * @param string a default value
      * @return string the property value if found, the default value otherwise
      */
-    public function getProperty($key, $defaultValue=NULL) {
-        if ( isset($this->properties[$key]) ) {
+    public function getProperty($key, $defaultValue = NULL) {
+        if (isset($this->properties[$key])) {
             $value = $this->properties[$key];
-            if ( is_array($value) && count($value)>0 ) {
+            if (is_array($value) && count($value) > 0) {
                 return $value[0];
             } else {
                 return $defaultValue;
@@ -367,9 +367,31 @@ class Ddth_Commons_Properties {
      * @return string the previous value of the property specified by property key, or
      * NULL if there is no such value
      */
-    public function setProperty($key, $value, $comment=NULL) {
+    public function setProperty($key, $value, $comment = NULL) {
         $result = $this->getProperty($key);
         $this->properties[$key] = Array($value, $comment);
+        return $result;
+    }
+
+    /**
+     * Gets all properties as an associative array.
+     *
+     * @return Array
+     * @since function available since v0.2
+     */
+    public function toArray() {
+        $result = Array();
+        foreach ($this->properties as $key => $value) {
+            if (is_array($value)) {
+                if (count($value) > 0) {
+                    $result[$key] = $value[0];
+                } else {
+                    $result[$key] = '';
+                }
+            } elseif (is_scalar($value)) {
+                $result[$key] = $value;
+            }
+        }
         return $result;
     }
 }

@@ -10,7 +10,7 @@
  * @package     Template
  * @subpackage  Smarty
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassSmartyPage.php 227 2010-12-05 06:57:50Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassSmartyPage.php 260 2011-01-04 04:10:06Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 
@@ -24,52 +24,42 @@
  */
 class Ddth_Template_Smarty_SmartyPage extends Ddth_Template_AbstractPage {
     /**
-     * Constructs a new Ddth_Template_Smarty_SmartyPage object.
-     *
-     * @param string
-     * @param string
-     * @param Ddth_Template_ITempalte
-     */
-    public function __construct($id, $templateFile, $template) {
-        parent::__construct($id, $templateFile, $template);
-    }
-
-    /**
      * {@see Ddth_Template_IPage::render()}
      */
-    public function render($model=NULL) {
-        if ( $model !== NULL ) {
-            $this->setDataModel($model);
+    public function render($model = NULL) {
+        if ($model !== NULL) {
+            $this->setModel($model);
         }
-        $key = Ddth_Template_Smarty_SmartyTemplate::PROPERTY_BASE_DIRECTORY;
-        $baseDir = new Ddth_Commons_File($this->getTemplateProperty($key));
-        $key = Ddth_Template_Smarty_SmartyTemplate::PROPERTY_LOCATION;
-        $location = new Ddth_Commons_File($this->getTemplateProperty($key), $baseDir);
+        $key = Ddth_Template_BaseTemplateFactory::CONF_BASE_DIRECTORY;
+        $templateDir = new Ddth_Commons_File($this->getTemplateConfigSetting($key));
+        $templateDir = new Ddth_Commons_File($this->getTemplate()->getDir(), $templateDir);
 
         $smarty = new Smarty();
 
         //Smarty's template directory
-        $smarty->template_dir = $location->getPathname();
+        $smarty->template_dir = $templateDir->getPathname();
+        var_dump($smarty->template_dir);
 
         //Smarty's cache directory
-        $key = Ddth_Template_Smarty_SmartyTemplate::PROPERTY_SMARTY_CACHE_DIR;
-        $cacheDir = new Ddth_Commons_File($this->getTemplateProperty($key), $location);
+        $key = Ddth_Template_Smarty_SmartyTemplate::CONF_SMARTY_CACHE_DIR;
+        $cacheDir = new Ddth_Commons_File($this->getTemplateConfigSetting($key), $templateDir);
         $smarty->cache_dir = $cacheDir->getPathname();
+        var_dump($smarty->cache_dir);
 
         //Smarty's compile directory
-        $key = Ddth_Template_Smarty_SmartyTemplate::PROPERTY_SMARTY_COMPILE_DIR;
-        $compileDir = new Ddth_Commons_File($this->getTemplateProperty($key), $location);
+        $key = Ddth_Template_Smarty_SmartyTemplate::CONF_SMARTY_COMPILE_DIR;
+        $compileDir = new Ddth_Commons_File($this->getTemplateConfigSetting($key), $templateDir);
         $smarty->compile_dir = $compileDir->getPathname();
+        var_dump($smarty->compile_dir);
 
         //Smarty's configuration directory
-        $key = Ddth_Template_Smarty_SmartyTemplate::PROPERTY_SMARTY_CONFIGS_DIR;
-        $configDir = new Ddth_Commons_File($this->getTemplateProperty($key), $location);    
+        $key = Ddth_Template_Smarty_SmartyTemplate::CONF_SMARTY_CONFIGS_DIR;
+        $configDir = new Ddth_Commons_File($this->getTemplateConfigSetting($key), $templateDir);
         $smarty->config_dir = $configDir->getPathname();
+        var_dump($smarty->config_dir);
 
-        $model = $this->getDataModel();
-        //$smarty->assign($model->asPhpType());
+        $model = $this->getModel();
         $smarty->assign($model);
-
         $smarty->display($this->getTemplateFile());
     }
 }

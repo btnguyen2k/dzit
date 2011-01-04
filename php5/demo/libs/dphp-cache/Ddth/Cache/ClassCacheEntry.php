@@ -1,45 +1,37 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Represents an entry in the cache.
+ * A cache entry wrapper.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
  *
- * @package		Cache
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassCacheEntry.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
- * @since      	File available since v0.1
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @package     Cache
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassCacheEntry.php 251 2010-12-25 19:21:35Z btnguyen2k@gmail.com $
+ * @since       File available since v0.1
  */
 
-if ( !function_exists('__autoload') ) {
-    /**
-     * Automatically loads class source file when used.
-     *
-     * @param string
-     */
-    function __autoload($className) {
-        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-        require_once 'Ddth/Commons/ClassLoader.php';
-        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        Ddth_Commons_Loader::loadClass($className, $translator);
-    }
-}
-
 /**
- * Represents an entry in the cache.
+ * A cache entry wrapper.
+ *
+ * This class wraps a cache entry inside and also provides extra functionality such as
+ * max idle time.
+ *
+ * Usage:
+ * <code>
+ * $cacheEntry = new Ddth_Cache_CacheEntry($realValue, 3600); //max idle time = 3600 seconds
+ * //put $cacheEntry to cache
+ * $cache->put($key, $cacheEntry);
+ * //...
+ * //get $cacheEntry from cache
+ * $cacheEntry = $cache->get($key);
+ * $value = $cacheEntry!==NULL ? $cacheEntry->getValue() : NULL;
+ * </code>
  *
  * @package    	Cache
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version    	0.1
  * @since      	Class available since v0.1
  */
 class Ddth_Cache_CacheEntry {
@@ -47,65 +39,78 @@ class Ddth_Cache_CacheEntry {
      * @var mixed
      */
     private $value;
-    
+
     /**
-     * @var integer
+     * @var int
      */
-    private $timeout;
-    
+    private $maxIdleTime;
+
     /**
-     * @var integer
+     * @var int
      */
     private $lastAccessTimestamp;
-    
+
     /**
      * Constructs a new Ddth_Cache_CacheEntry object
-     * 
-     * @param mixed
-     * @param integer
+     *
+     * @param mixed $value
+     * @param int $maxIdleTime max idle time (in seconds)
      */
-    public function __construct($value, $timeout=0) {
+    public function __construct($value, $maxIdleTime=0) {
         $this->value = $value;
-        $this->timeout = $timeout+0;
+        $this->maxIdleTime = $maxIdleTime+0;
         $this->lastAccessTimestamp = time();
     }
-    
+
     /**
-     * Gets entry's timeout value.
-     * 
-     * @return integer
+     * Gets max idle time.
+     *
+     * @return int max idle time (in seconds)
      */
-    public function getTimeout() {
-        return $this->timeout;
+    public function getMaxIdleTime() {
+        return $this->maxIdleTime;
     }
-    
+
+    /**
+     * Sets max idle time.
+     *
+     * @param int $maxIdleTime max idle time (in seconds)
+     */
+    public function setMaxIdleTime($maxIdleTime) {
+        $this->maxIdleTime = $maxIdleTime+0;
+    }
+
     /**
      * Gets entry's value.
-     * 
+     *
      * @return mixed
      */
     public function getValue() {
-        $this->lastAccessTimestamp = time();
-        return $this->value;
+        if ( !$this->isExpired() ) {
+            $this->lastAccessTimestamp = time();
+            return $this->value;
+        } else {
+            return NULL;
+        }
     }
-    
+
     /**
-     * Gets entry's last access timestamp
-     * 
-     * @return integer UNIX timestamp
+     * Gets entry's last access timestamp.
+     *
+     * @return int UNIX timestamp
      */
     public function getLastAccessTimestamp() {
         return $this->lastAccessTimestamp;
     }
-    
+
     /**
      * Checks if this entry is expired.
-     * 
+     *
      * @return bool
      */
     public function isExpired() {
-        $timeout = $this->timeout;
-        return $timeout > 0 && $this->getLastAccessTimestamp()+$timeout < time();
+        $maxIdleTime = $this->maxIdleTime;
+        return $maxIdleTime > 0 && $this->lastAccessTimestamp+$maxIdleTime < time();
     }
 }
 ?>

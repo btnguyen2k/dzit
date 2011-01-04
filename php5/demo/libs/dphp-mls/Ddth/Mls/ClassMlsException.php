@@ -9,7 +9,7 @@
  *
  * @package     Mls
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassMlsException.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassMlsException.php 226 2010-12-05 05:43:59Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 

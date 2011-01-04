@@ -9,7 +9,7 @@
  *
  * @package     Dzit
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: index.php 31 2010-12-02 19:34:46Z btnguyen2k@gmail.com $
+ * @version     $Id: index.php 40 2010-12-23 19:29:19Z btnguyen2k $
  * @since       File available since v0.1
  */
 
