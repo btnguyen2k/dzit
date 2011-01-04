@@ -1,1 +1,6 @@
+* 20-Dec-2010: version 0.2
+    - Removed CacheConfig and CacheManagerConfig; replaced them by PHP-style config
+    - Added class CacheManager; removed interface ICacheManager
+    - Now needs Commons-v0.2+
+
 * 11-Mar-2008: version 0.1 (initial version)

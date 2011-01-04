@@ -13,7 +13,33 @@
  * @since       File available since v0.2
  */
 
+/*
+ * Since PHP 5.3, you should not rely on the default time zone setting any more!
+ */
 date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+/*
+ * Configurations for Ddth::Commons::Logging
+ */
+global $DPHP_COMMONS_LOGGING_CONFIG;
+$DPHP_COMMONS_LOGGING_CONFIG = Array(
+    'ddth.commons.logging.Logger' => 'Ddth_Commons_Logging_SimpleLog',
+    'logger.setting.default' => 'DEBUG'
+);
+
+/*
+ * Configurations for Ddth::Dao
+ */
+global $DPHP_DAO_CONFIG;
+$DPHP_DAO_CONFIG = Array(
+	'ddth-dao.factoryClass'     => 'Ddth_Dao_Mysql_BaseMysqlDaoFactory',
+	'ddth-dao.mysql.host'       => 'localhost',
+    'ddth-dao.mysql.username'   => 'dzit_demo',
+    'ddth-dao.mysql.password'   => 'dzit_demo',
+    'ddth-dao.mysql.persistent' => FALSE,
+
+	'dao.user'                  => 'Dzit_Demo_Bo_MysqlSimpleBlogDao'
+);
 
 /*
  * Action dispatcher configuration: the default dispatcher should work out-of-the-box.
@@ -61,9 +87,9 @@ Dzit_Config::set(Dzit_Config::CONF_ACTION_HANDLER_MAPPING, new $actionHandlerMap
 
 /*
  * View resolver configuration.
- * 
+ *
  * View resolver is responsible for resolving a {@link Dzit_IView} from name (string).
- * 
+ *
  * Built-in view resolvers:
  * <ul>
  *     <li>{@link Dzit_View_PhpViewResolver}: use this view resolver if the application use a single PHP-based template.</li>

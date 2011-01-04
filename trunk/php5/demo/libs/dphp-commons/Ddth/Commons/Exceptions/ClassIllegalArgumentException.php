@@ -10,7 +10,7 @@
  * @package     Commons
  * @subpackage  Exceptions
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassIllegalArgumentException.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassIllegalArgumentException.php 251 2010-12-25 19:21:35Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 
@@ -25,8 +25,7 @@ require_once 'ClassAbstractException.php';
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since       Class available since v0.1
  */
-class Ddth_Commons_Exceptions_IllegalArgumentException
-extends Ddth_Commons_Exceptions_AbstractException {
+class Ddth_Commons_Exceptions_IllegalArgumentException extends Ddth_Commons_Exceptions_AbstractException {
 
     /**
      * Constructs a new Ddth_Commons_Exceptions_IllegalArgumentException object.

@@ -1,6 +1,8 @@
-* 04-April-2008: version 0.1_6
-	- Introduce File module:
-		+ Class(es): File
+* 27-Dec-2010: upgraded to v0.2
+    - Ddth::Commons::Logging-v0.2: now use PHP-style configurations (removed .properties file-based config)
+    - Ddth_Commons_Properties class: added function toArray()
+
+* 04-April-2008: minor enhancement & update of copyright & license
 
 * 12-Mar-2008: version 0.1_5
 	- Upgraded Ddth_Commons_Logging to 0.1.1:

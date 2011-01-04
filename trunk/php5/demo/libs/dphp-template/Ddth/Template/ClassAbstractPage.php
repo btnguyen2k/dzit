@@ -45,21 +45,21 @@ abstract class Ddth_Template_AbstractPage implements Ddth_Template_IPage {
 
     /**
      * Constructs a new Ddth_Template_AbstractPage object.
-     *
-     * @param string
-     * @param string
-     * @param Ddth_Template_ITemplate
      */
-    public function __construct($id, $templateFile, $template) {
+    public function __construct() {
+    }
+
+    /**
+     * @see Ddth_Template_IPage::init()
+     */
+    public function init($id, $templateFile, $template) {
         $this->setId($id);
         $this->setTemplateFile($templateFile);
         $this->setTemplate($template);
     }
 
     /**
-     * Gets page's id.
-     *
-     * @return string
+     * @see Ddth_Template_IPage::getId()
      */
     public function getId() {
         return $this->id;
@@ -68,32 +68,37 @@ abstract class Ddth_Template_AbstractPage implements Ddth_Template_IPage {
     /**
      * Sets page's id.
      *
-     * @param string
+     * @param string $id
      */
     protected function setId($id) {
         $this->id = $id;
     }
 
     /**
-     * Gets associated template instance.
-     *
-     * @return Ddth_Template_ITemplate
+     * @see Ddth_Template_IPage::getTemplate()
      */
     public function getTemplate() {
         return $this->template;
     }
 
     /**
-     * Sets associated template instance.
+     * @see Ddth_Template_IPage::getTemplateConfigSetting()
+     */
+    public function getTemplateConfigSetting($key) {
+        return $this->template->getConfigSetting($key);
+    }
+
+    /**
+     * Sets the template object that is the owner of the page.
      *
-     * @param Ddth_Template_ITemplate
+     * @param Ddth_Template_ITemplate $template
      */
     protected function setTemplate($template) {
         $this->template = $template;
     }
 
     /**
-     * {@see Ddth_Template_IPage::getTemplateFile()}
+     * @see Ddth_Template_IPage::getTemplateFile()
      */
     public function getTemplateFile() {
         return $this->templateFile;
@@ -102,36 +107,24 @@ abstract class Ddth_Template_AbstractPage implements Ddth_Template_IPage {
     /**
      * Sets page's associated template file.
      *
-     * @param string
+     * @param string $templateFile
      */
     protected function setTemplateFile($templateFile) {
         $this->templateFile = $templateFile;
     }
 
     /**
-     * {@see Ddth_Template_IPage::setModel()}
+     * @see Ddth_Template_IPage::setModel()
      */
     public function setModel($model) {
         $this->model = $model;
     }
 
     /**
-     * Gets page's data model.
-     *
-     * @return mixed
+     * @see Ddth_Template_IPage::getModel()
      */
-    protected function getModel() {
+    public function getModel() {
         return $this->model;
-    }
-
-    /**
-     * Gets a template's setting property.
-     *
-     * @param string
-     * @return string
-     */
-    protected function getTemplateProperty($key) {
-        return $this->template->getSetting($key);
     }
 }
 ?>

@@ -4,7 +4,7 @@
 	"http://dphp.googlecode.com/svn/trunk/docs/package.dtd">
 <package>
 	<name>Ddth::Mls</name>
-	<version>0.1</version>
+	<version>0.2</version>
 	<description>Multi-Languages Support for PHP applications.</description>
 	<summary>
 		This library provides multi-languages support for PHP applications.
@@ -23,7 +23,7 @@
 		</dependency>
 		<dependency>
 			<dependency-name>Ddth::Commons</dependency-name>
-			<dependency-version>0.1+</dependency-version>
+			<dependency-version>0.2+</dependency-version>
 			<dependency-description>
 				Ddth::Mls uses several modules from Ddth::Commons
 				package.

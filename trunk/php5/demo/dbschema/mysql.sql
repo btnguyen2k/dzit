@@ -2,8 +2,8 @@
 #DBMS: MySQL
 
 #Table to store blog posts
-DROP TABLE IF EXISTS dzit_post;
-CREATE TABLE dzit_post (
+DROP TABLE IF EXISTS simpleblog_post;
+CREATE TABLE simpleblog_post (
     pid                 INT                 AUTO_INCREMENT,
     ptitle              VARCHAR(128),
     pbody               TEXT,
@@ -13,6 +13,6 @@ CREATE TABLE dzit_post (
 );
 
 #Some sample data
-INSERT INTO dzit_post (ptitle, pbody, pcreated) VALUES ('The title', 'This is the post body.', NOW());
-INSERT INTO dzit_post (ptitle, pbody, pcreated) VALUES ('A title once again', 'And the post body follows.', NOW());
-INSERT INTO dzit_post (ptitle, pbody, pcreated) VALUES ('Title strikes back', 'This is really exciting! Not.', NOW());
+INSERT INTO simpleblog_post (ptitle, pbody, pcreated) VALUES ('The title', 'This is the post body.', NOW());
+INSERT INTO simpleblog_post (ptitle, pbody, pcreated) VALUES ('A title once again', 'And the post body follows.', NOW());
+INSERT INTO simpleblog_post (ptitle, pbody, pcreated) VALUES ('Title strikes back', 'This is really exciting! Not.', NOW());

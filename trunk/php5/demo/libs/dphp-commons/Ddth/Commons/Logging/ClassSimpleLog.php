@@ -10,7 +10,7 @@
  * @package     Commons
  * @subpackage  Logging
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassSimpleLog.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassSimpleLog.php 255 2010-12-27 09:55:32Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 
@@ -20,22 +20,24 @@
  * This logger uses {@link http://www.php.net/error_log error_log()}
  * function to send log messages to PHP's system logger.
  *
- * This logger has several settings which can be set via log factory configuration file:
+ * This logger has several settings which can be set via log factory configuration array:
  * <code>
- * # Format of the log message (multiline is supported!)
- * # Supported "placeholder" tags:
- * # - {datetime}: date/time when the log is created. Date/time follows
- * #           follow PHP's date() format (see http://www.php.net/date)
- * # - {level}: log level (one of TRACE, DEBUG, INFO, WARN, ERROR, FATAL)
- * # - {message}: log message
- * # - {stacktrace}: stacktrace (if any)
- * # - {message_auto_stacktrace}: log message, then if stacktrace exists, followed
- * #           by a newline chacter and the stacktrace
- * # - {nl}: newline character
- * logger.setting.simple.logFormat={level}: {message_auto_stacktrace}
+ * Array(
+ *     # Format of the log message (multiline is supported!)
+ *     # Supported "placeholder" tags:
+ *     # - {datetime}: date/time when the log is created. Date/time follows
+ *     #           follow PHP's date() format (see http://www.php.net/date)
+ *     # - {level}: log level (one of TRACE, DEBUG, INFO, WARN, ERROR, FATAL)
+ *     # - {message}: log message
+ *     # - {stacktrace}: stacktrace (if any)
+ *     # - {message_auto_stacktrace}: log message, then if stacktrace exists, followed
+ *     #           by a newline chacter and the stacktrace
+ *     # - {nl}: newline character
+ *     'logger.setting.simple.logFormat' => '{level}: {message_auto_stacktrace}',
  *
- * # Date/time format (follow PHP's date() format, see http://www.php.net/date)
- * logger.setting.simple.datetimeFormat=Y-m-d H:i:s
+ *     # Date/time format (follow PHP's date() format, see http://www.php.net/date)
+ *     'logger.setting.simple.datetimeFormat' => 'Y-m-d H:i:s'
+ * )
  * </code>
  *
  * Note: since PHP automatically adds timestamp to any log message, the default
@@ -96,15 +98,14 @@ class Ddth_Commons_Logging_SimpleLog extends Ddth_Commons_Logging_AbstractLog {
     /**
      * Initializes this logger.
      *
-     * @param Ddth_Commons_Properties initializing properties
-     * @throws {@link Ddth_Commons_Logging_LogConfigurationException}
+     * @param Array $config
      */
-    public function init($prop) {
-        parent::init($prop);
+    public function init($config) {
+        parent::init($config);
 
         //retrieves configuration settings
-        $logFormat = $prop->getProperty(self::SETTING_LOG_FORMAT);
-        $datetimeFormat = $prop->getProperty(self::SETTING_DATETIME_FORMAT);
+        $logFormat = isset($config[self::SETTING_LOG_FORMAT])?$config[self::SETTING_LOG_FORMAT]:NULL;
+        $datetimeFormat = isset($config[self::SETTING_DATETIME_FORMAT])?$config[self::SETTING_DATETIME_FORMAT]:NULL;
 
         //setup log message format
         if ( $logFormat === NULL || trim($logFormat) === "" ) {

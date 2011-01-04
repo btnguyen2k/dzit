@@ -3,84 +3,78 @@
 /**
  * Representation of a cache.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
  *
- * @package		Cache
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassICache.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
- * @since      	File available since v0.1
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @package     Cache
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassICache.php 251 2010-12-25 19:21:35Z btnguyen2k@gmail.com $
+ * @since       File available since v0.1
  */
 
 /**
  * Representation of a cache.
  *
- * @package    	Cache
+ * @package     Cache
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version    	0.1
  * @since      	Class available since v0.1
  */
 interface Ddth_Cache_ICache {
+
+    const CACHE_TYPE_MEMCACHE   = 'memcache';   //cache type: MemcacheD (use php-memcache APIs)
+    const CACHE_TYPE_MEMCACHED  = 'memcached';  //cache type: MemcacheD (use php-memcacheD APIs)
+    const CACHE_TYPE_APC        = 'apc';        //cache type: APC
+    const CACHE_TYPE_MEMORY     = 'memory';     //cache type: in-memory
+
     /**
      * Removes all entries from this cache.
      *
-     * @throws {@link Ddth_Cache_CacheException CacheException}
+     * @return bool TRUE if successful, FALSE otherwise
      */
     public function clear();
 
     /**
-     * Clean-up method.
-     *
-     * @throws {@link Ddth_Cache_CacheException CacheException}
+     * Clean-up method. After this function is called, the cache is considered no longer usable.
      */
     public function destroy();
-    
+
     /**
-     * Initializing method.
+     * Initializing method. The cache should not be used unless this function is called.
      *
-     * @param Ddth_Cache_CacheConfig
-     * @param Ddth_Cache_CacheManager
-     * @throws {@link Ddth_Cache_CacheException CacheException}
+     * @param string $name cache's name
+     * @param Array $config cache configuration
+     * @param Ddth_Cache_CacheManager $manager
      */
-    public function init($config, $manager);
+    public function init($name, $config, $manager);
 
     /**
      * Checks if an entry exists in this cache.
      *
-     * @param mixed
-     * @return bool
-     * @throws {@link Ddth_Cache_CacheException CacheException}
+     * @param string $key
+     * @return bool TRUE if exists, FALSE otherwise
      */
     public function exists($key);
 
     /**
      * Retrieves a cache entry from this cache.
      *
-     * @param mixed
-     * @return mixed
-     * @throws {@link Ddth_Cache_CacheException CacheException} 
+     * @param string $key
+     * @return mixed the returned cache entry, NULL if not found
      */
     public function get($key);
-    
+
     /**
-     * Gets cache's capacity.
-     * 
-     * @return integer
+     * Gets cache's current size (number of elements).
+     *
+     * @return int -1 or FALSE should be returned if getting cache size is not supported
      */
-    public function getCapacity();
-    
+    public function getSize();
+
     /**
      * Gets this cache's associated cache manager.
      *
-     * @return Ddth_Cache_ICacheManager
+     * @return Ddth_Cache_CacheManager
      */
     public function getCacheManager();
 
@@ -92,29 +86,47 @@ interface Ddth_Cache_ICache {
     public function getName();
 
     /**
-     * Counts number of entries within this cache currently contained in the
-     * in-memory store.
+     * Gets number of cache "hits".
      *
-     * @return integer
+     * @return int -1 or FALSE should be returned if getting cache hits is not supported
      */
-    public function countElementsInMemory();
+    public function getNumHits();
+
+    /**
+     * Gets number of cache "misses".
+     *
+     * @return int -1 or FALSE should be returned if getting cache misses is not supported
+     */
+    public function getNumMisses();
+
+    /**
+     * Gets number of cache "get" requests.
+     *
+     * @return int -1 or FALSE should be returned if getting number of get requests is not supported
+     */
+    public function getNumGets();
+
+    /**
+     * Gets number of cache "put" requests.
+     *
+     * @return int -1 or FALSE should be returned if getting number of put requests is not supported
+     */
+    public function getNumPuts();
 
     /**
      * Puts an entry into this cache.
      *
-     * @param mixed
-     * @param mixed
+     * @param string $key
+     * @param mixed $value
      * @return mixed old entry with the same key (if exists)
-     * @throws {@link Ddth_Cache_CacheException CacheException}
      */
     public function put($key, $value);
 
     /**
      * Removes an entry from this cache.
      *
-     * @param mixed
+     * @param string $key
      * @return mixed existing entry associated with the key (if exists)
-     * @throws {@link Ddth_Cache_CacheException CacheException}
      */
     public function remove($key);
 }

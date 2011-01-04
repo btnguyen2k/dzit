@@ -1,55 +1,33 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * An abstract implementation of cache.
+ * An abstract implementation of {@link Ddth_Cache_ICache}.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
  *
- * @package		Cache
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassAbstractCache.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
- * @since      	File available since v0.1
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @package     Cache
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassAbstractCache.php 251 2010-12-25 19:21:35Z btnguyen2k@gmail.com $
+ * @since       File available since v0.1
  */
 
-if ( !function_exists('__autoload') ) {
-    /**
-     * Automatically loads class source file when used.
-     *
-     * @param string
-     */
-    function __autoload($className) {
-        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-        require_once 'Ddth/Commons/ClassLoader.php';
-        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        Ddth_Commons_Loader::loadClass($className, $translator);
-    }
-}
-
 /**
- * An abstract implementation of cache.
+ * An abstract implementation of {@link Ddth_Cache_ICache}.
  *
  * @package    	Cache
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version    	0.1
  * @since      	Class available since v0.1
  */
 abstract class Ddth_Cache_AbstractCache implements Ddth_Cache_ICache {
     /**
-     * @var Ddth_Cache_CacheConfig
+     * @var Array
      */
     private $config;
 
     /**
-     * @var Ddth_Cache_ICacheManager
+     * @var Ddth_Cache_CacheManager
      */
     private $manager;
 
@@ -59,14 +37,39 @@ abstract class Ddth_Cache_AbstractCache implements Ddth_Cache_ICache {
     private $cacheName = NULL;
 
     /**
-     * @var integer
+     * Number of current items in cache.
+     *
+     * @var int
      */
-    private $cacheCapacity = NULL;
+    private $cacheSize = 0;
 
     /**
-     * @var integer
+     * Number of cache hits.
+     *
+     * @var int
      */
-    private $cacheTimeout = NULL;
+    private $cacheHits = 0;
+
+    /**
+     * Number of cache misses.
+     *
+     * @var int
+     */
+    private $cacheMisses = 0;
+
+    /**
+     * Number of cache get requests.
+     *
+     * @var int
+     */
+    private $cacheGets = 0;
+
+    /**
+     * Number of cache put requests.
+     *
+     * @var int
+     */
+    private $cachePuts = 0;
 
     /**
      * Constructs a new Ddth_Cache_AbstractCache object.
@@ -75,19 +78,28 @@ abstract class Ddth_Cache_AbstractCache implements Ddth_Cache_ICache {
     }
 
     /**
-     * {@see Ddth_Cache_ICache::destroy()}
+     * @see Ddth_Cache_ICache::destroy()
      */
     public function destroy() {
         $this->clear();
     }
 
     /**
-     * {@see Ddth_Cache_ICache::init()}
+     * @see Ddth_Cache_ICache::init()
      */
-    public function init($config, $manager) {
+    public function init($name, $config, $manager) {
+        $this->cacheName = $name;
         $this->config = $config;
         $this->manager = $manager;
+        $this->initCache();
     }
+
+    /**
+     * Convenient function for sub-class to override.
+     *
+     * Sub-class overrides this method to perform its initializing work.
+     */
+    protected abstract function initCache();
 
     /**
      * Gets cache configuration object.
@@ -99,42 +111,133 @@ abstract class Ddth_Cache_AbstractCache implements Ddth_Cache_ICache {
     }
 
     /**
-     * {@see Ddth_Cache_ICache::getCapacity()}
-     */
-    public function getCapacity() {
-        if ( $this->cacheCapacity == NULL ) {
-            $this->cacheCapacity = $this->config->getCacheCapacity();
-        }
-        return $this->cacheCapacity;
-    }
-
-    /**
-     * {@see Ddth_Cache_ICache::getCacheManager()}
+     * @see Ddth_Cache_ICache::getCacheManager()
      */
     public function getCacheManager() {
         return $this->manager;
     }
 
     /**
-     * {@see Ddth_Cache_ICache::getName()}
+     * @see Ddth_Cache_ICache::getName()
      */
     public function getName() {
-        if ( $this->cacheName == NULL ) {
-            $this->cacheName = $this->config->getCacheName();
-        }
         return $this->cacheName;
     }
 
     /**
-     * Gets cache's timeout setting.
-     *
-     * @return integer
+     * @see Ddth_Cache_ICache::getSize()
      */
-    public function getTimeout() {
-        if ( $this->cacheTimeout == NULL ) {
-            $this->cacheTimeout = $this->config->getCacheTimeout();
-        }
-        return $this->cacheTimeout;
+    public function getSize() {
+        return $this->cacheSize;
+    }
+
+    /**
+     * Sets cache size.
+     *
+     * @param int $size
+     */
+    protected function setSize($size) {
+        $this->cacheSize = $size;
+    }
+
+    /**
+     * @see Ddth_Cache_ICache::getNumHits()
+     */
+    public function getNumHits() {
+        return $this->cacheHits;
+    }
+
+    /**
+     * Sets number of cache hits.
+     *
+     * @param int $hits
+     */
+    protected function setNumHits($hits) {
+        $this->cacheHits = $hits;
+    }
+
+    /**
+     * Increase number of cache hits.
+     *
+     * @param int $value
+     */
+    protected function incNumHits($value=1) {
+        $this->cacheHits += $value;
+    }
+
+    /**
+     * @see Ddth_Cache_ICache::getNumMisses()
+     */
+    public function getNumMisses() {
+        return $this->cacheMisses;
+    }
+
+    /**
+     * Sets number of cache misses.
+     *
+     * @param int $misses
+     */
+    protected function setNumMisses($misses) {
+        $this->cacheMisses = $misses;
+    }
+
+    /**
+     * Increase number of cache misses.
+     *
+     * @param int $value
+     */
+    protected function incNumMisses($value=1) {
+        $this->cacheMisses += $value;
+    }
+
+    /**
+     * @see Ddth_Cache_ICache::getNumGets()
+     */
+    public function getNumGets() {
+        return $this->cacheGets;
+    }
+
+    /**
+     * Sets number of cache get requests.
+     *
+     * @param int $gets
+     */
+    protected function setNumGets($gets) {
+        $this->cacheGets = $gets;
+    }
+
+    /**
+     * Increase number of cache get requests.
+     *
+     * @param int $value
+     */
+    protected function incNumGets($value=1) {
+        $this->cacheGets += $value;
+    }
+
+    /**
+     * @see Ddth_Cache_ICache::getNumPuts()
+     */
+    public function getNumPuts() {
+        return $this->cachePuts;
+    }
+
+    /**
+     * Sets number of cache put requests.
+     *
+     * @param int $puts
+     */
+    protected function setNumPuts($puts) {
+        $this->cachePuts = $puts;
+    }
+
+    /**
+     * Increase number of cache put requests.
+     *
+     * @param int $value
+     */
+    protected function incNumPuts($value=1) {
+        $this->cachePuts += $value;
     }
 }
 ?>

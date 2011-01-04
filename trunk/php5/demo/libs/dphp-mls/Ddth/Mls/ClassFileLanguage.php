@@ -9,21 +9,30 @@
  *
  * @package     Mls
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassFileLanguage.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassFileLanguage.php 226 2010-12-05 05:43:59Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 
 /**
  * File-based language pack.
  *
+ * This language pack loads language data from files on disk. It needs 2
+ * {@link Ddth_Mls_BaseLanguageFactory::getInstance() configuration settings}:
+ * <ul>
+ * <li><b>language.baseDirectory</b>: base directory where language packs are located</li>
+ * <li><b>location</b>: location (relative to base.directory) of this language pack</li>
+ * </ul>
+ * Language data is loaded from all {@link Ddth_Commons_Properties .properties files} within
+ * directory <i><language.baseDirectory>/<location></i>.
+ *
  * @package     Mls
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since       Class available since v0.1
  */
 class Ddth_Mls_FileLanguage extends Ddth_Mls_AbstractLanguage {
-    const PROPERTY_LOCATION = "location";
 
-    const PROPERTY_BASE_DIRECTORY = "base.directory";
+    const CONF_LOCATION = "location";
+    const CONF_BASE_DIRECTORY = "language.baseDirectory";
 
     /**
      * @var Ddth_Commons_Logging_ILog
@@ -31,57 +40,54 @@ class Ddth_Mls_FileLanguage extends Ddth_Mls_AbstractLanguage {
     private $LOGGER;
 
     /**
-     * @var string
-     */
-    private $location = NULL;
-
-    /**
-     * @var string
-     */
-    private $baseDirectory = NULL;
-
-    /**
      * Constructs a new Ddth_Mls_FileLanguage object.
      */
     public function __construct() {
         parent::__construct();
-        $clazz = __CLASS__;
-        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
+        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
     }
 
     /**
-     * {@see Ddth_Mls_AbstractLanguage::buildLanguageData()}
+     * This function loads language data from all {@link Ddth_Commons_Properties .properties files}
+     * within the directory <i><baseDirectory>/<location></i>.
+     *
+     * @see Ddth_Mls_AbstractLanguage::buildLanguageData()
+     * @see Ddth_Commons_Properties
      */
     protected function buildLanguageData() {
-        $this->baseDirectory = trim($this->getSetting(self::PROPERTY_BASE_DIRECTORY));
-        $this->baseDirectory = preg_replace('/[\\/]+/', '/', $this->baseDirectory);
-        $this->location = trim($this->getSetting(self::PROPERTY_LOCATION));
-        $this->location = preg_replace('/[\\/]+/', '/', $this->location);
-        $dir = $this->baseDirectory . '/' . $this->location;
-        if ( !is_dir($dir) ) {
-            $msg = "[$dir] is not a directory!";
+        $config = $this->getConfig();
+        $baseDirectory = isset($config[self::CONF_BASE_DIRECTORY]) ? $config[self::CONF_BASE_DIRECTORY] : '';
+        $langDir = new Ddth_Commons_File($baseDirectory);
+        $location = isset($config[self::CONF_LOCATION]) ? $config[self::CONF_LOCATION] : '';
+        $langDir = new Ddth_Commons_File($location, $baseDirectory);
+        if (!$langDir->isDirectory()) {
+            $msg = "[{$langDir->getPathname()}] is not a directory!";
             throw new Ddth_Mls_MlsException($msg);
         }
         $languageData = new Ddth_Commons_Properties();
-        if ( $dh = @opendir($dir) ) {
-            while ( $file = @readdir($dh) ) {
-                if ( is_readable($dir.'/'.$file) && preg_match('/^.+\.properties$/i', $file) ) {
+        $dh = @opendir($langDir->getPathname());
+        if ($dh) {
+            $file = @readdir($dh);
+            while ($file) {
+                $langFile = new Ddth_Commons_File($file, $langDir);
+                if ($langFile->isFile() && $langFile->isReadable() && preg_match('/^.+\.properties$/i', $file)) {
                     try {
-                        $msg = "Load language file [$dir/$file]...";
+                        $msg = "Load language file [{$langFile->getPathname()}]...";
                         $this->LOGGER->info($msg);
-                        $languageData->load($dir.'/'.$file);
-                    } catch ( Exception $e ) {
+                        $languageData->load($langFile->getPathname());
+                    } catch (Exception $e) {
                         $msg = $e->getMessage();
                         $this->LOGGER->warn($msg, $e);
                     }
                 }
+                $file = @readdir($dh);
             }
             @closedir($dh);
         } else {
-            $msg = "[$dir] is not accessible!";
+            $msg = "[{$langDir->getPathname()}] is not accessible!";
             throw new Ddth_Mls_MlsException($msg);
         }
-        $this->setLanguageData($languageData);
+        $this->setLanguageData($languageData->toArray());
     }
 }
 ?>

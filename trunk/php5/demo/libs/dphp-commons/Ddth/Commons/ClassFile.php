@@ -9,7 +9,7 @@
  *
  * @package     Commons
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassFile.php 223 2010-11-21 16:06:01Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassFile.php 251 2010-12-25 19:21:35Z btnguyen2k@gmail.com $
  * @since      	File available since v0.1
  */
 

@@ -23,25 +23,17 @@
  * @since      	Class available since v0.1
  */
 class Ddth_Template_Php_PhpTemplate extends Ddth_Template_AbstractTemplate {
-    /**
-     * Constructs a new Ddth_Template_Php_PhpTemplate object.
-     */
-    public function __construct() {
-        parent::__construct();
-    }
+
+    const DEFAULT_PAGE_CLASS = 'Ddth_Template_Php_PhpPage';
 
     /**
-     * {@see Ddth_Template_ITemplate::init()}
+     * If no page class defined, this function returns {@link DEFAULT_PAGE_CLASS}.
+     *
+     * @see Ddth_Template_AbstractTemplate::getPageClass()
      */
-    public function getPage($id) {
-        $templateFile = $this->getPageTemplateFile($id);
-        if ( $templateFile !== NULL ) {
-            //$f = new Ddth_Commons_File($templateFile, $this->getLocation());
-            //return new Ddth_Template_Php_PhpPage($id, $f->getPathname(), $this);
-            return new Ddth_Template_Php_PhpPage($id, $templateFile, $this);
-        } else {
-            return NULL;
-        }
+    protected function getPageClass() {
+        $result = parent::getPageClass();
+        return $result !== NULL ? $result : self::DEFAULT_PAGE_CLASS;
     }
 }
 ?>

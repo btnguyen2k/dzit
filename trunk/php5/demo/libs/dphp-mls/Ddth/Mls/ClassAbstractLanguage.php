@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Abstract language pack.
+ * Abstract implementation of {@link Ddth_Mls_ILanguage}.
  *
  * LICENSE: See the included license.txt file for detail.
  *
@@ -9,33 +9,32 @@
  *
  * @package     Mls
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassAbstractLanguage.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassAbstractLanguage.php 226 2010-12-05 05:43:59Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 
 /**
- * Abstract language pack.
+ * Abstract implementation of {@link Ddth_Mls_ILanguage}.
  *
  * @package     Mls
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since       Class available since v0.1
  */
 abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
-    const PROPERTY_NAME = "name";
-
-    const PROPERTY_DISPLAY_NAME = "display";
-
-    const PROPERTY_DESCRIPTION = "description";
-
     /**
-     * @var Ddth_Commons_Properties
+     * @var Array
      */
-    private $settings = NULL;
+    private $config = Array();
 
     /**
      * @var string
      */
     private $languageName = NULL;
+
+    /**
+     * @var string
+     */
+    private $locale = NULL;
 
     /**
      * @var string
@@ -48,7 +47,7 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
     private $description = NULL;
 
     /**
-     * @var Ddth_Commons_Properties
+     * @var Array
      */
     private $languageData = NULL;
 
@@ -59,86 +58,107 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
     }
 
     /**
-     * Gets this factory's configuration settings.
+     * Gets the configuration array.
      *
-     * @return Ddth_Commons_Properties
+     * @return Array
      */
-    protected function getSettings() {
-        if ( !($this->settings instanceof Ddth_Commons_Properties) ) {
-            $this->settings = new Ddth_Commons_Properties();
-        }
-        return $this->settings;
+    protected function getConfig() {
+        return $this->config;
     }
 
     /**
-     * Gets a configuration setting.
-     *
-     * @param string
-     * @return string
+     * @see Ddth_Mls_ILanguage::getMessage()
      */
-    protected function getSetting($key) {
-        return $this->getSettings()->getProperty($key);
-    }
-
-    /**
-     * Sets this factory's configuration settings.
-     *
-     * @param Ddth_Commons_Properties
-     */
-    protected function setSettings($settings) {
-        $this->settings = $settings;
-    }
-
-    /**
-     * {@see Ddth_Mls_ILanguage::getMessage()}
-     */
-    public function getMessage($key, $replacements=NULL) {
-        if ( $replacements === NULL ) {
-            $msg = $this->getLanguageData()->getProperty($key);
+    public function getMessage($key, $replacements = NULL) {
+        $msg = isset($this->languageData[$key]) ? $this->languageData[$key] : NULL;
+        if ($replacements === NULL) {
             return $msg;
         }
-        if ( !is_array($replacements) ) {
+        if (!is_array($replacements)) {
             $replacements = Array();
-            for ( $i = 1, $n = func_num_args(); $i < $n; $i++ ) {
+            for ($i = 1, $n = func_num_args(); $i < $n; $i++) {
                 $t = func_get_arg($i);
-                if ( $t !== NULL ) {
+                if ($t !== NULL) {
                     $replacements[] = $t;
                 }
             }
         }
-        $msg = $this->getLanguageData()->getProperty($key);
-        return Ddth_Commons_MessageFormat::formatString($msg, $replacements);
+        return $msg !== NULL ? Ddth_Commons_MessageFormat::formatString($msg, $replacements) : NULL;
     }
 
     /**
-     * {@see Ddth_Mls_ILanguage::getDescription()}
+     * @see Ddth_Mls_ILanguage::getDescription()
      */
     public function getDescription() {
         return $this->description;
     }
 
     /**
-     * {@see Ddth_Mls_ILanguage::getDisplayName()}
+     * Sets the language pack's description.
+     *
+     * @param string $description
+     */
+    protected function setDescription($description) {
+        $this->description = $description;
+    }
+
+    /**
+     * @see Ddth_Mls_ILanguage::getDisplayName()
      */
     public function getDisplayName() {
         return $this->displayName;
     }
 
     /**
-     * {@see Ddth_Mls_ILanguage::getName()}
+     * Sets the language pack's display name.
+     *
+     * @param string $displayName
+     */
+    protected function setDisplayName($displayName) {
+        $this->displayName = $displayName;
+    }
+
+    /**
+     * @see Ddth_Mls_ILanguage::getLocale()
+     */
+    public function getLocale() {
+        return $this->locale;
+    }
+
+    /**
+     * Sets the language pack's locale.
+     *
+     * @param string $locale
+     */
+    protected function setLocale($locale) {
+        $this->locale = $locale;
+    }
+
+    /**
+     * @see Ddth_Mls_ILanguage::getName()
      */
     public function getName() {
         return $this->languageName;
     }
 
     /**
-     * {@see Ddth_Mls_ILanguage::init()}
+     * Sets the language pack's name.
+     *
+     * @param string $name
      */
-    public function init($settings) {
-        $this->setSettings($settings);
-        $this->languageName = $this->getSetting(self::PROPERTY_NAME);
-        $this->displayName = $this->getSetting(self::PROPERTY_DISPLAY_NAME);
-        $this->description = $this->getSetting(self::PROPERTY_DESCRIPTION);
+    protected function setName($name) {
+        $this->languageName = $name;
+    }
+
+    /**
+     * @see Ddth_Mls_ILanguage::init()
+     */
+    public function init($langName, $config) {
+        $this->setName($langName);
+        $this->config = $config;
+        $this->setDisplayName(isset($config[self::CONF_DISPLAY_NAME]) ? $config[self::CONF_DISPLAY_NAME] : NULL);
+        $this->setDescription(isset($config[self::CONF_DESCRIPTION]) ? $config[self::CONF_DESCRIPTION] : NULL);
+        $this->setLocale(isset($config[self::CONF_LOCALE]) ? $config[self::CONF_LOCALE] : NULL);
         $this->buildLanguageData();
     }
 
@@ -153,11 +173,11 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
     /**
      * Sets language data.
      *
-     * @param Ddth_Commons_Properties
+     * @param Array $languageData
      */
     protected function setLanguageData($languageData) {
-        if ( $languageData===NULL || !($languageData instanceof Ddth_Commons_Properties) ) {
-            $this->languageData = new Ddth_Commons_Properties();
+        if ($languageData === NULL || !is_array($languageData)) {
+            $this->languageData = Array();
         } else {
             $this->languageData = $languageData;
         }
@@ -166,7 +186,7 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
     /**
      * Gets language data.
      *
-     * @return Ddth_Commons_Properties
+     * @return Array
      */
     protected function getLanguageData() {
         return $this->languageData;

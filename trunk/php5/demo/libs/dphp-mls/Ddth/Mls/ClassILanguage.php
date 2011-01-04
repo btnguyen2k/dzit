@@ -9,7 +9,7 @@
  *
  * @package     Mls
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassILanguage.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassILanguage.php 226 2010-12-05 05:43:59Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 
@@ -23,18 +23,23 @@
  * @since      	Class available since v0.1
  */
 interface Ddth_Mls_ILanguage {
+
+    const CONF_DISPLAY_NAME = 'displayName';
+    const CONF_LOCALE = 'locale';
+    const CONF_DESCRIPTION = 'description';
+
     /**
      * Gets a text message from this language.
-     * 
+     *
      * Note: the official type of the argument $replacements is an array.
      * Implementations of this interface, however, can take advantage of PHP's
-     * variable arguments support to take in any number of single replacement.  
+     * variable arguments support to take in any number of single replacement.
      *
      * @param string key of the text message to get
      * @param Array() replacements for place-holders within the text message
      * @return string
      */
-    public function getMessage($key, $replacements=NULL);
+    public function getMessage($key, $replacements = NULL);
 
     /**
      * Gets description of the language pack.
@@ -42,14 +47,21 @@ interface Ddth_Mls_ILanguage {
      * @return string
      */
     public function getDescription();
-    
+
     /**
      * Gets display name of the language pack.
      *
      * @return string
      */
     public function getDisplayName();
-    
+
+    /**
+     * Gets the locale associated with the language pack.
+     *
+     * @return string
+     */
+    public function getLocale();
+
     /**
      * Gets name of the language pack.
      *
@@ -60,9 +72,9 @@ interface Ddth_Mls_ILanguage {
     /**
      * Initializes the language pack.
      *
-     * @param Dddth_Commons_Properties
-     * @throws Ddth_Mls_MlsException
+     * @param string $langName name of the language pack
+     * @param Array $config
      */
-    public function init($settings);
+    public function init($langName, $config);
 }
 ?>

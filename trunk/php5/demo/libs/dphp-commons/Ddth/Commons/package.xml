@@ -4,7 +4,7 @@
 	"http://dphp.googlecode.com/svn/trunk/docs/package.dtd">
 <package>
 	<name>Ddth::Commons</name>
-	<version>0.1.6</version>
+	<version>0.2</version>
 	<description>
 		Common interfaces and classes for Ddth packages.
 	</description>

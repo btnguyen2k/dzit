@@ -27,7 +27,7 @@
  *
  * @package     Commons
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassLoader.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassLoader.php 251 2010-12-25 19:21:35Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 

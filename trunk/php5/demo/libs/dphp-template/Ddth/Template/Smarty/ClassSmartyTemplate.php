@@ -10,11 +10,11 @@
  * @package     Template
  * @subpackage  Smarty
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassSmartyTemplate.php 227 2010-12-05 06:57:50Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassSmartyTemplate.php 260 2011-01-04 04:10:06Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 
-require_once('Smarty.class.php');
+require_once ('Smarty.class.php');
 
 /**
  * Smarty template pack.
@@ -28,32 +28,21 @@ require_once('Smarty.class.php');
  * @since      	Class available since v0.1
  */
 class Ddth_Template_Smarty_SmartyTemplate extends Ddth_Template_AbstractTemplate {
-    
-    const PROPERTY_SMARTY_COMPILE_DIR = 'smarty.compile';
 
-    const PROPERTY_SMARTY_CACHE_DIR = 'smarty.cache';
-    
-    const PROPERTY_SMARTY_CONFIGS_DIR = 'smarty.configs';
-    
-    /**
-     * Constructs a new Ddth_Template_Smarty_SmartyTemplate object.
-     */
-    public function __construct() {
-        parent::__construct();
-    }
+    const DEFAULT_PAGE_CLASS = 'Ddth_Template_Smarty_SmartyPage';
+
+    const CONF_SMARTY_CACHE_DIR = 'smarty.cache';
+    const CONF_SMARTY_COMPILE_DIR = 'smarty.compile';
+    const CONF_SMARTY_CONFIGS_DIR = 'smarty.configs';
 
     /**
-     * {@see Ddth_Template_ITemplate::init()}
+     * If no page class defined, this function returns {@link DEFAULT_PAGE_CLASS}.
+     *
+     * @see Ddth_Template_AbstractTemplate::getPageClass()
      */
-    public function getPage($id) {
-        $templateFile = $this->getPageTemplateFile($id);
-        if ( $templateFile !== NULL ) {
-            //$f = new Ddth_Commons_File($templateFile, $this->getLocation());
-            //return new Ddth_Template_Smarty_SmartyPage($id, $f->getPathname(), $this);
-            return new Ddth_Template_Smarty_SmartyPage($id, $templateFile, $this);
-        } else {
-            return NULL;
-        }
+    protected function getPageClass() {
+        $result = parent::getPageClass();
+        return $result !== NULL ? $result : self::DEFAULT_PAGE_CLASS;
     }
 }
 ?>
