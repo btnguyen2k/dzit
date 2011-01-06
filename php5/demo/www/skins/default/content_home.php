@@ -6,6 +6,8 @@
         This application uses:
         <ul>
             <li><strong>MySql</strong> as storage engine.</li>
+            <li><strong>dphp-dao</strong> as database access layer.</li>
+            <li><strong>dphp-commons-logging</strong> as logging system.</li>
         </ul>
     </p>
     <p>
