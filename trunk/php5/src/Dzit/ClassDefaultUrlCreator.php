@@ -63,6 +63,7 @@ class Dzit_DefaultUrlCreator implements Dzit_IUrlCreator {
             foreach ($queryStrParams as $name => $value) {
                 $url .= "$name=$value&";
             }
+            //remove the trailing character &
             $url = substr($url, 0, -1);
         }
 
