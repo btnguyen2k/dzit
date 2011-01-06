@@ -57,25 +57,10 @@
                 <li><a href="http://www.dreamtemplate.com" title="Web Templates">Web Templates</a></li>
             </ul>
 
-            <h1>Sponsors</h1>
-            <ul class="sidemenu">
-                <li><a href="http://www.dreamtemplate.com" title="Website Templates">DreamTemplate</a></li>
-                <li><a href="http://www.themelayouts.com" title="WordPress Themes">ThemeLayouts</a></li>
-                <li><a href="http://www.imhosted.com" title="Website Hosting">ImHosted.com</a></li>
-                <li><a href="http://www.dreamstock.com" title="Stock Photos">DreamStock</a></li>
-                <li><a href="http://www.evrsoft.com" title="Website Builder">Evrsoft</a></li>
-                <li><a href="http://www.webhostingwp.com" title="Web Hosting">Web Hosting</a></li>
-            </ul>
-
             <h1>Wise Words</h1>
             <p>&quot;Be not afraid of life. Believe that life is worth living, and your belief will help create
             the fact.&quot;</p>
             <p class="align-right">- William James</p>
-
-            <h1>Support Styleshout</h1>
-            <p>If you are interested in supporting my work and would like to contribute, you are welcome to make
-            a small donation through the <a href="http://www.styleshout.com/">donate link</a> on my website - it
-            will be a great help and will surely be appreciated.</p>
         </div>
         <!--End content-wrap-->
     </div>
@@ -84,10 +69,12 @@
     <div id="footer">
         <p>&copy; 2010 Your Company &nbsp;&nbsp; <a href="http://www.bluewebtemplates.com/"
         title="Website Templates">website templates</a> by <a href="http://www.styleshout.com/">styleshout</a>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="index.html">Home</a> | <a href="index.html">Sitemap</a>
-        | <a href="index.html">RSS Feed</a> | <a href="http://validator.w3.org/check/referer">XHTML</a> | <a
-        href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a></p>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="<?php echo $MODEL['urlHome']?>">Home</a>
+        |
+        <a href="http://validator.w3.org/check/referer">XHTML</a>
+        |
+        <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a></p>
     </div>
     <!-- END Wrap -->
 </div>
