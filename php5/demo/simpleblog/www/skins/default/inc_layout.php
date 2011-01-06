@@ -37,6 +37,7 @@
         <div id="menu">
             <ul>
                 <li id="current"><a href="<?php echo $MODEL['urlHome']; ?>"><span>Home</span></a></li>
+                <li><a href="<?php echo $MODEL['urlCreatePost']; ?>"><span>Create Post</span></a></li>
                 <!--
                 <li><a href="index.html"><span>Archives</span></a></li>
                 <li><a href="index.html"><span>Downloads</span></a></li>
@@ -56,6 +57,27 @@
                 <li><a href="http://code.google.com/p/dphp/">dPHP Library</a></li>
                 <li><a href="http://www.styleshout.com/">Free Web Templates</a></li>
             </ul>
+
+            <h1><?php echo $MODEL['site']['name']; ?></h1>
+            <p>A simple web-based blog to demostrate <strong>Dzit Framework</strong>.</p>
+            <p>
+                This application uses:
+                <ul>
+                    <li><strong>MySql</strong> as storage engine.</li>
+                    <li><strong>dphp-dao</strong> as database access layer.</li>
+                    <li><strong>dphp-commons-logging</strong> as logging system.</li>
+                </ul>
+            </p>
+            <p>
+                This application does not demonstrate:
+                <ul>
+                    <li>Multi-languages support.</li>
+                    <li>Multi-templates support.</li>
+                </ul>
+            </p>
+            <p>Feel free to use this demo as starting point of your Dzit Framework application.</p>
+            <p><em>Displaimer: The template, <strong>SimpleBlog</strong>, is a free, W3C-compliant, CSS-based website
+            template by <a target="_blank" href="http://www.styleshout.com/">styleshout.com</a>.</em></p>
 
             <h1>Wise Words</h1>
             <p>&quot;Be not afraid of life. Believe that life is worth living, and your belief will help create
