@@ -12,6 +12,7 @@ abstract class Dzit_Demo_Controller_BaseController implements Dzit_IController {
 
     const MODEL_BASEURL = 'baseUrl';
     const MODEL_URL_HOME = 'urlHome';
+    const MODEL_URL_CREATE_POST = 'urlCreatePost';
 
     const MODEL_SITE = 'site';
     const MODEL_SITE_TITLE = 'title';
@@ -86,6 +87,8 @@ abstract class Dzit_Demo_Controller_BaseController implements Dzit_IController {
         $urlCreator = $this->getUrlCreator();
         $urlHome = $urlCreator->createUrl(Array());
         $this->setModel(self::MODEL_URL_HOME, $urlHome);
+        $urlCreatePost = $urlCreator->createUrl(Array('createPost'));
+        $this->setModel(self::MODEL_URL_CREATE_POST, $urlCreatePost);
 
         $site = Array();
         $site[self::MODEL_SITE_DESCRIPTION] = $this->getSiteDescription();
