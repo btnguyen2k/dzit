@@ -49,7 +49,7 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
             if ( $this->LOGGER->isDebugEnabled() ) {
                 $this->LOGGER->debug('Creating new connection...');
             }
-            $this->conn = createConnection($startTransaction);
+            $this->conn = $this->createConnection($startTransaction);
             if ( $this->conn === NULL ) {
                 $msg = 'Can not create new connection!';
                 throw new Ddth_Dao_DaoException($msg);
@@ -82,7 +82,7 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
             if ( $this->LOGGER->isDebugEnabled() ) {
                 $this->LOGGER->debug('Force closing the connection...');
             }
-            forceCloseConnection($this->conn, $hasError);
+            $this->forceCloseConnection($this->conn, $hasError);
             $this->conn = NULL;
             $this->connCount = 0;
         } else {
@@ -99,6 +99,6 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
      * @param mixed $conn the current connection this object is holding
      * @param bool $hasError indicates that an error has occurred during the usage of the connection
      */
-    protected function forceCloseConnection($conn, $hasError=FALSE);
+    protected abstract function forceCloseConnection($conn, $hasError=FALSE);
 }
 ?>
