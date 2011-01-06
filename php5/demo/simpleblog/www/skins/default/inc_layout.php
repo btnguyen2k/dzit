@@ -77,7 +77,8 @@
             </p>
             <p>Feel free to use this demo as starting point of your Dzit Framework application.</p>
             <p><em>Displaimer: The template, <strong>SimpleBlog</strong>, is a free, W3C-compliant, CSS-based website
-            template by <a target="_blank" href="http://www.styleshout.com/">styleshout.com</a>.</em></p>
+            template by <a target="_blank" href="http://www.styleshout.com/">styleshout.com</a>. Icons by
+            <a target="_blank" href="http://www.famfamfam.com/lab/icons/silk/">famfamfam.com</a></em></p>
 
             <h1>Wise Words</h1>
             <p>&quot;Be not afraid of life. Believe that life is worth living, and your belief will help create
@@ -89,8 +90,9 @@
 
     <!-- Footer -->
     <div id="footer">
-        <p>&copy; 2010 Your Company &nbsp;&nbsp; <a href="http://www.bluewebtemplates.com/"
-        title="Website Templates">website templates</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        <p>&copy; 2010 Your Company &nbsp;&nbsp; <strong>SimpleBlog</strong> template by
+        <a href="http://www.styleshout.com/">styleshout</a> | <strong>Silk icons</strong>
+        by <a href="http://www.famfamfam.com/lab/icons/silk/">famfamfam</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="<?php echo $MODEL['urlHome']?>">Home</a>
         |

@@ -98,6 +98,7 @@ class Dzit_Demo_Bo_Post extends Dzit_Demo_Bo_BaseBo {
 
     public function getUrlDelete() {
         $urlCreator = $this->getUrlCreator();
-        return $urlCreator->createUrl(Array('module' => 'deletePost', 'queryStrParams' => Array('id' => $this->id)));
+        return $urlCreator->createUrl(Array('module' => 'deletePost',
+                'queryStrParams' => Array('id' => $this->id)));
     }
 }

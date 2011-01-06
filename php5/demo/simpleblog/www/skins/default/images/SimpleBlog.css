@@ -256,7 +256,7 @@ form.search input.button {
 	font-size: 95%;	
 }
 .post-footer .date {
-	background: url(clock.gif) no-repeat left center;
+	background: url(clock.png) no-repeat left center;
 	padding-left: 20px; margin: 0 10px 0 5px;
 }
 .post-footer .comments {
@@ -266,6 +266,10 @@ form.search input.button {
 .post-footer .readmore {
 	background: url(page.gif) no-repeat left center;
 	padding-left: 20px; margin: 0 10px 0 5px;
+}
+.post-footer .delete {
+    background: url(delete.png) no-repeat left center;
+    padding-left: 20px; margin: 0 10px 0 5px;
 }
 
 /* sidebar */

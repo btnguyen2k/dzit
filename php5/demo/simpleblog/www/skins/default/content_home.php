@@ -11,7 +11,7 @@
                     <a href="index.html" class="readmore">Read more</a>
                     <a href="index.html" class="comments">Comments (7)</a>
                     -->
-                    <a href="<?php echo $post->getUrlDelete(); ?>" class="readmore">Delete</a>
+                    <a href="<?php echo $post->getUrlDelete(); ?>" class="delete">Delete</a>
                     <span class="date"><?php echo $post->getCreatedTime(); ?></span>
                 </p>
                 <?php
