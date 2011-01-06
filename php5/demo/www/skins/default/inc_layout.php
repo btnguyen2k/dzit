@@ -50,11 +50,9 @@
         <div id="sidebar">
             <h1>Sidebar Menu</h1>
             <ul class="sidemenu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#TemplateInfo">Template Info</a></li>
-                <li><a href="#SampleTags">Sample Tags</a></li>
-                <li><a href="http://www.styleshout.com/">More Free Templates</a></li>
-                <li><a href="http://www.dreamtemplate.com" title="Web Templates">Web Templates</a></li>
+                <li><a href="http://code.google.com/p/dzit/">Dzit Framework</a></li>
+                <li><a href="http://code.google.com/p/dphp/">dPHP Library</a></li>
+                <li><a href="http://www.styleshout.com/">Free Web Templates</a></li>
             </ul>
 
             <h1>Wise Words</h1>

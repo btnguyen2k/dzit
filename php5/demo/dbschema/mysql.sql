@@ -10,7 +10,7 @@ CREATE TABLE simpleblog_post (
     pcreated            DATETIME,
     pmodified           DATETIME,
     PRIMARY KEY (pid)
-);
+) DEFAULT CHARSET=utf8;
 
 #Some sample data
 INSERT INTO simpleblog_post (ptitle, pbody, pcreated) VALUES ('The title', 'This is the post body.', NOW());
