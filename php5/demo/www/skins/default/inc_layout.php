@@ -22,12 +22,14 @@
             <h1 id="logo"><?php echo $MODEL['site']['name']; ?></h1>
             <h2 id="slogan"><?php echo $MODEL['site']['slogan']; ?></h2>
             <div id="searchform">
+                <!--
                 <form method="post" class="search" action="#">
                     <p>
                         <input name="search_query" class="textbox" type="text" />
                         <input name="search" class="button" type="submit" value="search" />
                     </p>
                 </form>
+                -->
             </div>
         </div>
 
