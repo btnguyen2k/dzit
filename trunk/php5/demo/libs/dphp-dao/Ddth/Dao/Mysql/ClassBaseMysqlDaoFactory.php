@@ -22,14 +22,15 @@
  * configurations:
  * <code>
  * Array(
- *     #other configurations used by Ddth_Dao_BaseDaoFactory
+ * #other configurations used by Ddth_Dao_BaseDaoFactory
  *
- *     # MySQL hostname, username, and password
- *     # See http://php.net/manual/en/function.mysql-connect.php for more information
- *     'ddth-dao.mysql.host'       => 'localhost',
- *     'ddth-dao.mysql.username'   => 'root', #supply FALSE or NULL to disable username field
- *     'ddth-dao.mysql.password'   => '',     #supply FALSE or NULL to disable password field
- *     'ddth-dao.mysql.persistent' => FALSE   #indicate if mysql_pconnect (TRUE) or mysql_connect (FALSE) is used. Default value is FALSE
+ * # MySQL hostname, username, and password
+ * # See http://php.net/manual/en/function.mysql-connect.php for more information
+ * 'ddth-dao.mysql.host'       => 'localhost',
+ * 'ddth-dao.mysql.username'   => 'root', #supply FALSE or NULL to disable username field
+ * 'ddth-dao.mysql.password'   => '',     #supply FALSE or NULL to disable password field
+ * 'ddth-dao.mysql.persistent' => FALSE,  #indicate if mysql_pconnect (TRUE) or mysql_connect (FALSE) is used. Default value is FALSE
+ * 'ddth-dap.mysql.database'   => 'mydb'  #name of the database to use
  * )
  * </code>
  *
@@ -40,15 +41,17 @@
  */
 class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory {
 
-    const CONF_MYSQL_HOST       = 'ddth-dao.mysql.host';
-    const CONF_MYSQL_USERNAME   = 'ddth-dao.mysql.username';
-    const CONF_MYSQL_PASSWORD   = 'ddth-dao.mysql.password';
+    const CONF_MYSQL_HOST = 'ddth-dao.mysql.host';
+    const CONF_MYSQL_USERNAME = 'ddth-dao.mysql.username';
+    const CONF_MYSQL_PASSWORD = 'ddth-dao.mysql.password';
     const CONF_MYSQL_PERSISTENT = 'ddth-dao.mysql.persistent';
+    const CONF_MYSQL_DATABASE = 'ddth-dao.mysql.database';
 
-    private $mysqlHost       = 'localhost:3306';
-    private $mysqlUsername   = NULL;
-    private $mysqlPassword   = NULL;
+    private $mysqlHost = 'localhost:3306';
+    private $mysqlUsername = NULL;
+    private $mysqlPassword = NULL;
     private $mysqlPersistent = FALSE;
+    private $mysqlDatabase = NULL;
 
     /**
      * Constructs a new Ddth_Dao_Mysql_BaseMysqlDaoFactory object.
@@ -62,10 +65,11 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      */
     public function init($config) {
         parent::init($config);
-        $this->mysqlHost = isset($config[self::CONF_MYSQL_HOST])?$config[self::CONF_MYSQL_HOST]:NULL;
-        $this->mysqlUsername = isset($config[self::CONF_MYSQL_USERNAME])?$config[self::CONF_MYSQL_USERNAME]:NULL;
-        $this->mysqlPassword = isset($config[self::CONF_MYSQL_PASSWORD])?$config[self::CONF_MYSQL_PASSWORD]:NULL;
-        $this->mysqlPersistent = isset($config[self::CONF_MYSQL_PERSISTENT])?$config[self::CONF_MYSQL_PERSISTENT]:FALSE;
+        $this->mysqlHost = isset($config[self::CONF_MYSQL_HOST]) ? $config[self::CONF_MYSQL_HOST] : NULL;
+        $this->mysqlUsername = isset($config[self::CONF_MYSQL_USERNAME]) ? $config[self::CONF_MYSQL_USERNAME] : NULL;
+        $this->mysqlPassword = isset($config[self::CONF_MYSQL_PASSWORD]) ? $config[self::CONF_MYSQL_PASSWORD] : NULL;
+        $this->mysqlPersistent = isset($config[self::CONF_MYSQL_PERSISTENT]) ? $config[self::CONF_MYSQL_PERSISTENT] : FALSE;
+        $this->mysqlDatabase = isset($config[self::CONF_MYSQL_DATABASE]) ? $config[self::CONF_MYSQL_DATABASE] : FALSE;
     }
 
     /**
@@ -137,6 +141,23 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
     }
 
     /**
+     * Gets the MySQL database name.
+     *
+     * @return string
+     */
+    protected function getMysqlDatabase() {
+        return $this->mysqlDatabase;
+    }
+
+    /**
+     * Sets the MySQL database name.
+     * @param string $database
+     */
+    protected function setMysqlDatabase($database) {
+        $this->mysqlDatabase = $database;
+    }
+
+    /**
      * Gets a DAO by name.
      *
      * @param string $name
@@ -145,8 +166,8 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      */
     public function getDao($name) {
         $dao = parent::getDao($name);
-        if ( $dao !== NULL && !($dao instanceof Ddth_Dao_Mysql_IMysqlDao ) ) {
-            $msg = 'DAO ['.$name.'] is not of type [Ddth_Dao_Mysql_IMysqlDao]!';
+        if ($dao !== NULL && !($dao instanceof Ddth_Dao_Mysql_IMysqlDao)) {
+            $msg = 'DAO [' . $name . '] is not of type [Ddth_Dao_Mysql_IMysqlDao]!';
             throw new Ddth_Dao_DaoException($msg);
         }
         return $dao;
@@ -157,10 +178,10 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      *
      * @see Ddth_Dao_AbstractConnDaoFactory::createConnection()
      */
-    protected function createConnection($startTransaction=FALSE) {
-        if ( $this->mysqlPersistent ) {
-            if ( $this->mysqlUsername !== false ) {
-                if ( $this->mysqlPassword !== false ) {
+    protected function createConnection($startTransaction = FALSE) {
+        if ($this->mysqlPersistent) {
+            if ($this->mysqlUsername !== false) {
+                if ($this->mysqlPassword !== false) {
                     $mysqlConn = mysql_pconnect($this->mysqlHost, $this->mysqlUsername, $this->mysqlPassword);
                 } else {
                     $mysqlConn = mysql_pconnect($this->mysqlHost, $this->mysqlUsername);
@@ -169,8 +190,8 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
                 $mysqlConn = mysql_pconnect($this->mysqlHost);
             }
         } else {
-            if ( $this->mysqlUsername !== false ) {
-                if ( $this->mysqlPassword !== false ) {
+            if ($this->mysqlUsername !== false) {
+                if ($this->mysqlPassword !== false) {
                     $mysqlConn = mysql_connect($this->mysqlHost, $this->mysqlUsername, $this->mysqlPassword);
                 } else {
                     $mysqlConn = mysql_connect($this->mysqlHost, $this->mysqlUsername);
@@ -179,8 +200,11 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
                 $mysqlConn = mysql_connect($this->mysqlHost);
             }
         }
+        if (isset($this->mysqlDatabase)) {
+            mysql_select_db($this->mysqlDatabase, $mysqlConn);
+        }
         $result = new Ddth_Dao_Mysql_MysqlConnection($mysqlConn);
-        if ( $startTransaction ) {
+        if ($startTransaction) {
             $result->startTransaction();
         }
         return $result;
@@ -191,8 +215,8 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      *
      * @see Ddth_Dao_AbstractConnDaoFactory::forceCloseConnection()
      */
-    protected function forceCloseConnection($conn, $hasError=FALSE) {
-        if ( $conn instanceof Ddth_Dao_Mysql_MysqlConnection ) {
+    protected function forceCloseConnection($conn, $hasError = FALSE) {
+        if ($conn instanceof Ddth_Dao_Mysql_MysqlConnection) {
             $conn->closeConn($hasError);
         } else {
             $msg = 'I expect the first parameter is of type [Ddth_Dao_Mysql_MysqlConnection]!';

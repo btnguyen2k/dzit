@@ -32,8 +32,20 @@ if ( !function_exists('__autoload') ) {
 }
 
 /*
+ * Define a token as the include-allow key.
+ * Usage: put the following code at the top of your php script.
+ * <code>
+ * <?php defined('DZIT_INCLUDE_KEY') || die('No direct access allowed!');
+ *
+ * ...
+ * </code>
+ */
+define('DZIT_INCLUDE_KEY', 'DZIT_INCLUDE_OK');
+
+/*
  * This is the directory where configuration files are stored.
- * It should not be reachable from the web.
+ * For security reason, it should not be reachable from the web.
+ * Note: change the value if your config folder is located at another location!
  */
 define('CONFIG_DIR', '../config');
 if ( !is_dir(CONFIG_DIR) ) {
@@ -43,7 +55,8 @@ if ( !is_dir(CONFIG_DIR) ) {
 /*
  * This is the directory where 3rd party libraries are located.
  * All 1st level sub-directories of this directory will be included
- * in the include_path
+ * in the include_path.
+ * Note: change the value if your config folder is located at another location!
  */
 define('LIBS_DIR', '../libs');
 if ( !is_dir(LIBS_DIR) ) {
@@ -52,8 +65,8 @@ if ( !is_dir(LIBS_DIR) ) {
 
 /* set up include path */
 $includePath = '.'.PATH_SEPARATOR.CONFIG_DIR.PATH_SEPARATOR;
-if ( $dh = @opendir(LIBS_DIR) ) {
-    while ( ($file = readdir($dh)) !== false ) {
+if ( ($dh = @opendir(LIBS_DIR)) !== FALSE ) {
+    while ( ($file = readdir($dh)) !== FALSE ) {
         if ( is_dir(LIBS_DIR."/$file") && $file!="." && $file!=".." ) {
             $includePath .= PATH_SEPARATOR.LIBS_DIR."/$file";
         }
@@ -63,7 +76,9 @@ if ( $dh = @opendir(LIBS_DIR) ) {
 }
 ini_set('include_path', $includePath);
 
-require_once CONFIG_DIR.'/dzit-config.php';
+if ( file_exists(CONFIG_DIR.'/dzit-config.php') ) {
+    require_once CONFIG_DIR.'/dzit-config.php';
+}
 
 $logger = Ddth_Commons_Logging_LogFactory::getLog('Dzit');
 try {

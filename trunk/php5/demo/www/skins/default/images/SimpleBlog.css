@@ -245,6 +245,10 @@ form.search input.button {
 	margin: 10px 10px 0 10px;
 }
 
+#main .post-body {
+    margin: 10px 12px;
+}
+
 .post-footer {
 	background-color: #FAFAFA;
 	padding: 6px 5px; margin: 20px 12px;

@@ -8,16 +8,21 @@
  */
 abstract class Dzit_Demo_Controller_BaseController implements Dzit_IController {
 
-    const MODEL_BASEURL             = 'baseUrl';
+    const DAO_SIMPLE_BLOG = 'dao.simpleBlog';
 
-    const MODEL_SITE                = 'site';
-    const MODEL_SITE_TITLE          = 'title';
-    const MODEL_SITE_NAME           = 'name';
-    const MODEL_SITE_KEYWORDS       = 'keywords';
-    const MODEL_SITE_DESCRIPTION    = 'description';
-    const MODEL_SITE_SLOGAN         = 'slogan';
+    const MODEL_BASEURL = 'baseUrl';
+    const MODEL_URL_HOME = 'urlHome';
+
+    const MODEL_SITE = 'site';
+    const MODEL_SITE_TITLE = 'title';
+    const MODEL_SITE_NAME = 'name';
+    const MODEL_SITE_KEYWORDS = 'keywords';
+    const MODEL_SITE_DESCRIPTION = 'description';
+    const MODEL_SITE_SLOGAN = 'slogan';
 
     private $model = Array();
+
+    private $urlCreator = NULL;
 
     /**
      * Gets site's description.
@@ -67,16 +72,20 @@ abstract class Dzit_Demo_Controller_BaseController implements Dzit_IController {
      * Calls this method to populate common models
      */
     protected function populateCommonModels() {
-        $baseUrl = $_SERVER["HTTP_HOST"].dirname($_SERVER['SCRIPT_NAME']);
-        if ( $baseUrl[strlen($baseUrl-1)] != '/' ) {
+        $baseUrl = $_SERVER["HTTP_HOST"] . dirname($_SERVER['SCRIPT_NAME']);
+        if ($baseUrl[strlen($baseUrl - 1)] != '/') {
             $baseUrl .= '/';
         }
-        if ( isset($_SERVER['HTTPS']) ) {
+        if (isset($_SERVER['HTTPS'])) {
             $baseUrl = "https://$baseUrl";
         } else {
             $baseUrl = "http://$baseUrl";
         }
         $this->setModel(self::MODEL_BASEURL, $baseUrl);
+
+        $urlCreator = $this->getUrlCreator();
+        $urlHome = $urlCreator->createUrl(Array());
+        $this->setModel(self::MODEL_URL_HOME, $urlHome);
 
         $site = Array();
         $site[self::MODEL_SITE_DESCRIPTION] = $this->getSiteDescription();
@@ -104,6 +113,31 @@ abstract class Dzit_Demo_Controller_BaseController implements Dzit_IController {
      */
     protected function setModel($name, $value) {
         $this->model[$name] = $value;
+    }
+
+    /**
+     * Gets a DAO by name.
+     *
+     * @param Ddth_Dao_IDao
+     */
+    protected function getDao($name) {
+        /**
+         * @var Ddth_Dao_IDaoFactory
+         */
+        $daoFactory = Ddth_Dao_BaseDaoFactory::getInstance();
+        return $daoFactory->getDao($name);
+    }
+
+    /**
+     * Gets the url creator instance.
+     *
+     * @return Dzit_IUrlCreator
+     */
+    protected function getUrlCreator() {
+        if ($this->urlCreator === NULL) {
+            $this->urlCreator = new Dzit_DefaultUrlCreator();
+        }
+        return $this->urlCreator;
     }
 }
 ?>
