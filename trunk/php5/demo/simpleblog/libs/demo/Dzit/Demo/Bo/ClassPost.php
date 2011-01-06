@@ -1,6 +1,6 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-class Dzit_Demo_Bo_Post {
+class Dzit_Demo_Bo_Post extends Dzit_Demo_Bo_BaseBo {
     /**
      * @var int
      */
@@ -96,4 +96,8 @@ class Dzit_Demo_Bo_Post {
         $this->modifiedTime = $modifiedTime;
     }
 
+    public function getUrlDelete() {
+        $urlCreator = $this->getUrlCreator();
+        return $urlCreator->createUrl(Array('module' => 'deletePost', 'queryStrParams' => Array('id' => $this->id)));
+    }
 }

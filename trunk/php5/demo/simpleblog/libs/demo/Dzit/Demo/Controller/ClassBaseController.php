@@ -23,8 +23,6 @@ abstract class Dzit_Demo_Controller_BaseController implements Dzit_IController {
 
     private $model = Array();
 
-    private $urlCreator = NULL;
-
     /**
      * Gets site's description.
      *
@@ -137,10 +135,13 @@ abstract class Dzit_Demo_Controller_BaseController implements Dzit_IController {
      * @return Dzit_IUrlCreator
      */
     protected function getUrlCreator() {
-        if ($this->urlCreator === NULL) {
-            $this->urlCreator = new Dzit_DefaultUrlCreator();
+        $key = Dzit_Demo_GlobalCache::CACHE_URL_CREATOR;
+        $urlCreator = Dzit_Demo_GlobalCache::getEntry($key);
+        if ($urlCreator === NULL) {
+            $urlCreator = new Dzit_DefaultUrlCreator();
+            Dzit_Demo_GlobalCache::setEntry($key, $urlCreator);
         }
-        return $this->urlCreator;
+        return $urlCreator;
     }
 }
 ?>

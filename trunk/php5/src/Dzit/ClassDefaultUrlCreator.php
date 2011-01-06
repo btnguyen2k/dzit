@@ -25,55 +25,65 @@ class Dzit_DefaultUrlCreator implements Dzit_IUrlCreator {
      * {@see Dzit_IUrlCreator::createUrl()}
      */
     public function createUrl($params) {
-        $script = isset($params[self::PARAM_SCRIPT_NAME])?$params[self::PARAM_SCRIPT_NAME]:NULL;
-        if ( $script === NULL || trim($script) === "" ) {
+        $script = isset($params[self::PARAM_SCRIPT_NAME]) ? $params[self::PARAM_SCRIPT_NAME] : NULL;
+        if ($script === NULL || trim($script) === '') {
             $script = $_SERVER['SCRIPT_NAME'];
         } else {
             $script = trim($script);
         }
         $url = $script;
 
-        $pathInfoParams = isset($params[self::PARAM_PATH_INFO_PARAMS])?$params[self::PARAM_PATH_INFO_PARAMS]:Array();
-        if ( !is_array($pathInfoParams) ) {
+        $module = isset($params[self::PARAM_MODULE]) ? $params[self::PARAM_MODULE] : NULL;
+        if ($module !== NULL && trim($module) !== '') {
+            $url .= "/$module";
+            $action = isset($params[self::PARAM_ACTION]) ? $params[self::PARAM_ACTION] : NULL;
+            if ($action !== NULL && trim($action) !== '') {
+                $url .= "/$action";
+            }
+        }
+
+        $pathInfoParams = isset($params[self::PARAM_PATH_INFO_PARAMS]) ? $params[self::PARAM_PATH_INFO_PARAMS] : Array();
+        if (!is_array($pathInfoParams)) {
             $pathInfoParams = Array();
         }
 
-        $queryStrParams = isset($params[self::PARAM_QUERY_STRING_PARAMS])?$params[self::PARAM_QUERY_STRING_PARAMS]:Array();
-        if ( !is_array($queryStrParams) ) {
+        $queryStrParams = isset($params[self::PARAM_QUERY_STRING_PARAMS]) ? $params[self::PARAM_QUERY_STRING_PARAMS] : Array();
+        if (!is_array($queryStrParams)) {
             $queryStrParams = Array();
         }
 
-        if ( count($pathInfoParams) > 0 ) {
-            foreach ( $pathInfoParams as $param ) {
+        if (count($pathInfoParams) > 0) {
+            foreach ($pathInfoParams as $param) {
                 $url .= "/$param";
             }
         }
 
-        if ( count($queryStrParams) > 0 ) {
+        if (count($queryStrParams) > 0) {
             $url .= '?';
-            foreach ( $queryStrParams as $name=>$value ) {
+            foreach ($queryStrParams as $name => $value) {
                 $url .= "$name=$value&";
             }
+            $url = substr($url, 0, -1);
         }
 
-        $fullUrl = isset($params[self::PARAM_FULL_URL])?TRUE:FALSE;
-        $forceHttps = isset($params[self::PARAM_FORCE_HTTPS])?TRUE:FALSE;
+        $fullUrl = isset($params[self::PARAM_FULL_URL]) ? TRUE : FALSE;
+        $forceHttps = isset($params[self::PARAM_FORCE_HTTPS]) ? TRUE : FALSE;
 
-        if ( $fullUrl || $forceHttps ) {
+        if ($fullUrl || $forceHttps) {
             $httpHost = $_SERVER["HTTP_HOST"];
-            if ( $forceHttps && !isset($_SERVER['HTTPS']) ) {
+            if ($forceHttps && !isset($_SERVER['HTTPS'])) {
                 //the current request is not https!
                 $tokens = explode(':', $httpHost);
                 $httpHost = $tokens[0];
-                if ( isset($params[self::PARAM_HTTPS_PORT]) && is_numeric(self::PARAM_HTTPS_PORT) ) {
-                    $httpHost .= ':'.$params[self::PARAM_HTTPS_PORT];
+                if (isset($params[self::PARAM_HTTPS_PORT]) && is_numeric(self::PARAM_HTTPS_PORT)) {
+                    $httpHost .= ':' . $params[self::PARAM_HTTPS_PORT];
                 }
             }
-            if ( $url[0] !== '/' ) {
+            if ($url[0] !== '/') {
                 $url = "/$url";
             }
-            $url = $httpHost.$url;
-            if ( $forceHttps ) {
+            $url = $httpHost . $url;
+            if ($forceHttps) {
                 $url = "https://$url";
             } else {
                 $url = isset($_SERVER['HTTPS']) ? "https://$url" : "http://$url";
