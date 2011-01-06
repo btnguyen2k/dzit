@@ -46,108 +46,50 @@
         </div>
 
         <!--Content Wrap -->
-        <div id="content-wrap"><?php include DZIT_CONTENT_FILE; ?>
+        <div id="content-wrap"><?php include DZIT_CONTENT_FILE; ?></div>
+        <div id="sidebar">
+            <h1>Sidebar Menu</h1>
+            <ul class="sidemenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#TemplateInfo">Template Info</a></li>
+                <li><a href="#SampleTags">Sample Tags</a></li>
+                <li><a href="http://www.styleshout.com/">More Free Templates</a></li>
+                <li><a href="http://www.dreamtemplate.com" title="Web Templates">Web Templates</a></li>
+            </ul>
 
+            <h1>Sponsors</h1>
+            <ul class="sidemenu">
+                <li><a href="http://www.dreamtemplate.com" title="Website Templates">DreamTemplate</a></li>
+                <li><a href="http://www.themelayouts.com" title="WordPress Themes">ThemeLayouts</a></li>
+                <li><a href="http://www.imhosted.com" title="Website Hosting">ImHosted.com</a></li>
+                <li><a href="http://www.dreamstock.com" title="Stock Photos">DreamStock</a></li>
+                <li><a href="http://www.evrsoft.com" title="Website Builder">Evrsoft</a></li>
+                <li><a href="http://www.webhostingwp.com" title="Web Hosting">Web Hosting</a></li>
+            </ul>
 
+            <h1>Wise Words</h1>
+            <p>&quot;Be not afraid of life. Believe that life is worth living, and your belief will help create
+            the fact.&quot;</p>
+            <p class="align-right">- William James</p>
 
-<a name="SampleTags"></a>
-<h1>Sample Tags</h1>
+            <h1>Support Styleshout</h1>
+            <p>If you are interested in supporting my work and would like to contribute, you are welcome to make
+            a small donation through the <a href="http://www.styleshout.com/">donate link</a> on my website - it
+            will be a great help and will surely be appreciated.</p>
+        </div>
+        <!--End content-wrap-->
+    </div>
 
-<h3>Code</h3>
-<p><code> code-sample { <br />
-font-weight: bold;<br />
-font-style: italic;<br />
-} </code></p>
+    <!-- Footer -->
+    <div id="footer">
+        <p>&copy; 2010 Your Company &nbsp;&nbsp; <a href="http://www.bluewebtemplates.com/"
+        title="Website Templates">website templates</a> by <a href="http://www.styleshout.com/">styleshout</a>
 
-<h3>Example Lists</h3>
-
-<ol>
-    <li>example of</li>
-    <li>ordered list</li>
-</ol>
-
-<ul>
-    <li>example of</li>
-    <li>unordered list</li>
-</ul>
-
-<h3>Blockquote</h3>
-<blockquote>
-<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
-ut laoreet dolore magna aliquam erat....</p>
-</blockquote>
-
-<h3>Image and text</h3>
-<p><a href="http://getfirefox.com/"><img src="images/firefox-gray.jpg" width="100" height="120"
-    alt="firefox" class="float-left" /></a> Lorem ipsum dolor sit amet, consectetuer adipiscing
-elit. Donec libero. Suspendisse bibendum. Cras id urna. Morbi tincidunt, orci ac convallis aliquam,
-lectus turpis varius lorem, eu posuere nunc justo tempus leo. Donec mattis, purus nec placerat
-bibendum, dui pede condimentum odio, ac blandit ante orci ut diam. Cras fringilla magna. Phasellus
-suscipit, leo a pharetra condimentum, lorem tellus eleifend magna, eget fringilla velit magna id
-neque. Curabitur vel urna. In tristique orci porttitor ipsum. Aliquam ornare diam iaculis nibh.
-Proin luctus, velit pulvinar ullamcorper nonummy, mauris enim eleifend urna, congue egestas elit
-lectus eu est.</p>
-
-<h3>Example Form</h3>
-<form action="#">
-<p><label>Name</label> <input name="dname" value="Your Name" type="text" size="30" /> <label>Email</label>
-<input name="demail" value="Your Email" type="text" size="30" /> <label>Your Comments</label> <textarea
-    rows="5" cols="5"></textarea> <br />
-<input class="button" type="submit" /></p>
-</form>
-<br />
-
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="index.html">Home</a> | <a href="index.html">Sitemap</a>
+        | <a href="index.html">RSS Feed</a> | <a href="http://validator.w3.org/check/referer">XHTML</a> | <a
+        href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a></p>
+    </div>
+    <!-- END Wrap -->
 </div>
-
-<div id="sidebar">
-
-<h1>Sidebar Menu</h1>
-<ul class="sidemenu">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="#TemplateInfo">Template Info</a></li>
-    <li><a href="#SampleTags">Sample Tags</a></li>
-    <li><a href="http://www.styleshout.com/">More Free Templates</a></li>
-    <li><a href="http://www.dreamtemplate.com" title="Web Templates">Web Templates</a></li>
-</ul>
-
-<h1>Sponsors</h1>
-<ul class="sidemenu">
-    <li><a href="http://www.dreamtemplate.com" title="Website Templates">DreamTemplate</a></li>
-    <li><a href="http://www.themelayouts.com" title="WordPress Themes">ThemeLayouts</a></li>
-    <li><a href="http://www.imhosted.com" title="Website Hosting">ImHosted.com</a></li>
-    <li><a href="http://www.dreamstock.com" title="Stock Photos">DreamStock</a></li>
-    <li><a href="http://www.evrsoft.com" title="Website Builder">Evrsoft</a></li>
-    <li><a href="http://www.webhostingwp.com" title="Web Hosting">Web Hosting</a></li>
-</ul>
-
-<h1>Wise Words</h1>
-<p>&quot;Be not afraid of life. Believe that life is worth living, and your belief will help create
-the fact.&quot;</p>
-
-<p class="align-right">- William James</p>
-
-<h1>Support Styleshout</h1>
-<p>If you are interested in supporting my work and would like to contribute, you are welcome to make
-a small donation through the <a href="http://www.styleshout.com/">donate link</a> on my website - it
-will be a great help and will surely be appreciated.</p>
-
-</div>
-
-<!--End content-wrap--></div>
-
-<!-- Footer -->
-<div id="footer">
-
-<p>&copy; 2010 Your Company &nbsp;&nbsp; <a href="http://www.bluewebtemplates.com/"
-    title="Website Templates">website templates</a> by <a href="http://www.styleshout.com/">styleshout</a>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="index.html">Home</a> | <a href="index.html">Sitemap</a>
-| <a href="index.html">RSS Feed</a> | <a href="http://validator.w3.org/check/referer">XHTML</a> | <a
-    href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a></p>
-
-</div>
-
-<!-- END Wrap --></div>
-
 </body>
 </html>
