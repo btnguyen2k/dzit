@@ -1,4 +1,4 @@
-<?php
+<?php defined('DZIT_INCLUDE_KEY') || die('No direct access allowed!');
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
  * Dzit's core configuration file.
@@ -33,12 +33,13 @@ $DPHP_COMMONS_LOGGING_CONFIG = Array(
 global $DPHP_DAO_CONFIG;
 $DPHP_DAO_CONFIG = Array(
 	'ddth-dao.factoryClass'     => 'Ddth_Dao_Mysql_BaseMysqlDaoFactory',
-	'ddth-dao.mysql.host'       => 'localhost',
+	'ddth-dao.mysql.host'       => '127.0.0.1',
     'ddth-dao.mysql.username'   => 'dzit_demo',
     'ddth-dao.mysql.password'   => 'dzit_demo',
     'ddth-dao.mysql.persistent' => FALSE,
+    'ddth-dao.mysql.database'   => 'dzit_demo',
 
-	'dao.user'                  => 'Dzit_Demo_Bo_MysqlSimpleBlogDao'
+	'dao.simpleBlog' => 'Dzit_Demo_Bo_MysqlSimpleBlogDao'
 );
 
 /*

@@ -1,4 +1,8 @@
-<?php if (!isset($DZIT_SKIN)) {exit(-1);} ?>
+<?php
+    defined('DZIT_CONTENT_FILE') || die('No main content defined!');
+    define('DZIT_SKIN', TRUE);
+    global $MODEL;
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
@@ -17,48 +21,34 @@
         <div id="header">
             <h1 id="logo"><?php echo $MODEL['site']['name']; ?></h1>
             <h2 id="slogan"><?php echo $MODEL['site']['slogan']; ?></h2>
+            <div id="searchform">
+                <form method="post" class="search" action="#">
+                    <p>
+                        <input name="search_query" class="textbox" type="text" />
+                        <input name="search" class="button" type="submit" value="search" />
+                    </p>
+                </form>
+            </div>
+        </div>
 
-<div id="searchform">
-<form method="post" class="search" action="#">
-<p><input name="search_query" class="textbox" type="text" /> <input name="search" class="button"
-    type="submit" value="search" /></p>
-</form>
-</div>
+        <!-- menu -->
+        <div id="menu">
+            <ul>
+                <li id="current"><a href="<?php echo $MODEL['urlHome']; ?>"><span>Home</span></a></li>
+                <!--
+                <li><a href="index.html"><span>Archives</span></a></li>
+                <li><a href="index.html"><span>Downloads</span></a></li>
+                <li><a href="index.html"><span>Services</span></a></li>
+                <li><a href="index.html"><span>Support</span></a></li>
+                <li><a href="index.html"><span>About</span></a></li>
+                -->
+            </ul>
+        </div>
 
-</div>
-
-<!-- menu -->
-<div id="menu">
-<ul>
-    <li id="current"><a href="index.html"><span>Home</span></a></li>
-    <li><a href="index.html"><span>Archives</span></a></li>
-    <li><a href="index.html"><span>Downloads</span></a></li>
-    <li><a href="index.html"><span>Services</span></a></li>
-    <li><a href="index.html"><span>Support</span></a></li>
-    <li><a href="index.html"><span>About</span></a></li>
-</ul>
-</div>
+        <!--Content Wrap -->
+        <div id="content-wrap"><?php include DZIT_CONTENT_FILE; ?>
 
 
-<!--Content Wrap -->
-<div id="content-wrap">
-
-<div id="main"><a name="TemplateInfo"></a>
-<h1>Template Info</h1>
-
-<p><strong>SimpleBlog</strong> is a free, W3C-compliant, CSS-based website template by <a
-    href="http://www.styleshout.com/">styleshout.com</a>. This work is distributed under the <a
-    rel="license" href="http://creativecommons.org/licenses/by/2.5/"> Creative Commons Attribution
-2.5 License</a>, which means that you are free to use and modify it for any purpose. All I ask is
-that you give me credit by including a <strong>link back</strong> to <a
-    href="http://www.styleshout.com/">my website</a>.</p>
-
-<p>You can find more of my free template designs at <a href="http://www.styleshout.com/">my website</a>.
-For premium commercial designs, you can check out <a href="http://www.dreamtemplate.com"
-    title="Website Templates">DreamTemplate.com</a>.</p>
-
-<p class="post-footer"><a href="index.html" class="readmore">Read more</a> <a href="index.html"
-    class="comments">Comments (7)</a> <span class="date">Oct 01, 2006</span></p>
 
 <a name="SampleTags"></a>
 <h1>Sample Tags</h1>
