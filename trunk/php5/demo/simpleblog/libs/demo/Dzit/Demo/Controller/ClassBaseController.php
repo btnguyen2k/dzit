@@ -67,10 +67,7 @@ abstract class Dzit_Demo_Controller_BaseController implements Dzit_IController {
         return 'Dzit Blog / Demo for Dzit Framework';
     }
 
-    /**
-     * Calls this method to populate common models
-     */
-    protected function populateCommonModels() {
+    protected function getBaseUrl() {
         $baseUrl = $_SERVER["HTTP_HOST"] . dirname($_SERVER['SCRIPT_NAME']);
         if ($baseUrl[strlen($baseUrl - 1)] != '/') {
             $baseUrl .= '/';
@@ -80,12 +77,29 @@ abstract class Dzit_Demo_Controller_BaseController implements Dzit_IController {
         } else {
             $baseUrl = "http://$baseUrl";
         }
+        return $baseUrl;
+    }
+
+    protected function getUrlHome() {
+        $urlCreator = $this->getUrlCreator();
+        return $urlCreator->createUrl(Array());
+    }
+
+    protected function getUrlCreatePost() {
+        $urlCreator = $this->getUrlCreator();
+        return $urlCreator->createUrl(Array('module' => 'createPost'));
+    }
+
+    /**
+     * Calls this method to populate common models
+     */
+    protected function populateCommonModels() {
+        $baseUrl = $this->getBaseUrl();
         $this->setModel(self::MODEL_BASEURL, $baseUrl);
 
-        $urlCreator = $this->getUrlCreator();
-        $urlHome = $urlCreator->createUrl(Array());
+        $urlHome = $this->getUrlHome();
         $this->setModel(self::MODEL_URL_HOME, $urlHome);
-        $urlCreatePost = $urlCreator->createUrl(Array('createPost'));
+        $urlCreatePost = $this->getUrlCreatePost();
         $this->setModel(self::MODEL_URL_CREATE_POST, $urlCreatePost);
 
         $site = Array();

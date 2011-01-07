@@ -10,6 +10,16 @@ class Dzit_Demo_Bo_MysqlSimpleBlogDao extends Ddth_Dao_AbstractConnDao implement
     const COL_POST_MODIFIED_TIME = 'pmodified';
 
     /**
+     * @see Ddth_Dao_AbstractConnDao::getConnection()
+     */
+    public function getConnection($startTransaction=FALSE) {
+        $conn = parent::getConnection($startTransaction);
+        $mysqlConn = $conn->getMysqlConnection();
+        mysql_query("SET NAMES 'UTF-8'", $mysqlConn);
+        return $conn;
+    }
+
+    /**
      * @see Dzit_Demo_Bo_ISimpleBlogDao::getLatestPosts()
      */
     public function getLatestPosts($num) {
@@ -46,8 +56,35 @@ class Dzit_Demo_Bo_MysqlSimpleBlogDao extends Ddth_Dao_AbstractConnDao implement
         }
         $this->closeConnection($conn, $exception !== NULL);
         if ($exception !== NULL) {
-            throw $e;
+            throw $exception;
         }
         return $result;
+    }
+
+    /**
+     * @see Dzit_Demo_Bo_ISimpleBlogDao::createPost()
+     */
+    public function createPost($post) {
+        $conn = $this->getConnection(TRUE);
+        $exception = NULL;
+        try {
+            $mysqlConn = $conn->getMysqlConnection();
+            $sql = 'INSERT INTO ' . self::TBL_POST . ' (';
+            $sql .= self::COL_POST_TITLE . ',';
+            $sql .= self::COL_POST_BODY . ',';
+            $sql .= self::COL_POST_CREATED_TIME . ') VALUES (';
+            $sql .= "'" . mysql_real_escape_string($post->getTitle(), $mysqlConn) . "',";
+            $sql .= "'" . mysql_real_escape_string($post->getBody(), $mysqlConn) . "',";
+            $sql .= 'NOW())';
+            mysql_query($sql, $mysqlConn);
+        } catch (Exception $e) {
+            $exception = $e;
+        }
+        $this->closeConnection($conn, $exception !== NULL);
+        if ($exception !== NULL) {
+            throw $exception;
+        }
+        $posts = $this->getLatestPosts(1);
+        return $posts[0];
     }
 }

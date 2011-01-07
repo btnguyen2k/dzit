@@ -8,4 +8,12 @@ interface Dzit_Demo_Bo_ISimpleBlogDao {
      * @return Array an array of Dzit_Demo_Bo_Post
      */
     public function getLatestPosts($num);
+
+    /**
+     * Creates a post.
+     *
+     * @param Dzit_Demo_Bo_Post $post
+     * @return Dzit_Demo_Bo_Post the created post
+     */
+    public function createPost($post);
 }

@@ -36,8 +36,8 @@
         <!-- menu -->
         <div id="menu">
             <ul>
-                <li id="current"><a href="<?php echo $MODEL['urlHome']; ?>"><span>Home</span></a></li>
-                <li><a href="<?php echo $MODEL['urlCreatePost']; ?>"><span>Create Post</span></a></li>
+                <li <?php if (DZIT_CONTENT_FILE=='content_home.php') echo 'id="current"';?>><a href="<?php echo $MODEL['urlHome']; ?>"><span>Home</span></a></li>
+                <li <?php if (DZIT_CONTENT_FILE=='content_createPost.php') echo 'id="current"';?>><a href="<?php echo $MODEL['urlCreatePost']; ?>"><span>Create Post</span></a></li>
                 <!--
                 <li><a href="index.html"><span>Archives</span></a></li>
                 <li><a href="index.html"><span>Downloads</span></a></li>
