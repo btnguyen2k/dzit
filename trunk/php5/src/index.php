@@ -76,8 +76,14 @@ if ( ($dh = @opendir(LIBS_DIR)) !== FALSE ) {
 }
 ini_set('include_path', $includePath);
 
+//load the configuration file if exists
 if ( file_exists(CONFIG_DIR.'/dzit-config.php') ) {
-    require_once CONFIG_DIR.'/dzit-config.php';
+    include_once CONFIG_DIR.'/dzit-config.php';
+}
+
+//load the bootstrap file if exists
+if ( file_exists(CONFIG_DIR.'/dzit-bootstrap.php') ) {
+    include_once CONFIG_DIR.'/dzit-bootstrap.php';
 }
 
 $logger = Ddth_Commons_Logging_LogFactory::getLog('Dzit');
