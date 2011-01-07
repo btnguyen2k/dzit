@@ -29,7 +29,7 @@ class Dzit_View_RedirectView extends Dzit_View_AbstractView {
     /**
      * Constructs a new Dzit_View_RedirectView object.
      */
-    private function __construct($url) {
+    public function __construct($url) {
         $this->url = $url;
     }
 
@@ -50,7 +50,7 @@ class Dzit_View_RedirectView extends Dzit_View_AbstractView {
     public function setUrl($url) {
         $this->url = $url;
     }
-    
+
     /**
      * @see Dzit_IView::render();
      */

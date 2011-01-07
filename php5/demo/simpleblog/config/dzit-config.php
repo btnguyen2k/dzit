@@ -71,7 +71,8 @@ Dzit_Config::set(Dzit_Config::CONF_DISPATCHER, new $dispatcherClass());
  * </code>
  */
 $router = Array(
-    ''  => 'Dzit_Demo_Controller_Home'
+    'createPost' => 'Dzit_Demo_Controller_CreatePost',
+    ''           => 'Dzit_Demo_Controller_Home'
 );
 Dzit_Config::set(Dzit_Config::CONF_ROUTER, $router);
 

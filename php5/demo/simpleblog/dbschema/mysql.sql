@@ -14,5 +14,4 @@ CREATE TABLE simpleblog_post (
 
 #Some sample data
 INSERT INTO simpleblog_post (ptitle, pbody, pcreated) VALUES ('The title', 'This is the post body.', NOW());
-INSERT INTO simpleblog_post (ptitle, pbody, pcreated) VALUES ('A title once again', 'And the post body follows.', NOW());
-INSERT INTO simpleblog_post (ptitle, pbody, pcreated) VALUES ('Title strikes back', 'This is really exciting! Not.', NOW());
+INSERT INTO simpleblog_post (ptitle, pbody, pcreated) VALUES ('Dzit Blog', 'This is a simple web-based blog to demostrate Dzit Framework. Feel free to use this demo as starting point of your Dzit Framework application.', NOW()+1);
