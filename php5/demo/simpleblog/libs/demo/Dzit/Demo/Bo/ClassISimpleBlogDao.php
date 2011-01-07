@@ -16,4 +16,11 @@ interface Dzit_Demo_Bo_ISimpleBlogDao {
      * @return Dzit_Demo_Bo_Post the created post
      */
     public function createPost($post);
+
+    /**
+     * Deletes a post by id.
+     *
+     * @param int $postId
+     */
+    public function deletePost($postId);
 }
