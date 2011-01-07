@@ -118,16 +118,28 @@ if ( !is_dir($DIR_SOURCE) ) {
     error("$DIR_SOURCE is not a directory or does not exists!");
 }
 
+$DIR_DEMO = 'demo';
+
 //remove content of release directory
 removeTree($DIR_RELEASE, false);
+
+//copy Dzit source over
 $DIR_RELEASE_SRC = $DIR_RELEASE.DIRECTORY_SEPARATOR.'src';
 mkdir($DIR_RELEASE_SRC);
 copyDir($DIR_SOURCE, $DIR_RELEASE_SRC);
+
+//copy the demo(s) over
+$DIR_RELEASE_DEMO = $DIR_RELEASE.DIRECTORY_SEPARATOR.'demo';
+mkdir($DIR_RELEASE_DEMO);
+copyDir($DIR_DEMO, $DIR_RELEASE_DEMO);
+
+
+//copy the license.txt file over
 copyFile("license.txt", $DIR_RELEASE_SRC.DIRECTORY_SEPARATOR."license.txt");
 
 $includePath = ".";
-$includePath .= PATH_SEPARATOR."demo/libs/dphp-commons";
-$includePath .= PATH_SEPARATOR."demo/libs/dphp-xpath";
+$includePath .= PATH_SEPARATOR."libs/dphp-commons";
+$includePath .= PATH_SEPARATOR."libs/dphp-xpath";
 ini_set("include_path", $includePath);
 
 if ( !function_exists('__autoload') ) {
@@ -150,5 +162,5 @@ $ZIPFILE = "Dzit-$VERSION-$t.zip";
 $ZIPFILE = strtolower($ZIPFILE);
 $ZIPFILE = $DIR_RELEASE.DIRECTORY_SEPARATOR.$ZIPFILE;
 @unlink($ZIPFILE);
-zipDir($DIR_RELEASE_SRC, $ZIPFILE);
+zipDir($DIR_RELEASE, $ZIPFILE);
 ?>
