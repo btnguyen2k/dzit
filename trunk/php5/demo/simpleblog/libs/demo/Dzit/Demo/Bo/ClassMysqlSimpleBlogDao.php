@@ -12,7 +12,7 @@ class Dzit_Demo_Bo_MysqlSimpleBlogDao extends Ddth_Dao_AbstractConnDao implement
     /**
      * @see Ddth_Dao_AbstractConnDao::getConnection()
      */
-    public function getConnection($startTransaction=FALSE) {
+    public function getConnection($startTransaction = FALSE) {
         $conn = parent::getConnection($startTransaction);
         $mysqlConn = $conn->getMysqlConnection();
         mysql_query("SET NAMES 'UTF-8'", $mysqlConn);
@@ -86,5 +86,29 @@ class Dzit_Demo_Bo_MysqlSimpleBlogDao extends Ddth_Dao_AbstractConnDao implement
         }
         $posts = $this->getLatestPosts(1);
         return $posts[0];
+    }
+
+    /**
+     * @see Dzit_Demo_Bo_ISimpleBlogDao::deletePost()
+     */
+    public function deletePost($postId) {
+        if ($postId <= 3) {
+            //do not delete the first 3 posts
+            return;
+        }
+        $conn = $this->getConnection(TRUE);
+        $exception = NULL;
+        try {
+            $mysqlConn = $conn->getMysqlConnection();
+            $sql = 'DELETE FROM ' . self::TBL_POST;
+            $sql .= ' WHERE ' . self::COL_POST_ID . '=' . ($postId + 0);
+            mysql_query($sql, $mysqlConn);
+        } catch (Exception $e) {
+            $exception = $e;
+        }
+        $this->closeConnection($conn, $exception !== NULL);
+        if ($exception !== NULL) {
+            throw $exception;
+        }
     }
 }

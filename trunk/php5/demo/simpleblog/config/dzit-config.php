@@ -1,4 +1,5 @@
-<?php defined('DZIT_INCLUDE_KEY') || die('No direct access allowed!');
+<?php
+defined('DZIT_INCLUDE_KEY') || die('No direct access allowed!');
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
  * Dzit's core configuration file.
@@ -23,24 +24,19 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
  */
 global $DPHP_COMMONS_LOGGING_CONFIG;
 $DPHP_COMMONS_LOGGING_CONFIG = Array(
-    'ddth.commons.logging.Logger' => 'Ddth_Commons_Logging_SimpleLog',
-    'logger.setting.default' => 'DEBUG'
-);
+        'ddth.commons.logging.Logger' => 'Ddth_Commons_Logging_SimpleLog',
+        'logger.setting.default' => 'DEBUG');
 
 /*
  * Configurations for Ddth::Dao
  */
 global $DPHP_DAO_CONFIG;
-$DPHP_DAO_CONFIG = Array(
-	'ddth-dao.factoryClass'     => 'Ddth_Dao_Mysql_BaseMysqlDaoFactory',
-	'ddth-dao.mysql.host'       => '127.0.0.1',
-    'ddth-dao.mysql.username'   => 'dzit_demo',
-    'ddth-dao.mysql.password'   => 'dzit_demo',
-    'ddth-dao.mysql.persistent' => FALSE,
-    'ddth-dao.mysql.database'   => 'dzit_demo',
+$DPHP_DAO_CONFIG = Array('ddth-dao.factoryClass' => 'Ddth_Dao_Mysql_BaseMysqlDaoFactory',
+        'ddth-dao.mysql.host' => '127.0.0.1', 'ddth-dao.mysql.username' => 'dzit_demo',
+        'ddth-dao.mysql.password' => 'dzit_demo', 'ddth-dao.mysql.persistent' => FALSE,
+        'ddth-dao.mysql.database' => 'dzit_demo',
 
-	'dao.simpleBlog' => 'Dzit_Demo_Bo_MysqlSimpleBlogDao'
-);
+        'dao.simpleBlog' => 'Dzit_Demo_Bo_MysqlSimpleBlogDao');
 
 /*
  * Action dispatcher configuration: the default dispatcher should work out-of-the-box.
@@ -70,12 +66,10 @@ Dzit_Config::set(Dzit_Config::CONF_DISPATCHER, new $dispatcherClass());
  * }
  * </code>
  */
-$router = Array(
-    'createPost' => 'Dzit_Demo_Controller_CreatePost',
-    ''           => 'Dzit_Demo_Controller_Home'
-);
+$router = Array('createPost' => 'Dzit_Demo_Controller_CreatePost',
+        'deletePost' => 'Dzit_Demo_Controller_DeletePost',
+        '' => 'Dzit_Demo_Controller_Home');
 Dzit_Config::set(Dzit_Config::CONF_ROUTER, $router);
-
 
 /*
  * Action handler mapping configuration: the default action handler mapping should work
