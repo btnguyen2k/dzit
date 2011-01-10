@@ -64,7 +64,7 @@ if ( !is_dir(LIBS_DIR) ) {
 }
 
 /* set up include path */
-$includePath = '.'.PATH_SEPARATOR.CONFIG_DIR.PATH_SEPARATOR;
+$includePath = ini_get('include_path').PATH_SEPARATOR.'.'.PATH_SEPARATOR.CONFIG_DIR.PATH_SEPARATOR;
 if ( ($dh = @opendir(LIBS_DIR)) !== FALSE ) {
     while ( ($file = readdir($dh)) !== FALSE ) {
         if ( is_dir(LIBS_DIR."/$file") && $file!="." && $file!=".." ) {
