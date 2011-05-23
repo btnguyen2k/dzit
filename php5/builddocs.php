@@ -53,9 +53,9 @@ if ( count($argv) == 2 ) {
     $STYLE = "-o \"$argv[1]\"";
 } else {
     //default stype
-    //$STYLE = "-o \"HTML:Smarty:HandS\"";
+    $STYLE = "-o \"HTML:Smarty:HandS\"";
     //$STYLE = "-o \"HTML:frames/Extjs:default\"";
-    $STYLE = "-o \"HTML:Smarty/Evolve:default\"";
+    //$STYLE = "-o \"HTML:Smarty/Evolve:default\"";
 }
 $CMD = "$PHP \"$PHP_DOCUMENTOR\" -t \"phpDocs\" $STYLE -d \"src\" -ti \"Dzit Documentation\"";
 echo $CMD, "\n";
