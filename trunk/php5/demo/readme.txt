@@ -11,6 +11,22 @@
     + Only to demonstrate Dzit's request routing (request -> controller)
     + No database, template or multiple languages!
 
+- pwdencrypt:
+This application asks user to input a string and encrypt it
+Demo:
+    + dphp-mls as language engine (2 languages: ENglish and VietNamese)
+
+- cookieviewer: a simple Dzit-based application.
+This application allows users to view the current value of http cookie.
+Demo:
+    + dphp-template as template engine (only 1 template: php)
+
+- cookieviewer: a simple Dzit-based application.
+This application allows users to view the current value of http session.
+Demo:
+    + dphp-commons-logging as logging system.
+    + dphp-template as template engine (only 1 template: smarty)
+
 - simpleblog: a *very* simple blog system
 This demo uses:
     + MySql as storage engine.
