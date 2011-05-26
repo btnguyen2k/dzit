@@ -65,6 +65,7 @@ $DPHP_ADODB_CONFIG = Array('adodb.url' => 'mysql://username:password@127.0.0.1/d
 global $DPHP_MLS_CONFIG;
 $DPHP_MLS_CONFIG = Array('factory.class' => 'Ddth_Mls_BaseLanguageFactory',
         'languages' => 'vn, en',
+        // Note: Language base directory is relative to the [www] directory!
         'language.baseDirectory' => '../config/languages',
         'language.class' => 'Ddth_Mls_FileLanguage',
         'language.vn.location' => 'vi_vn',
@@ -85,6 +86,7 @@ $DPHP_MLS_CONFIG = Array('factory.class' => 'Ddth_Mls_BaseLanguageFactory',
 global $DPHP_TEMPLATE_CONFIG;
 $DPHP_TEMPLATE_CONFIG = Array('factory.class' => 'Ddth_Template_BaseTemplateFactory',
         'templates' => 'default, fancy',
+        // Note: Template base directory is relative to the [www] directory!
         'template.baseDirectory' => './skins',
         'template.default.class' => 'Ddth_Template_Php_PhpTemplate',
         'template.default.pageClass' => 'Ddth_Template_Php_PhpPage',
@@ -154,11 +156,12 @@ Dzit_Config::set(Dzit_Config::CONF_ACTION_HANDLER_MAPPING, new $actionHandlerMap
 /*
  * View resolver configuration.
  *
- * View resolver is responsible for resolving a {@link Dzit_IView} from name (string).
+ * View resolver is responsible for resolving a view name (string) to instance of {@link Dzit_IView}.
  *
  * Built-in view resolvers:
  * <ul>
- *     <li>{@link Dzit_View_PhpViewResolver}: use this view resolver if the application use a single PHP-based template.</li>
+ *     <li>{@link Dzit_View_PhpViewResolver}: use this view resolver if the application
+ *     uses only one single PHP-based template.</li>
  * </ul>
  */
 $viewResolverClass = 'Dzit_View_PhpViewResolver';
