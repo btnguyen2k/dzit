@@ -2,15 +2,20 @@
 require_once 'utils.php';
 
 function buildDemo($demoApp) {
-	/* remove existing dzit libs */
+    /* remove existing dzit libs */
     $dir = "demo/$demoApp/libs";
-    if ( FALSE !== ($dh = opendir($dir)) ) {
-        while ( FALSE !== ($file = readdir($dh)) ) {
-            if ( strpos($file, 'dzit')===0 ) {
+    if (FALSE !== ($dh = opendir($dir))) {
+        while (FALSE !== ($file = readdir($dh))) {
+            if (strpos($file, 'dzit') === 0) {
                 removeTree("$dir/$file");
             }
         }
     }
+
+    @mkdir("demo/$demoApp/config");
+    @mkdir("demo/$demoApp/libs");
+    @mkdir("demo/$demoApp/modules");
+    @mkdir("demo/$demoApp/www");
 
     global $DZIT_VERSION;
     //removeTree("demo/$demoApp/libs/dzit-$DZIT_VERSION");
@@ -24,11 +29,11 @@ function buildDemo($demoApp) {
 }
 
 $includePath = ".";
-$includePath .= PATH_SEPARATOR."libs/dphp-commons";
-$includePath .= PATH_SEPARATOR."libs/dphp-xpath";
+$includePath .= PATH_SEPARATOR . "libs/dphp-commons";
+$includePath .= PATH_SEPARATOR . "libs/dphp-xpath";
 ini_set("include_path", $includePath);
 
-if ( !function_exists('__autoload') ) {
+if (!function_exists('__autoload')) {
     function __autoload($className) {
         require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
         require_once 'Ddth/Commons/ClassLoader.php';
@@ -38,18 +43,18 @@ if ( !function_exists('__autoload') ) {
 }
 
 $DIR_SOURCE = 'src';
-if ( !is_dir($DIR_SOURCE) ) {
+if (!is_dir($DIR_SOURCE)) {
     error("$DIR_SOURCE is not a directory or does not exists!");
 }
 
-$xml = Ddth_Commons_Loader::loadFileContent($DIR_SOURCE.DIRECTORY_SEPARATOR.'package.xml');
+$xml = Ddth_Commons_Loader::loadFileContent($DIR_SOURCE . DIRECTORY_SEPARATOR . 'package.xml');
 $xpath = Ddth_Xpath_XmlParser::getInstance();
 $xnode = $xpath->parseXml($xml);
 $xnodes = $xnode->xpath("/package/version");
 global $DZIT_VERSION;
 $DZIT_VERSION = $xnodes[0]->getValue();
 
-$demoApps = Array('helloworld', 'simpleblog');
+$demoApps = Array('helloworld', 'pwdencrypt', 'cookieviewer', 'sessionviewer', 'simpleblog');
 foreach ($demoApps as $app) {
     echo "Building demo application [$app]...\n";
     buildDemo($app);

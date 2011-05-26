@@ -3,6 +3,11 @@ defined('DZIT_INCLUDE_KEY') || die('No direct access allowed!');
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
  * Dzit's core bootstrap file.
+ * What this bootstrap does?
+ * - Setup the "module directory" (default is "../modules"). Each module of the
+ *   application is located inside a sub-directory of the "module directory".
+ * - Include each module's directory indo the PHP's include path.
+ * - Load each module's bootstrap file.
  */
 
 /*
