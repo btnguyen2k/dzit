@@ -3,6 +3,7 @@ defined('DZIT_INCLUDE_KEY') || die('No direct access allowed!');
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
  * Dzit's core configuration file.
+ * Note: Add/Remove/Modify your own configurations if needed!
  */
 
 /*
@@ -17,11 +18,14 @@ define('CLI_MODE', strtolower(php_sapi_name()) == 'cli' && empty($_SERVER['REMOT
 
 /*
  * Since PHP 5.3, you should not rely on the default time zone setting any more!
+ * Note: See http://www.php.net/manual/en/timezones.php for list of supported timezones.
  */
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 /*
  * Configurations for Ddth::Commons::Logging
+ * Note: the default logger (SimpleLog which writes log to php's system log) should
+ * be sufficient for most cases. Change it if you want to use another logger.
  */
 global $DPHP_COMMONS_LOGGING_CONFIG;
 $DPHP_COMMONS_LOGGING_CONFIG = Array(
@@ -32,27 +36,31 @@ $DPHP_COMMONS_LOGGING_CONFIG = Array(
  * Configurations for Ddth::Dao
  */
 /*
- * NOTE: CONFIGURE YOUR OWN DAO HERE!
+ * Note: Below is just an example. Configure your own DAOs here!
  */
 global $DPHP_DAO_CONFIG;
-$DPHP_DAO_CONFIG = Array('ddth-dao.factoryClass' => 'Ddth_Dao_Adodb_BaseAdodbDaoFactory',
-        'dao.simpleBlog' => 'Dzit_Demo_Bo_MysqlSimpleBlogDao');
+$DPHP_DAO_CONFIG = Array('ddth-dao.factoryClass' => 'Ddth_Dao_Mysql_BaseMysqlDaoFactory',
+        'dphp-dao.mysql.host' => '127.0.0.1',
+        'dphp-dao.mysql.username' => 'username',
+        'dphp-dao.mysql.password' => 'secret',
+        'dphp-dao.mysql.database' => 'dbname',
+        'dao.dao1' => 'Dzit_Demo_Bo_MysqlDao1');
 
 /*
  * Configurations for Ddth::Adodb
  */
 /*
- * NOTE: IF YOU USE AODB, CONFIGURE IT HERE.
+ * Note: If you use Ddth::Adodb package, configure it here!
  */
 global $DPHP_ADODB_CONFIG;
-$DPHP_ADODB_CONFIG = Array('adodb.url' => 'mysql://vcs:vcs@localhost/vcs',
+$DPHP_ADODB_CONFIG = Array('adodb.url' => 'mysql://username:password@127.0.0.1/dbname',
         'adodb.setupSqls' => Array("SET NAMES 'utf8'"));
 
 /*
  * Configurations for Ddth::Mls
  */
 /*
- * NOTE: CONFIGURATE YOUR LANGUAGE SETTINGS HERE!
+ * Note: Below is an example of 2 language packs (ENglish and VietNamese)!
  */
 global $DPHP_MLS_CONFIG;
 $DPHP_MLS_CONFIG = Array('factory.class' => 'Ddth_Mls_BaseLanguageFactory',
@@ -72,11 +80,11 @@ $DPHP_MLS_CONFIG = Array('factory.class' => 'Ddth_Mls_BaseLanguageFactory',
  * Configurations for Ddth::Template
  */
 /*
- * NOTE: CONFIGURATE YOUR WEB-TEMPLATE SETTINGS HERE!
+ * Note: Below is an example of 2 template packs (PHP and Smarty)!
  */
 global $DPHP_TEMPLATE_CONFIG;
 $DPHP_TEMPLATE_CONFIG = Array('factory.class' => 'Ddth_Template_BaseTemplateFactory',
-        'templates' => 'default',
+        'templates' => 'default, fancy',
         'template.baseDirectory' => './skins',
         'template.default.class' => 'Ddth_Template_Php_PhpTemplate',
         'template.default.pageClass' => 'Ddth_Template_Php_PhpPage',
@@ -84,7 +92,20 @@ $DPHP_TEMPLATE_CONFIG = Array('factory.class' => 'Ddth_Template_BaseTemplateFact
         'template.default.charset' => 'utf-8',
         'template.default.configFile' => 'config.properties',
         'template.default.displayName' => 'Default',
-        'template.default.description' => 'Default template pack');
+        'template.default.description' => 'Default template pack',
+        'template.fancy.class' => 'Ddth_Template_Smarty_SmartyTemplate',
+        'template.fancy.pageClass' => 'Ddth_Template_Smarty_SmartyPage',
+        'template.fancy.location' => 'fancy',
+        //- Name of the directory to store Smarty's cache files (located under template.<name>.location)
+        'template.fancy.smarty.cache' => 'cache',
+        //- Name of the directory to store Smarty's compiled template files (located under template.<name>.location)
+        'template.fancy.smarty.compile' => 'templates_c',
+        //- Name of the directory to store Smarty's configuration files (located under template.<name>.location)
+        'template.fancy.smarty.configs' => 'configs',
+        'template.fancy.charset' => 'utf-8',
+        'template.fancy.configFile' => 'config.properties',
+        'template.fancy.displayName' => 'Fancy',
+        'template.fancy.description' => 'Fancy template pack');
 
 /*
  * Action dispatcher configuration: the default dispatcher should work out-of-the-box.
@@ -115,9 +136,11 @@ Dzit_Config::set(Dzit_Config::CONF_DISPATCHER, new $dispatcherClass());
  * </code>
  */
 /*
- * NOTE: CONFIGURATE YOUR ROUTINGS HERE!
+ * Note: Configure your routings here!
  */
-$router = Array();
+$router = Array('*' => 'CookieViewer_MainController',
+        'add' => 'CookieViewer_AddController',
+        'delete' => 'CookieViewer_DeleteController');
 Dzit_Config::set(Dzit_Config::CONF_ROUTER, $router);
 
 /*

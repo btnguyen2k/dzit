@@ -21,10 +21,9 @@ This application allows users to view the current value of http cookie.
 Demo:
     + dphp-template as template engine (only 1 template: php)
 
-- cookieviewer: a simple Dzit-based application.
+- sessionviewer: a simple Dzit-based application.
 This application allows users to view the current value of http session.
 Demo:
-    + dphp-commons-logging as logging system.
     + dphp-template as template engine (only 1 template: smarty)
 
 - simpleblog: a *very* simple blog system

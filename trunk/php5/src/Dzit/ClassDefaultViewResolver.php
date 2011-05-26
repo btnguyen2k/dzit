@@ -49,7 +49,7 @@ class Dzit_DefaultViewResolver implements Dzit_IViewResolver {
         /**
          * @var Ddth_Template_ITemplateFactory
          */
-        $templateFactory = Ddth_Template_TemplateFactory::getInstance();
+        $templateFactory = Ddth_Template_BaseTemplateFactory::getInstance();
         return $templateFactory != NULL?$templateFactory->getTemplate($this->getTemplateName()):NULL;
     }
 
