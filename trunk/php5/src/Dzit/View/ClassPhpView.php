@@ -49,15 +49,6 @@ class Dzit_View_PhpView extends Dzit_View_AbstractView {
     }
 
     /**
-     * Gets the associated page.
-     *
-     * @return Ddth_Template_IPage
-     */
-    public function getPage() {
-        return $this->page;
-    }
-
-    /**
      * This method creates a global variable $MODEL and includes the specified
      * {@link Dzit_View_PhpView::__construct() php file}
      *

@@ -24,28 +24,44 @@
  */
 class Dzit_View_SmartyView extends Dzit_View_AbstractView {
     /**
-     * @var Ddth_Template_IPage
+     * @var Smarty
      */
-    private $page;
+    private $smarty;
 
-    public function __construct($page) {
-        $this->page = $page;
+    /**
+     * @var string
+     */
+    private $templateFile;
+
+    public function __construct($smarty, $templateFile) {
+        $this->smarty = $smarty;
+        $this->templateFile = $templateFile;
     }
 
     /**
-     * Gets the associated page.
+     * Gets the associated Smarty instance.
      *
-     * @return Ddth_Template_IPage
+     * @return Smarty
      */
-    public function getPage() {
-        return $this->page;
+    protected function getSmarty() {
+        return $this->smarty;
+    }
+
+    /**
+     * Gets the associated template file.
+     *
+     * @return string
+     */
+    protected function getTemplateFile() {
+        return $this->templateFile;
     }
 
     /**
      * @see Dzit_IView::render();
      */
     public function render($model, $module, $action) {
-        $this->page->render($model);
+        $this->smarty->assign('MODEL', $model);
+        $this->smarty->display($this->getTemplateFile());
     }
 }
 ?>
