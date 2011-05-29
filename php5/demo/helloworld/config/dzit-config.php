@@ -29,64 +29,6 @@ $DPHP_COMMONS_LOGGING_CONFIG = Array(
         'logger.setting.default' => IN_DEV_ENV ? 'DEBUG' : 'WARN');
 
 /*
- * Configurations for Ddth::Dao
- */
-/*
- * NOTE: CONFIGURE YOUR OWN DAO HERE!
- */
-global $DPHP_DAO_CONFIG;
-$DPHP_DAO_CONFIG = Array('ddth-dao.factoryClass' => 'Ddth_Dao_Adodb_BaseAdodbDaoFactory',
-        'dao.simpleBlog' => 'Dzit_Demo_Bo_MysqlSimpleBlogDao');
-
-/*
- * Configurations for Ddth::Adodb
- */
-/*
- * NOTE: IF YOU USE AODB, CONFIGURE IT HERE.
- */
-global $DPHP_ADODB_CONFIG;
-$DPHP_ADODB_CONFIG = Array('adodb.url' => 'mysql://vcs:vcs@localhost/vcs',
-        'adodb.setupSqls' => Array("SET NAMES 'utf8'"));
-
-/*
- * Configurations for Ddth::Mls
- */
-/*
- * NOTE: CONFIGURATE YOUR LANGUAGE SETTINGS HERE!
- */
-global $DPHP_MLS_CONFIG;
-$DPHP_MLS_CONFIG = Array('factory.class' => 'Ddth_Mls_BaseLanguageFactory',
-        'languages' => 'vn, en',
-        'language.baseDirectory' => '../config/languages',
-        'language.class' => 'Ddth_Mls_FileLanguage',
-        'language.vn.location' => 'vi_vn',
-        'language.vn.displayName' => 'Tiếng Việt',
-        'language.vn.locale' => 'vi_VN',
-        'language.vn.description' => 'Ngôn ngữ tiếng Việt',
-        'language.en.location' => 'en_us',
-        'language.en.displayName' => 'English',
-        'language.en.locale' => 'en_US',
-        'language.en.description' => 'English (US) language pack');
-
-/*
- * Configurations for Ddth::Template
- */
-/*
- * NOTE: CONFIGURATE YOUR WEB-TEMPLATE SETTINGS HERE!
- */
-global $DPHP_TEMPLATE_CONFIG;
-$DPHP_TEMPLATE_CONFIG = Array('factory.class' => 'Ddth_Template_BaseTemplateFactory',
-        'templates' => 'default',
-        'template.baseDirectory' => './skins',
-        'template.default.class' => 'Ddth_Template_Php_PhpTemplate',
-        'template.default.pageClass' => 'Ddth_Template_Php_PhpPage',
-        'template.default.location' => 'default',
-        'template.default.charset' => 'utf-8',
-        'template.default.configFile' => 'config.properties',
-        'template.default.displayName' => 'Default',
-        'template.default.description' => 'Default template pack');
-
-/*
  * Action dispatcher configuration: the default dispatcher should work out-of-the-box.
  *
  * Dispatcher is responsible for:
@@ -131,29 +73,6 @@ Dzit_Config::set(Dzit_Config::CONF_ROUTER, $router);
  */
 $actionHandlerMappingClass = 'Dzit_DefaultActionHandlerMapping';
 Dzit_Config::set(Dzit_Config::CONF_ACTION_HANDLER_MAPPING, new $actionHandlerMappingClass($router));
-
-/*
- * View resolver configuration.
- *
- * View resolver is responsible for resolving a {@link Dzit_IView} from name (string).
- *
- * Built-in view resolvers:
- * <ul>
- *     <li>{@link Dzit_View_PhpViewResolver}: use this view resolver if the application use a single PHP-based template.</li>
- * </ul>
- */
-$viewResolverClass = 'Dzit_View_PhpViewResolver';
-Dzit_Config::set(Dzit_Config::CONF_VIEW_RESOLVER, new $viewResolverClass('skins/default/page_'));
-
-/*
- * Name of the default language pack.
- */
-Dzit_Config::set(Dzit_Config::CONF_DEFAULT_LANGUAGE_NAME, 'default');
-
-/*
- * Name of the default template pack.
- */
-Dzit_Config::set(Dzit_Config::CONF_DEFAULT_TEMPLATE_NAME, 'default');
 
 /*
  * Name of the module's bootstrap file.
