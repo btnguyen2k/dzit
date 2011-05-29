@@ -162,10 +162,15 @@ Dzit_Config::set(Dzit_Config::CONF_ACTION_HANDLER_MAPPING, new $actionHandlerMap
  * <ul>
  *     <li>{@link Dzit_View_PhpViewResolver}: use this view resolver if the application
  *     uses only one single PHP-based template.</li>
+ *     <li>{@link Dzit_View_SmartyViewResolver}: use this view resolver if the application
+ *     uses only one single Smarty-based template.</li>
  * </ul>
  */
 $viewResolverClass = 'Dzit_View_PhpViewResolver';
 Dzit_Config::set(Dzit_Config::CONF_VIEW_RESOLVER, new $viewResolverClass('skins/default/page_'));
+//$viewResolverClass = 'Dzit_View_SmartyViewResolver';
+//Dzit_Config::set(Dzit_Config::CONF_VIEW_RESOLVER, new $viewResolverClass('skins/default/page_'));
+
 
 /*
  * Name of the default language pack.

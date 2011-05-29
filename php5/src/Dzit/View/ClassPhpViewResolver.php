@@ -17,9 +17,9 @@
 /**
  * PHP-based single-template view resolver.
  *
- * This class resolves view name to a .php file that can be included. Use this view resolver
+ * This class resolves view name to a {@link Dzit_View_PhpView}. Use this view resolver
  * if the application uses just a single PHP-based template.
- * This resolver receives a review name (e.g. 'main'), add a prefix (configurable,
+ * This resolver receives a view name (e.g. 'main'), add a prefix (configurable,
  * e.g. 'skins/default/page_') and a suffix ('.php') to form the full filename
  * (e.g. 'skins/default/page_main.php').
  *
@@ -51,7 +51,7 @@ class Dzit_View_PhpViewResolver implements Dzit_IViewResolver {
     /**
      * Sets the prefix string.
      *
-     * @param stringg $prefix
+     * @param string $prefix
      */
     public function setPrefix($prefix) {
         if (trim($prefix) == '' || $prefix == NULL) {
