@@ -33,30 +33,6 @@ $DPHP_COMMONS_LOGGING_CONFIG = Array(
         'logger.setting.default' => IN_DEV_ENV ? 'DEBUG' : 'WARN');
 
 /*
- * Configurations for Ddth::Dao
- */
-/*
- * Note: Below is just an example. Configure your own DAOs here!
- */
-global $DPHP_DAO_CONFIG;
-$DPHP_DAO_CONFIG = Array('ddth-dao.factoryClass' => 'Ddth_Dao_Mysql_BaseMysqlDaoFactory',
-        'dphp-dao.mysql.host' => '127.0.0.1',
-        'dphp-dao.mysql.username' => 'username',
-        'dphp-dao.mysql.password' => 'secret',
-        'dphp-dao.mysql.database' => 'dbname',
-        'dao.dao1' => 'Dzit_Demo_Bo_MysqlDao1');
-
-/*
- * Configurations for Ddth::Adodb
- */
-/*
- * Note: If you use Ddth::Adodb package, configure it here!
- */
-global $DPHP_ADODB_CONFIG;
-$DPHP_ADODB_CONFIG = Array('adodb.url' => 'mysql://username:password@127.0.0.1/dbname',
-        'adodb.setupSqls' => Array("SET NAMES 'utf8'"));
-
-/*
  * Configurations for Ddth::Mls
  */
 /*
@@ -75,37 +51,6 @@ $DPHP_MLS_CONFIG = Array('factory.class' => 'Ddth_Mls_BaseLanguageFactory',
         'language.en.displayName' => 'English',
         'language.en.locale' => 'en_US',
         'language.en.description' => 'English (US) language pack');
-
-/*
- * Configurations for Ddth::Template
- */
-/*
- * Note: Below is an example of 2 template packs (PHP and Smarty)!
- */
-global $DPHP_TEMPLATE_CONFIG;
-$DPHP_TEMPLATE_CONFIG = Array('factory.class' => 'Ddth_Template_BaseTemplateFactory',
-        'templates' => 'default, fancy',
-        'template.baseDirectory' => './skins',
-        'template.default.class' => 'Ddth_Template_Php_PhpTemplate',
-        'template.default.pageClass' => 'Ddth_Template_Php_PhpPage',
-        'template.default.location' => 'default',
-        'template.default.charset' => 'utf-8',
-        'template.default.configFile' => 'config.properties',
-        'template.default.displayName' => 'Default',
-        'template.default.description' => 'Default template pack',
-        'template.fancy.class' => 'Ddth_Template_Smarty_SmartyTemplate',
-        'template.fancy.pageClass' => 'Ddth_Template_Smarty_SmartyPage',
-        'template.fancy.location' => 'fancy',
-        //- Name of the directory to store Smarty's cache files (located under template.<name>.location)
-        'template.fancy.smarty.cache' => 'cache',
-        //- Name of the directory to store Smarty's compiled template files (located under template.<name>.location)
-        'template.fancy.smarty.compile' => 'templates_c',
-        //- Name of the directory to store Smarty's configuration files (located under template.<name>.location)
-        'template.fancy.smarty.configs' => 'configs',
-        'template.fancy.charset' => 'utf-8',
-        'template.fancy.configFile' => 'config.properties',
-        'template.fancy.displayName' => 'Fancy',
-        'template.fancy.description' => 'Fancy template pack');
 
 /*
  * Action dispatcher configuration: the default dispatcher should work out-of-the-box.
@@ -152,27 +97,9 @@ $actionHandlerMappingClass = 'Dzit_DefaultActionHandlerMapping';
 Dzit_Config::set(Dzit_Config::CONF_ACTION_HANDLER_MAPPING, new $actionHandlerMappingClass($router));
 
 /*
- * View resolver configuration.
- *
- * View resolver is responsible for resolving a {@link Dzit_IView} from name (string).
- *
- * Built-in view resolvers:
- * <ul>
- *     <li>{@link Dzit_View_PhpViewResolver}: use this view resolver if the application use a single PHP-based template.</li>
- * </ul>
- */
-$viewResolverClass = 'Dzit_View_PhpViewResolver';
-Dzit_Config::set(Dzit_Config::CONF_VIEW_RESOLVER, new $viewResolverClass('skins/default/page_'));
-
-/*
  * Name of the default language pack.
  */
-Dzit_Config::set(Dzit_Config::CONF_DEFAULT_LANGUAGE_NAME, 'default');
-
-/*
- * Name of the default template pack.
- */
-Dzit_Config::set(Dzit_Config::CONF_DEFAULT_TEMPLATE_NAME, 'default');
+Dzit_Config::set(Dzit_Config::CONF_DEFAULT_LANGUAGE_NAME, 'en');
 
 /*
  * Name of the module's bootstrap file.
