@@ -19,12 +19,12 @@ Demo:
 - cookieviewer: a simple Dzit-based application.
 This application allows users to view the current value of http cookie.
 Demo:
-    + dphp-template as template engine (only 1 template: php)
+    + Dzit's built-in PHP template resolver.
 
 - sessionviewer: a simple Dzit-based application.
 This application allows users to view the current value of http session.
 Demo:
-    + dphp-template as template engine (only 1 template: smarty)
+    + Dzit's built-in Smarty template resolver.
 
 - simpleblog: a *very* simple blog system
 This demo uses:
