@@ -1,8 +1,6 @@
 <?php
 class PwdEncrypt_BaseController implements Dzit_IController {
 
-    const DEFAULT_LANGUAGE_PACK = 'en';
-
     /**
      * @see Dzit_IController::execute()
      */
@@ -37,11 +35,12 @@ class PwdEncrypt_BaseController implements Dzit_IController {
      * @return Ddth_Mls_ILanguage
      */
     protected function getLanguage() {
-        $langName = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : self::DEFAULT_LANGUAGE_PACK;
+        $defaultLanguageName = Dzit_Config::get(Dzit_Config::CONF_DEFAULT_LANGUAGE_NAME);
+        $langName = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : $defaultLanguageName;
         $mlsFactory = Ddth_Mls_BaseLanguageFactory::getInstance();
         $lang = $mlsFactory->getLanguage($langName);
         if ($lang === NULL) {
-            $langName = self::DEFAULT_LANGUAGE_PACK;
+            $langName = $defaultLanguageName;
         }
         setcookie('lang', $langName);
         //$_COOKIE['lang'] = $langName;
