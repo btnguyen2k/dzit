@@ -1,0 +1,13 @@
+* 01-Jan-2011: v0.2
+    - Now use PHP-style configuration (and remove .properties file-based configuration)
+    - Refactored and Enhanced
+
+* 04-April-2008: minor enhancement & update of copyright & license
+
+* 31-Mar-2008: version 0.1 (initial version)
+	- Interface(s): INode, ITemplate, ITemplateFactory
+	- Class(es): AbstractPage, AbstractTemplate, TemplateException, DefaultTemplateFactory, TemplateFactory
+	- DataModel:
+		+ INode, AbstractNode
+		+ Node types: Scalar, List, Map, Bean
+	- Template engines: PHP, Smarty
