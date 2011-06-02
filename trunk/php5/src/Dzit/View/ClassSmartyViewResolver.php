@@ -19,12 +19,14 @@
  *
  * This class resolves view name to a {@link Dzit_View_SmartyView}. Use this view resolver
  * if the application uses just a single Smarty-based template.
- * This resolver is constructed with 6 arguments:
+ * This resolver is constructed with following arguments:
  * <ul>
  * <li>'templateDir': root directory where template files are located.
  * <li>'smartyCacheDir': directory where Smarty's cache files are stored; can be absolute, or relative to 'templateDir'.
  * <li>'smartyCompileDir': directory where Smarty's compiled files are stored; can be absolute, or relative to 'templateDir'.
  * <li>'smartyConfigDir':  directory where Smarty's configuration files are stored; can be absolute, or relative to 'templateDir'.
+ * <li>'smartyLeftDelimiter': Smarty's left delimiter string (optional)
+ * <li>'smartyRightDelimiter': Smarty's right delimiter string (optional)
  * <li>'prefix': a prefix string to form the resolved template file.
  * <li>'suffix': a suffix string to form the resolved template file.
  * </ul>
@@ -40,6 +42,7 @@ class Dzit_View_SmartyViewResolver implements Dzit_IViewResolver {
 
     private $templateDir = '';
     private $smartyCacheDir = '', $smartyCompileDir = '', $smartyConfigDir = '';
+    private $smartyLeftDelimiter = '', $smartyRightDelimiter = '';
     private $prefix = '', $suffix = '';
     private $smarty = NULL;
 
@@ -53,6 +56,8 @@ class Dzit_View_SmartyViewResolver implements Dzit_IViewResolver {
         $this->setSmartyCompileDir(isset($params['smartyCompileDir']) ? $params['smartyCompileDir'] : '');
         $this->setSmartyConfigDir(isset($params['smartyConfigDir']) ? $params['smartyConfigDir'] : '');
         $this->setTemplateDir(isset($params['templateDir']) ? $params['templateDir'] : '');
+        $this->setSmartyLeftDelimiter(isset($params['smartyLeftDelimiter']) ? $params['smartyLeftDelimiter'] : '');
+        $this->setSmartyRightDelimiter(isset($params['smartyRightDelimiter']) ? $params['smartyRightDelimiter'] : '');
     }
 
     /**
@@ -188,6 +193,50 @@ class Dzit_View_SmartyViewResolver implements Dzit_IViewResolver {
     }
 
     /**
+     * Gets Smarty's left delimiter.
+     *
+     * @return string.
+     */
+    public function getSmartyLeftDelimiter() {
+        return $this->smartyLeftDelimiter;
+    }
+
+    /**
+     * Sets Smarty's left delimiter.
+     *
+     * @param string $smartyLeftDelimiter
+     */
+    public function setSmartyLeftDelimiter($smartyLeftDelimiter) {
+        if (trim($smartyLeftDelimiter) === '' || $smartyLeftDelimiter === NULL) {
+            $this->smartyLeftDelimiter = '';
+        } else {
+            $this->smartyLeftDelimiter = trim($smartyLeftDelimiter);
+        }
+    }
+
+    /**
+     * Gets Smarty's right delimiter.
+     *
+     * @return string.
+     */
+    public function getSmartyRightDelimiter() {
+        return $this->smartyRightDelimiter;
+    }
+
+    /**
+     * Sets Smarty's right delimiter.
+     *
+     * @param string $smartyRightDelimiter
+     */
+    public function setSmartyRightDelimiter($smartyRightDelimiter) {
+        if (trim($smartyRightDelimiter) === '' || $smartyRightDelimiter === NULL) {
+            $this->smartyRightDelimiter = '';
+        } else {
+            $this->smartyRightDelimiter = trim($smartyRightDelimiter);
+        }
+    }
+
+    /**
      * Gets the Smarty instance.
      *
      * @return Smarty
@@ -211,6 +260,13 @@ class Dzit_View_SmartyViewResolver implements Dzit_IViewResolver {
             //Smarty's configuration directory
             $configDir = new Ddth_commons_File($this->getSmartyConfigDir(), $templateDir);
             $smarty->config_dir = $cacheDir->getPathname();
+
+            if ($this->smartyLeftDelimiter !== NULL && $this->smartyLeftDelimiter !== '') {
+                $smarty->left_delimiter = $this->smartyLeftDelimiter;
+            }
+            if ($this->smartyRightDelimiter !== NULL && $this->smartyRightDelimiter !== '') {
+                $smarty->right_delimiter = $this->smartyRightDelimiter;
+            }
 
             $this->smarty = $smarty;
         }

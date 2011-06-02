@@ -96,7 +96,7 @@ class Dzit_DefaultActionHandlerMapping implements Dzit_IActionHandlerMapping {
         if ($controller != NULL) {
             if (is_string($controller)) {
                 //class name
-                $controller = new $controller();
+                $controller = $this->getControllerByString($controller);
             }
             if ($controller instanceof Dzit_IController) {
                 $this->LOGGER->debug('Found controller {' . get_class($controller) . '}');
@@ -108,6 +108,18 @@ class Dzit_DefaultActionHandlerMapping implements Dzit_IActionHandlerMapping {
         }
         $this->LOGGER->warn('Can not find controller for {' . $module . ':' . $action . '}');
         return NULL;
+    }
+
+    /**
+     * Obtains a controller from a string.
+     *
+     * This function assume the string parameter is class name of the controller.
+     *
+     * @param string $className
+     * @return Dzit_IController
+     */
+    protected function getControllerByString($className) {
+        return new $className();
     }
 }
 ?>
