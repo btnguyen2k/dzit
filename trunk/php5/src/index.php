@@ -19,36 +19,15 @@ spl_autoload_register('dzitAutoload');
  * Dzit's class auto loader.
  */
 function dzitAutoload($className) {
-    require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-    require_once 'Ddth/Commons/ClassLoader.php';
+    if (defined('DZIT_IGNORE_AUTOLOAD') && is_array(DZIT_IGNORE_AUTOLOAD) && in_array($className, DZIT_IGNORE_AUTOLOAD)) {
+        return FALSE;
+    }
     $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
     if (!Ddth_Commons_Loader::loadClass($className, $translator)) {
         return FALSE;
-
-     //$filename = $translator->translateClassNameToFileName($className);
-    //trigger_error("Can not load class [$className] (file: \"$filename\")!");
     }
     return TRUE;
 }
-
-//if (!function_exists('__autoload')) {
-//    /**
-//     * Automatically loads class source file when used.
-//     *
-//     * @param string
-//     * @ignore
-//     */
-//    function __autoload($className) {
-//        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-//        require_once 'Ddth/Commons/ClassLoader.php';
-//        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-//        if (!Ddth_Commons_Loader::loadClass($className, $translator)) {
-//            $filename = $translator->translateClassNameToFileName($className);
-//            trigger_error("Can not load class [$className] (file: \"$filename\")!");
-//        }
-//    }
-//}
-
 
 /*
  * Define a token as the include-allow key.
@@ -118,6 +97,9 @@ if (defined('MODULES_DIR')) {
     }
     ini_set('include_path', $includePath);
 }
+
+require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
+require_once 'Ddth/Commons/ClassLoader.php';
 
 //load the configuration file if exists
 if (file_exists(CONFIG_DIR . '/dzit-config.php')) {
