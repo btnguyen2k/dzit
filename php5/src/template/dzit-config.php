@@ -24,8 +24,10 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 /*
  * Put list of classes that should be ignored by Dzit's auto loading.
+ * Note: PCRE regular expression supported (http://www.php.net/manual/en/pcre.pattern.php).
  */
-define('DZIT_IGNORE_AUTOLOAD', Array());
+global $DZIT_IGNORE_AUTOLOAD;
+$DZIT_IGNORE_AUTOLOAD = Array('/^Smarty_*/');
 
 /*
  * Configurations for Ddth::Commons::Logging
