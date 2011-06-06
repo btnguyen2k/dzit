@@ -52,7 +52,7 @@ $BASE_DIR = __DIR__ . DIRECTORY_SEPARATOR;
  * For security reason, it should not be reachable from the web.
  * Note: change the value if your config folder is located at another location!
  */
-define('CONFIG_DIR', $BASE_DIR.'../config');
+define('CONFIG_DIR', $BASE_DIR . '../config');
 if (!is_dir(CONFIG_DIR)) {
     exit('Invalid CONFIG_DIR setting!');
 }
@@ -63,7 +63,7 @@ if (!is_dir(CONFIG_DIR)) {
  * in the include_path.
  * Note: change the value if your config folder is located at another location!
  */
-define('LIBS_DIR', $BASE_DIR.'../libs');
+define('LIBS_DIR', $BASE_DIR . '../libs');
 if (!is_dir(LIBS_DIR)) {
     exit('Invalid LIBS_DIR setting!');
 }
@@ -88,7 +88,7 @@ ini_set('include_path', $includePath);
  * Note: change the value if your module folder is located at another location!
  * Note: if the application does not use module directory.
  */
-define('MODULES_DIR', $BASE_DIR.'../modules');
+define('MODULES_DIR', $BASE_DIR . '../modules');
 
 if (defined('MODULES_DIR')) {
     /* set up include path */
@@ -128,7 +128,7 @@ try {
         $dispatcher = new Dzit_DefaultDispatcher();
     }
     if ($logger->isDebugEnabled()) {
-        $logger->debug("Use dispatcher class [" . get_class($dispatcher) . "]");
+        $logger->debug("[__CLASS__::__FUNCTION__]Use dispatcher class [" . get_class($dispatcher) . "]");
     }
     $dispatcher->dispatch();
 } catch (Exception $e) {
