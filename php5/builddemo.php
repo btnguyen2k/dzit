@@ -7,7 +7,7 @@ function buildDemo($demoApp) {
     if (FALSE !== ($dh = opendir($dir))) {
         while (FALSE !== ($file = readdir($dh))) {
             if (strpos($file, 'dzit') === 0) {
-                removeTree("$dir/$file");
+                //removeTree("$dir/$file");
             }
         }
     }
@@ -19,13 +19,12 @@ function buildDemo($demoApp) {
 
     global $DZIT_VERSION;
     //removeTree("demo/$demoApp/libs/dzit-$DZIT_VERSION");
-    @mkdir("demo/$demoApp/libs/dzit-$DZIT_VERSION");
-    @mkdir("demo/$demoApp/libs/dzit-$DZIT_VERSION/Dzit");
-    copyDir("src/Dzit", "demo/$demoApp/libs/dzit-$DZIT_VERSION/Dzit");
+    //@mkdir("demo/$demoApp/libs/dzit-$DZIT_VERSION");
+    //@mkdir("demo/$demoApp/libs/dzit-$DZIT_VERSION/Dzit");
+    //copyDir("src/Dzit", "demo/$demoApp/libs/dzit-$DZIT_VERSION/Dzit");
     copy("src/index.php", "demo/$demoApp/www/index.php");
     copy("src/template/dzit-config.php", "demo/$demoApp/config/dzit-config.php.template");
     copy("src/template/dzit-bootstrap.php", "demo/$demoApp/config/dzit-bootstrap.php.template");
-    copy("src/index.php", "demo/$demoApp/www/index.php");
 }
 
 $includePath = ".";
