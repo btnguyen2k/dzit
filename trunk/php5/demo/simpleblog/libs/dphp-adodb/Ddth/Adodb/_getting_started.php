@@ -9,7 +9,7 @@
  *
  * @package     Adodb
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: _getting_started.php 254 2010-12-27 07:48:24Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.1.7
  */
 

@@ -10,7 +10,7 @@
  * @package     Dao
  * @subpackage  Mysql
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassMysqlConnection.php 258 2010-12-28 10:39:48Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 

@@ -10,7 +10,7 @@
  * @package     Dzit
  * @subpackage  Session
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassSessionAttributeWrapper.php 40 2010-12-23 19:29:19Z btnguyen2k $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 

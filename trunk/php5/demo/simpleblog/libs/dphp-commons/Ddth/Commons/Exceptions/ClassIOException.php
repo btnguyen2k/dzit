@@ -10,7 +10,7 @@
  * @package     Commons
  * @subpackage  Exceptions
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassIOException.php 251 2010-12-25 19:21:35Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.1
  */
 

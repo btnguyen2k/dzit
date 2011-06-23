@@ -10,7 +10,7 @@ defined('DZIT_INCLUDE_KEY') || die('No direct access allowed!');
  *
  * @package     Dzit
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: index.php 30 2010-11-21 16:08:30Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 

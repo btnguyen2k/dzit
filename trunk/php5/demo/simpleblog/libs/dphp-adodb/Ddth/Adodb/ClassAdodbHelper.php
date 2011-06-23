@@ -11,7 +11,7 @@
  * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version			$Id: ClassAdodbHelper.php 253 2010-12-27 06:51:31Z btnguyen2k@gmail.com $
+ * @version			$Id$
  * @since      	File available since v0.1.2
  */
 

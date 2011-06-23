@@ -15,7 +15,7 @@
  * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassElementXnode.php 127 2008-02-25 05:21:13Z btnguyen2k@gmail.com $
+ * @id			$Id$
  * @since      	File available since v0.1
  */
 

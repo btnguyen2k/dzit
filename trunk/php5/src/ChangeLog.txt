@@ -1,3 +1,5 @@
+* 2011-Jun-24: v0.3
+    - Added Dzit_Controller_UniversalController and Dzit_Controller_FlowController
 * 2011-Jan-07: v0.2
     - dPHP libraries are now use PHP-style configuration (no longer .properties file-based)
     - Re-organized the demo directory
