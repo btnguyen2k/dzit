@@ -10,7 +10,7 @@
  * @package     Cache
  * @subpackage  Engine
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassApcEngine.php 252 2010-12-26 06:17:30Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 

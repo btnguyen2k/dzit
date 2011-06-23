@@ -9,7 +9,7 @@
  *
  * @package     Dzit
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassDefaultActionHandlerMapping.php 58 2011-01-10 07:21:57Z btnguyen2k $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 

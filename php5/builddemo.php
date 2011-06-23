@@ -28,8 +28,10 @@ function buildDemo($demoApp) {
 }
 
 $includePath = ".";
-$includePath .= PATH_SEPARATOR . "libs/dphp-commons";
-$includePath .= PATH_SEPARATOR . "libs/dphp-xpath";
+//$includePath .= PATH_SEPARATOR . "libs/dphp-commons";
+//$includePath .= PATH_SEPARATOR . "libs/dphp-xpath";
+$includePath .= PATH_SEPARATOR . "libs/dphp-commons-trunk";
+$includePath .= PATH_SEPARATOR . "libs/dphp-xpath-trunk";
 ini_set("include_path", $includePath);
 
 if (!function_exists('__autoload')) {

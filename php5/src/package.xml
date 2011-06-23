@@ -4,7 +4,7 @@
 	"http://dphp.googlecode.com/svn/trunk/docs/package.dtd">
 <package>
     <name>Ddth::Dzit</name>
-    <version>0.2</version>
+    <version>0.3</version>
     <description>
 		Dzit - PHP Application Framework.
 	</description>

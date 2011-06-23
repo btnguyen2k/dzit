@@ -9,7 +9,7 @@
  *
  * @package     Mls
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassFileLanguage.php 226 2010-12-05 05:43:59Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.1
  */
 

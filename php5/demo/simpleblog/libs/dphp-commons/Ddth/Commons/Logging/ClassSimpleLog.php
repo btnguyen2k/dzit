@@ -10,7 +10,7 @@
  * @package     Commons
  * @subpackage  Logging
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassSimpleLog.php 255 2010-12-27 09:55:32Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.1
  */
 

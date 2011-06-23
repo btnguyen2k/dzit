@@ -10,7 +10,7 @@
  * @package     Template
  * @subpackage  Smarty
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassSmartyTemplate.php 260 2011-01-04 04:10:06Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.1
  */
 

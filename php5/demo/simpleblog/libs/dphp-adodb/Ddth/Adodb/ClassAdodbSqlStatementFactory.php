@@ -9,7 +9,7 @@
  *
  * @package     Adodb
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassAdodbSqlStatementFactory.php 253 2010-12-27 06:51:31Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.1.6
  */
 

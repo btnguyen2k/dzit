@@ -10,7 +10,7 @@
  * @package     Dzit
  * @subpackage  View
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassRedirectView.php 54 2011-01-07 06:31:51Z btnguyen2k $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 

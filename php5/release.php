@@ -2,25 +2,25 @@
 function error($str) {
     echo "Error: $str\n";
     echo "\n";
-    exit;
+    exit();
 }
 
 function removeTree($dir, $removeCurrent = false) {
-    if ( !is_dir($dir) ) {
+    if (!is_dir($dir)) {
         return;
     }
-    if ( $dir_handle = opendir($dir) ) {
-        while ( $file = readdir($dir_handle) ) {
-            if ( $file != "." && $file != ".." ) {
-                if ( is_dir($dir."/".$file) ) {
-                    removeTree($dir."/".$file, true);
+    if (($dir_handle = opendir($dir)) !== FALSE) {
+        while (($file = readdir($dir_handle)) !== FALSE) {
+            if ($file != "." && $file != "..") {
+                if (is_dir($dir . "/" . $file)) {
+                    removeTree($dir . "/" . $file, true);
                 } else {
-                    unlink($dir."/".$file);
+                    unlink($dir . "/" . $file);
                 }
             }
         }
         closedir($dir_handle);
-        if ( $removeCurrent ) {
+        if ($removeCurrent) {
             rmdir($dir);
         }
         return true;
@@ -30,23 +30,23 @@ function removeTree($dir, $removeCurrent = false) {
 }
 
 function copyDir($source, $dest) {
-    if ( !is_dir($source) ) {
+    if (!is_dir($source)) {
         error("$source is not a directory or does not exists!");
     }
-    if ( !is_dir($dest) ) {
+    if (!is_dir($dest)) {
         error("$dest is not a directory or does not exists!");
     }
 
-    if ( $source_dh = opendir($source) ) {
-        while ( $file = readdir($source_dh) ) {
+    if (($source_dh = opendir($source)) !== FALSE) {
+        while (($file = readdir($source_dh)) !== FALSE) {
             //if ( $file != "." && $file != ".." ) {
-            if ( $file[0] != "." ) {
-                if ( is_dir($source."/".$file) ) {
+            if ($file[0] != ".") {
+                if (is_dir($source . "/" . $file)) {
                     echo "Copying directory $source/$file...\n";
-                    mkdir($dest."/".$file);
-                    copyDir($source."/".$file, $dest."/".$file);
+                    mkdir($dest . "/" . $file);
+                    copyDir($source . "/" . $file, $dest . "/" . $file);
                 } else {
-                    copyFile($source."/".$file, $dest."/".$file);
+                    copyFile($source . "/" . $file, $dest . "/" . $file);
                 }
             }
         }
@@ -62,7 +62,7 @@ function copyFile($source, $dest) {
 function zipDir($dir, $filename) {
     $zip = new ZipArchive();
 
-    if ( $zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE ) {
+    if ($zip->open($filename, ZIPARCHIVE::CREATE) !== TRUE) {
         error("cannot open <$filename>\n");
     }
 
@@ -74,19 +74,19 @@ function zipDir($dir, $filename) {
 }
 
 function performZipDir($parent, $dir, $zip) {
-    if ( !is_dir($dir) ) {
-        error("$source is not a directory or does not exists!");
+    if (!is_dir($dir)) {
+        error("$dir is not a directory or does not exists!");
     }
 
-    if ( $source_dh = opendir($dir) ) {
+    if (($source_dh = opendir($dir)) !== FALSE) {
         $isEmpty = true;
-        while ( $file = readdir($source_dh) ) {
+        while (($file = readdir($source_dh)) !== FALSE) {
             //if ( $file != "." && $file != ".." ) {
-            if ( $file[0] != "." ) {
+            if ($file[0] != ".") {
                 $isEmpty = false;
-                $realFile = $dir.DIRECTORY_SEPARATOR.$file;
-                $zipEntry = substr($realFile, strlen($parent)+1);
-                if ( is_dir($realFile) ) {
+                $realFile = $dir . DIRECTORY_SEPARATOR . $file;
+                $zipEntry = substr($realFile, strlen($parent) + 1);
+                if (is_dir($realFile)) {
                     //echo "Added dir:\t$zipEntry\n";
                     //$zip->addEmptyDir($zipEntry);
                     performZipDir($parent, $realFile, $zip);
@@ -96,8 +96,8 @@ function performZipDir($parent, $dir, $zip) {
                 }
             }
         }
-        if ( $isEmpty ) {
-            $zipEntry = substr($dir, strlen($parent)+1);
+        if ($isEmpty) {
+            $zipEntry = substr($dir, strlen($parent) + 1);
             echo "Added dir:\t$zipEntry\n";
             $zip->addEmptyDir($zipEntry);
         }
@@ -106,15 +106,15 @@ function performZipDir($parent, $dir, $zip) {
 }
 
 $DIR_RELEASE = 'release';
-if ( !is_dir($DIR_RELEASE) ) {
+if (!is_dir($DIR_RELEASE)) {
     mkdir($DIR_RELEASE);
 }
-if ( !is_dir($DIR_RELEASE) ) {
+if (!is_dir($DIR_RELEASE)) {
     error("$DIR_RELEASE is not a directory or does not exists!");
 }
 
 $DIR_SOURCE = 'src';
-if ( !is_dir($DIR_SOURCE) ) {
+if (!is_dir($DIR_SOURCE)) {
     error("$DIR_SOURCE is not a directory or does not exists!");
 }
 
@@ -124,25 +124,26 @@ $DIR_DEMO = 'demo';
 removeTree($DIR_RELEASE, false);
 
 //copy Dzit source over
-$DIR_RELEASE_SRC = $DIR_RELEASE.DIRECTORY_SEPARATOR.'src';
+$DIR_RELEASE_SRC = $DIR_RELEASE . DIRECTORY_SEPARATOR . 'src';
 mkdir($DIR_RELEASE_SRC);
 copyDir($DIR_SOURCE, $DIR_RELEASE_SRC);
 
 //copy the demo(s) over
-$DIR_RELEASE_DEMO = $DIR_RELEASE.DIRECTORY_SEPARATOR.'demo';
+$DIR_RELEASE_DEMO = $DIR_RELEASE . DIRECTORY_SEPARATOR . 'demo';
 mkdir($DIR_RELEASE_DEMO);
 copyDir($DIR_DEMO, $DIR_RELEASE_DEMO);
 
-
 //copy the license.txt file over
-copyFile("license.txt", $DIR_RELEASE_SRC.DIRECTORY_SEPARATOR."license.txt");
+copyFile("license.txt", $DIR_RELEASE_SRC . DIRECTORY_SEPARATOR . "license.txt");
 
 $includePath = ".";
-$includePath .= PATH_SEPARATOR."libs/dphp-commons";
-$includePath .= PATH_SEPARATOR."libs/dphp-xpath";
+//$includePath .= PATH_SEPARATOR . "libs/dphp-commons";
+//$includePath .= PATH_SEPARATOR . "libs/dphp-xpath";
+$includePath .= PATH_SEPARATOR . "libs/dphp-commons-trunk";
+$includePath .= PATH_SEPARATOR . "libs/dphp-xpath-trunk";
 ini_set("include_path", $includePath);
 
-if ( !function_exists('__autoload') ) {
+if (!function_exists('__autoload')) {
     function __autoload($className) {
         require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
         require_once 'Ddth/Commons/ClassLoader.php';
@@ -151,7 +152,7 @@ if ( !function_exists('__autoload') ) {
     }
 }
 
-$xml = Ddth_Commons_Loader::loadFileContent($DIR_SOURCE.DIRECTORY_SEPARATOR.'package.xml');
+$xml = Ddth_Commons_Loader::loadFileContent($DIR_SOURCE . DIRECTORY_SEPARATOR . 'package.xml');
 $xpath = Ddth_Xpath_XmlParser::getInstance();
 $xnode = $xpath->parseXml($xml);
 $xnodes = $xnode->xpath("/package/version");
@@ -160,7 +161,7 @@ $VERSION = $xnodes[0]->getValue();
 $t = date("Ymd");
 $ZIPFILE = "Dzit-$VERSION-$t.zip";
 $ZIPFILE = strtolower($ZIPFILE);
-$ZIPFILE = $DIR_RELEASE.DIRECTORY_SEPARATOR.$ZIPFILE;
+$ZIPFILE = $DIR_RELEASE . DIRECTORY_SEPARATOR . $ZIPFILE;
 @unlink($ZIPFILE);
 zipDir($DIR_RELEASE, $ZIPFILE);
 ?>

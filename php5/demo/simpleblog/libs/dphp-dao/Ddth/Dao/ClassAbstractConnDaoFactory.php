@@ -10,7 +10,7 @@
  *
  * @package     Dao
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassIBoManager.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
+ * @version     $Id$
  * @since       File available since v0.2.1
  */
 
