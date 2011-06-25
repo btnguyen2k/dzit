@@ -30,4 +30,3 @@ interface Dzit_IController {
      */
     public function execute($module, $action);
 }
-?>
