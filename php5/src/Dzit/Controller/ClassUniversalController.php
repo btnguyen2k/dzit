@@ -26,7 +26,8 @@
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since       Class available since v0.3
  */
-class Dzit_Controller_UniversalController implements Dzit_IController {
+class Dzit_Controller_UniversalController implements
+        Dzit_IController {
 
     const FUNCTION_PREFIX = 'do';
 
@@ -92,5 +93,14 @@ class Dzit_Controller_UniversalController implements Dzit_IController {
      */
     public function setActionFunctionPrefix($prefix) {
         $this->actionFuncPrefix = $prefix;
+    }
+
+    /**
+     * Sees if the request is POST method
+     *
+     * @return boolean
+     */
+    protected function isPostRequest() {
+        return strtoupper($_SERVER['REQUEST_METHOD']) == 'POST';
     }
 }
