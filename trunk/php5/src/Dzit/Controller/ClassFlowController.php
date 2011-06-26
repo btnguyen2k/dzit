@@ -58,7 +58,8 @@
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since       Class available since v0.3
  */
-class Dzit_Controller_FlowController implements Dzit_IController {
+class Dzit_Controller_FlowController implements
+        Dzit_IController {
 
     private $module, $action;
 
@@ -189,7 +190,7 @@ class Dzit_Controller_FlowController implements Dzit_IController {
             return $this->getModelAndView_Error();
         }
 
-        if (isset($_POST)) {
+        if ($this->isPostRequest()) {
             if ($this->performFormSubmission()) {
                 return $this->getModelAndView_FormSubmissionSuccessful();
             }
@@ -225,5 +226,14 @@ class Dzit_Controller_FlowController implements Dzit_IController {
      */
     protected function getModule() {
         return $this->module;
+    }
+
+    /**
+     * Sees if the request is POST method
+     *
+     * @return boolean
+     */
+    protected function isPostRequest() {
+        return strtoupper($_SERVER['REQUEST_METHOD']) == 'POST';
     }
 }
