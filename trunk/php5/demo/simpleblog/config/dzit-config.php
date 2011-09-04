@@ -3,40 +3,67 @@ defined('DZIT_INCLUDE_KEY') || die('No direct access allowed!');
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
  * Dzit's core configuration file.
- *
- * LICENSE: See the included license.txt file for detail.
- *
- * COPYRIGHT: See the included copyright.txt file for detail.
- *
- * @package     Dzit
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
- * @since       File available since v0.2
+ * Note: Add/Remove/Modify your own configurations if needed!
  */
 
 /*
+ * If environment variable DEV_ENV exists then we are on development server.
+ */
+define('IN_DEV_ENV', getenv('DEV_ENV'));
+
+/*
+ * If CLI_MODE is TRUE, the application is running in CLI (command line interface) mode.
+ */
+define('CLI_MODE', strtolower(php_sapi_name()) == 'cli' && empty($_SERVER['REMOTE_ADDR']));
+
+/*
  * Since PHP 5.3, you should not rely on the default time zone setting any more!
+ * Note: See http://www.php.net/manual/en/timezones.php for list of supported timezones.
  */
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 /*
+ * Put list of classes that should be ignored by Dzit's auto loading.
+ * Note: PCRE regular expression supported (http://www.php.net/manual/en/pcre.pattern.php).
+ */
+global $DZIT_IGNORE_AUTOLOAD;
+$DZIT_IGNORE_AUTOLOAD = Array('/^Smarty_*/');
+
+/*
  * Configurations for Ddth::Commons::Logging
+ * Note: the default logger (SimpleLog which writes log to php's system log) should
+ * be sufficient for most cases. Change it if you want to use another logger.
  */
 global $DPHP_COMMONS_LOGGING_CONFIG;
 $DPHP_COMMONS_LOGGING_CONFIG = Array(
         'ddth.commons.logging.Logger' => 'Ddth_Commons_Logging_SimpleLog',
-        'logger.setting.default' => 'DEBUG');
+        'logger.setting.default' => IN_DEV_ENV ? 'DEBUG' : 'WARN');
 
 /*
  * Configurations for Ddth::Dao
  */
 global $DPHP_DAO_CONFIG;
 $DPHP_DAO_CONFIG = Array('ddth-dao.factoryClass' => 'Ddth_Dao_Mysql_BaseMysqlDaoFactory',
-        'ddth-dao.mysql.host' => '127.0.0.1', 'ddth-dao.mysql.username' => 'dzit_demo',
-        'ddth-dao.mysql.password' => 'dzit_demo', 'ddth-dao.mysql.persistent' => FALSE,
+        'ddth-dao.mysql.host' => '127.0.0.1',
+        'ddth-dao.mysql.username' => 'dzit_demo',
+        'ddth-dao.mysql.password' => 'dzit_demo',
+        'ddth-dao.mysql.persistent' => FALSE,
         'ddth-dao.mysql.database' => 'dzit_demo',
-
         'dao.simpleBlog' => 'Dzit_Demo_Bo_MysqlSimpleBlogDao');
+
+/*
+ * Configurations for Ddth::Mls
+ */
+global $DPHP_MLS_CONFIG;
+$DPHP_MLS_CONFIG = Array('factory.class' => 'Ddth_Mls_BaseLanguageFactory',
+        'languages' => 'en',
+        // Note: Language base directory is relative to the [www] directory!
+        'language.baseDirectory' => '../config/languages',
+        'language.class' => 'Ddth_Mls_FileLanguage',
+        'language.en.location' => 'en_us',
+        'language.en.displayName' => 'English',
+        'language.en.locale' => 'en_US',
+        'language.en.description' => 'English (US) language pack');
 
 /*
  * Action dispatcher configuration: the default dispatcher should work out-of-the-box.
@@ -80,6 +107,7 @@ Dzit_Config::set(Dzit_Config::CONF_ROUTER, $router);
  */
 $actionHandlerMappingClass = 'Dzit_DefaultActionHandlerMapping';
 Dzit_Config::set(Dzit_Config::CONF_ACTION_HANDLER_MAPPING, new $actionHandlerMappingClass($router));
+
 
 /*
  * View resolver configuration.

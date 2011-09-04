@@ -32,6 +32,7 @@ class Dzit_RequestParser {
     private function __construct() {
         //singleton
 
+
         /* parses the path info parameters */
         $this->pathInfo = $this->parsePathInfo();
     }
@@ -42,7 +43,7 @@ class Dzit_RequestParser {
      * @return Ddth_Dzit_RequestParser
      */
     public static function getInstance() {
-        if ( self::$instance === NULL ) {
+        if (self::$instance === NULL) {
             self::$instance = new Dzit_RequestParser();
         }
         return self::$instance;
@@ -55,12 +56,17 @@ class Dzit_RequestParser {
      */
     protected function parsePathInfo() {
         $this->pathInfo = Array();
-        if ( isset($_SERVER['PATH_INFO']) ) {
-            $tokens = explode('/', $_SERVER['PATH_INFO']);
-            foreach ( $tokens as $token ) {
-                if ( $token !== '' ) {
-                    $this->pathInfo[] = $token;
-                }
+        $pathInfo = '';
+        if (isset($_SERVER['PATH_INFO'])) {
+            $pathInfo = $_SERVER['PATH_INFO'];
+        } else if (isset($_SERVER['SCRIPT_URL']) && isset($_SERVER['SCRIPT_NAME'])) {
+            //fall back to SCRIPT_URL to extract path info
+            $pathInfo = substr($_SERVER['SCRIPT_URL'], strlen($_SERVER['SCRIPT_NAME']));
+        }
+        $tokens = explode('/', $pathInfo);
+        foreach ($tokens as $token) {
+            if ($token !== '') {
+                $this->pathInfo[] = $token;
             }
         }
         return $this->pathInfo;
@@ -72,8 +78,8 @@ class Dzit_RequestParser {
      * @param $index int
      * @return string
      */
-    public function getPathInfoParam($index=0) {
-        if ( $index < 0 || $index >= count($this->pathInfo) ) {
+    public function getPathInfoParam($index = 0) {
+        if ($index < 0 || $index >= count($this->pathInfo)) {
             return NULL;
         }
         return $this->pathInfo[$index];
@@ -86,7 +92,7 @@ class Dzit_RequestParser {
      */
     public function getModule() {
         $module = $this->getPathInfoParam(0);
-        if ( $module == NULL && isset($_GET[Dzit_Constants::URL_PARAM_MODULE]) ) {
+        if ($module == NULL && isset($_GET[Dzit_Constants::URL_PARAM_MODULE])) {
             $module = $_GET[Dzit_Constants::URL_PARAM_MODULE];
         }
         return $module;
@@ -99,11 +105,11 @@ class Dzit_RequestParser {
      */
     public function getAction() {
         $module = $this->getModule();
-        if ( $module == NULL ) {
+        if ($module == NULL) {
             return NULL;
         }
         $action = $this->getPathInfoParam(1);
-        if ( $action == NULL && isset($_GET[Dzit_Constants::URL_PARAM_ACTION]) ) {
+        if ($action == NULL && isset($_GET[Dzit_Constants::URL_PARAM_ACTION])) {
             $action = $_GET[Dzit_Constants::URL_PARAM_ACTION];
         }
         return $action;
