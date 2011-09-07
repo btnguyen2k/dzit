@@ -16,6 +16,12 @@
 	<target name="help">
 		<echo>Run ant -p for list of targets</echo>
 	</target>
-	
-	
+
+	<target name="release-interim" description="Release the interim">
+		<copy todir="${dir.release.interim}">
+			<fileset dir="${dir.src}">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+	</target>
 </project>
