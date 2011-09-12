@@ -62,9 +62,10 @@ class Quack_Session_SessionHandler implements Countable, ArrayAccess, Iterator {
     public function __construct($sessionDao) {
         self::$LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
         self::$LOGGER->debug("Session Dao: [$sessionDao]");
-        
-        /* cancel any auto started session */
-        session_write_close();
+
+        ///* cancel any auto started session */
+        //session_write_close();
+
 
         $this->sessionDao = $sessionDao;
         $handlerOpen = Array(__CLASS__, 'sessionOpen');
@@ -75,7 +76,7 @@ class Quack_Session_SessionHandler implements Countable, ArrayAccess, Iterator {
         $handlerGc = Array(__CLASS__, 'sessionGc');
         session_set_save_handler($handlerOpen, $handlerClose, $handlerRead, $handlerWrite, $handlerDestroy, $handlerGc);
         session_cache_limiter('no-cache');
-        register_shutdown_function('session_write_close');
+        //register_shutdown_function('session_write_close');
         session_start();
         $this->sessionId = session_id();
     }
