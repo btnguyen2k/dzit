@@ -66,6 +66,7 @@ class Quack_Session_SessionHandler implements Countable, ArrayAccess, Iterator {
         $handlerDestroy = Array(__CLASS__, 'sessionDestroy');
         $handlerGc = Array(__CLASS__, 'sessionGc');
         session_set_save_handler($handlerOpen, $handlerClose, $handlerRead, $handlerWrite, $handlerDestroy, $handlerGc);
+        session_cache_limiter('no-cache');
         register_shutdown_function('session_write_close');
         session_start();
         $this->sessionId = session_id();
