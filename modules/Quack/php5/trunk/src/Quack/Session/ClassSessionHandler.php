@@ -24,6 +24,11 @@
  */
 class Quack_Session_SessionHandler implements Countable, ArrayAccess, Iterator {
 
+    /**
+     * @var Ddth_Commons_Logging_ILog
+     */
+    private static $LOGGER;
+
     private static $sessionHandler = NULL;
 
     /**
@@ -55,6 +60,9 @@ class Quack_Session_SessionHandler implements Countable, ArrayAccess, Iterator {
     private $sessionId = null;
 
     public function __construct($sessionDao) {
+        self::$LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
+        self::$LOGGER->debug("Session Dao: [$sessionDao]");
+        
         /* cancel any auto started session */
         session_write_close();
 

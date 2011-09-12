@@ -100,7 +100,7 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
     protected function execCount($stm, $params = Array(), $conn = NULL) {
         $closeConn = FALSE;
         if ($conn === NULL) {
-            $conn = $this->getConnection();
+            $conn = $this->getConnection()->getConn();
             $closeConn = TRUE;
         }
         $rs = $stm->execute($conn, $params);
@@ -122,7 +122,7 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
     protected function execNonQuery($stm, $params = Array(), $conn = NULL) {
         $closeConn = FALSE;
         if ($conn === NULL) {
-            $conn = $this->getConnection();
+            $conn = $this->getConnection()->getConn();
             $closeConn = TRUE;
         }
         $stm->execute($conn, $params);
@@ -144,7 +144,7 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
     protected function execSelect($stm, $params = Array(), $conn = NULL) {
         $closeConn = FALSE;
         if ($conn === NULL) {
-            $conn = $this->getConnection();
+            $conn = $this->getConnection()->getConn();
             $closeConn = TRUE;
         }
         $rs = $stm->execute($conn, $params);
