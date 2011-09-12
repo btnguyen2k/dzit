@@ -24,6 +24,29 @@
  */
 class Quack_Session_SessionHandler implements Countable, ArrayAccess, Iterator {
 
+    private static $sessionHandler = NULL;
+
+    /**
+     * Tests if the custom session handler has started.
+     *
+     * @return boolean
+     */
+    public static function isSessionStarted() {
+        return self::$sessionHandler !== NULL;
+    }
+
+    /**
+     * Starts the custom session handler.
+     *
+     * @param mixed $sessionDao an instance of {@link Quack_Bo_Session_ISessionDao} or name of the session dao
+     */
+    public static function startSession($sessionDao) {
+        if (self::$sessionHandler === NULL) {
+            self::$sessionHandler = new Quack_Session_SessionHandler($sessionDao);
+            $_SESSION = self::$sessionHandler;
+        }
+    }
+
     private $sessionDao = NULL;
     private $index = 0; //used by Iterator, store the current element's index
     private $curElement = NULL; //store the current element's key & value
