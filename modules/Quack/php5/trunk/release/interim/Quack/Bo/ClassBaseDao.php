@@ -90,6 +90,75 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
     protected abstract function fetchResultArr($rs);
 
     /**
+     * Executes a "COUNT" statement.
+     *
+     * @param {@link Ddth_Dao_SqlStatement} $stm
+     * @param Array $params
+     * @param mixed $conn an open db connection
+     * @return int the "COUNT" value, or FALSE if error
+     */
+    protected function execCount($stm, $params = Array(), $conn = NULL) {
+        $closeConn = FALSE;
+        if ($conn === NULL) {
+            $conn = $this->getConnection();
+            $closeConn = TRUE;
+        }
+        $rs = $stm->execute($conn, $params);
+        $result = $this->fetchResultArr($rs);
+        if ($closeConn) {
+            $this->closeConnection();
+        }
+        return $result !== FALSE ? $result[0] : FALSE;
+    }
+
+    /**
+     * Executes a non-query (DELETE, INSERT, UPDATE) statement.
+     *
+     * @param {@link Ddth_Dao_SqlStatement} $stm the statement to execute.
+     * @param Array $params
+     * @param mixed $conn an open db connection
+     * @return int number of affected rows, FALSE if error, or -1 if not supported
+     */
+    protected function execNonQuery($stm, $params = Array(), $conn = NULL) {
+        $closeConn = FALSE;
+        if ($conn === NULL) {
+            $conn = $this->getConnection();
+            $closeConn = TRUE;
+        }
+        $stm->execute($conn, $params);
+        $result = $stm->getNumAffectedRows($conn);
+        if ($closeConn) {
+            $this->closeConnection();
+        }
+        return $result;
+    }
+
+    /**
+     * Executes a "SELECT" statement.
+     *
+     * @param {@link Ddth_Dao_SqlStatement} $stm the statement to execute.
+     * @param Array $params
+     * @param mixed $conn an open db connection
+     * @return Array
+     */
+    protected function execSelect($stm, $params = Array(), $conn = NULL) {
+        $closeConn = FALSE;
+        if ($conn === NULL) {
+            $conn = $this->getConnection();
+            $closeConn = TRUE;
+        }
+        $rs = $stm->execute($conn, $params);
+        $result = Array();
+        $row = $this->fetchResultAssoc($rs);
+        while ($row !== FALSE && $row !== NULL) {
+            $result[] = $row;
+            $row = $this->fetchResultAssoc($rs);
+        }
+        $this->closeConnection();
+        return $result;
+    }
+
+    /**
      * Gets a {@link Ddth_Dao_SqlStatement} object, throws exception if not found.
      *
      * @param string $name name of the statement to get
