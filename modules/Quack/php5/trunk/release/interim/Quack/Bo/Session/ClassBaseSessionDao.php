@@ -8,6 +8,10 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
     const COL_SESSION_TIMESTAMP = 'sessionTimestamp';
     const COL_SESSION_VALUE = 'sessionValue';
 
+    const CACHE_KEY_COUNT_ENTRY = 'SESSION_COUNT_ENTRY';
+    const CACHE_KEY_SESSION = 'SESSION';
+    const CACHE_KEY_SESSION_ENTRY = 'SESSION_ENTRY';
+
     /**
      * @var Ddth_Commons_Logging_ILog
      */
@@ -19,13 +23,34 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
     }
 
     /**
+     * Invalidates cache due to changes.
+     *
+     * @param string $sessionId
+     * @param string $sessionKey
+     */
+    protected function invalidateCache($sessionId, $sessionKey = NULL) {
+        if ($sessionKey !== NULL) {
+            $this->deleteFromCache(self::CACHE_KEY_SESSION_ENTRY . "_$sessionKey");
+        } else {
+            $this->deleteFromCache(self::CACHE_KEY_COUNT_ENTRY . "_$sessionId");
+            $this->deleteFromCache(self::CACHE_KEY_SESSION . "_$sessionId");
+        }
+    }
+
+    /**
      * (non-PHPdoc)
      * @see Quack_Bo_Session_ISessionDao::countEntries()
      */
     public function countEntries($sessionId) {
-        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
-        $params = Array(self::COL_SESSION_ID => $sessionId);
-        return $this->execCount($sqlStm, $params);
+        $cacheKey = self::CACHE_KEY_COUNT_ENTRY . "_$sessionId";
+        $result = $this->getFromCache($cacheKey);
+        if ($result === NULL) {
+            $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
+            $params = Array(self::COL_SESSION_ID => $sessionId);
+            $result = $this->execCount($sqlStm, $params);
+            $this->putToCache($cacheKey, $result);
+        }
+        return $result;
     }
 
     /**
@@ -35,7 +60,9 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
     public function deleteEntry($sessionId, $sessionKey) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
         $params = Array(self::COL_SESSION_ID => $sessionId, self::COL_SESSION_KEY => $sessionKey);
-        return $this->execNonQuery($sqlStm, $params);
+        $result = $this->execNonQuery($sqlStm, $params);
+        $this->invalidateCache($sessionId, $sessionKey);
+        return $result;
     }
 
     /**
@@ -43,14 +70,26 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
      * @see Quack_Bo_Session_ISessionDao::getEntry()
      */
     public function getEntry($sessionId, $sessionKey) {
-        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
-        $params = Array(self::COL_SESSION_ID => $sessionId, self::COL_SESSION_KEY => $sessionKey);
-        $rows = $this->execSelect($sqlStm, $params);
-        if (count($rows) > 0) {
-            return $rows[0][self::COL_SESSION_VALUE];
-        } else {
+        $session = $this->getSession($sessionId);
+        if ($session === NULL) {
+            //if there is no session then there is no session entry
             return NULL;
         }
+        $cacheKey = self::CACHE_KEY_SESSION_ENTRY . "_$sessionId" . "_$sessionKey";
+        $result = $this->getFromCache($cacheKey);
+        if (result === NULL) {
+            $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
+            $params = Array(self::COL_SESSION_ID => $sessionId,
+                    self::COL_SESSION_KEY => $sessionKey);
+            $rows = $this->execSelect($sqlStm, $params);
+            if (count($rows) > 0) {
+                $result = $rows[0][self::COL_SESSION_VALUE];
+                $this->putToCache($cacheKey, $result);
+            } else {
+                return NULL;
+            }
+        }
+        return $result;
     }
 
     protected function createEntry($sessionId, $sessionKey, $sessionValue) {
@@ -68,7 +107,11 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
                 self::COL_SESSION_KEY => $sessionKey,
                 self::COL_SESSION_VALUE => $sessionValue,
                 self::COL_SESSION_TIMESTAMP => time());
-        return $this->execNonQuery($sqlStm, $params);
+        $result = $this->execNonQuery($sqlStm, $params);
+        //refresh the cache
+        $this->invalidateCache($sessionId, $sessionKey);
+        $sessionEntry = $this->getEntry($sessionId, $sessionKey);
+        return $result;
     }
 
     /**
@@ -113,7 +156,9 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
     public function deleteSession($sessionId) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
         $params = Array(self::COL_SESSION_ID => $sessionId);
-        return $this->execNonQuery($sqlStm, $params);
+        $result = $this->execNonQuery($sqlStm, $params);
+        $this->invalidateCache($sessionId);
+        return $result;
     }
 
     /**
@@ -147,15 +192,27 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
     }
 
     protected function getSession($sessionId) {
-        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
-        $params = Array(self::COL_SESSION_ID => $sessionId);
-        $rows = $this->execSelect($sqlStm, $params);
-        return count($rows) > 0 ? $rows[0] : NULL;
+        $cacheKey = self::CACHE_KEY_SESSION . "_$sessionId";
+        $result = $this->getFromCache($cacheKey);
+        if ($result === NULL) {
+            $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
+            $params = Array(self::COL_SESSION_ID => $sessionId);
+            $rows = $this->execSelect($sqlStm, $params);
+            $result = count($rows) > 0 ? $rows[0] : NULL;
+            if ($result !== NULL) {
+                $this->putToCache($cacheKey, $result);
+            }
+        }
+        return $result;
     }
 
     protected function updateSession($sessionId) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
         $params = Array(self::COL_SESSION_ID => $sessionId, self::COL_SESSION_TIMESTAMP => time());
-        return $this->execNonQuery($sqlStm, $params);
+        $result = $this->execNonQuery($sqlStm, $params);
+        //refresh cache
+        $this->invalidateCache($sessionId);
+        $session = $this->getSession($sessionId);
+        return $result;
     }
 }

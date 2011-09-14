@@ -26,8 +26,33 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
 
     protected $cacheL1 = Array();
 
+    /**
+     * Name of the L2 cache.
+     *
+     * @var string
+     */
+    private $cacheName = 'default';
+
     public function __construct() {
         parent::__construct();
+    }
+
+    /**
+     * Gets name of the L2 cache for this DAO to use.
+     *
+     * @return string
+     */
+    public function getCacheName() {
+        return $this->cacheName;
+    }
+
+    /**
+     * Sets name of the L2 cache for this DAO to use.
+     *
+     * @param string $cacheName
+     */
+    public function setCacheName($cacheName) {
+        $this->cacheName = $cacheName;
     }
 
     /**
@@ -40,7 +65,7 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
     protected function putToCache($key, $value, $includeCacheL2 = TRUE) {
         $this->cacheL1[$key] = $value;
         if ($includeCacheL2) {
-            Quack_Util_CacheUtils::put($key, $value, 'default');
+            Quack_Util_CacheUtils::put($key, $value, $this->getCacheName());
         }
     }
 
@@ -54,7 +79,7 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
     protected function getFromCache($key, $includeCacheL2 = TRUE) {
         $result = isset($this->cacheL1[$key]) ? $this->cacheL1[$key] : NULL;
         if ($result === NULL && $includeCacheL2) {
-            $result = Quack_Util_CacheUtils::get($key, 'default');
+            $result = Quack_Util_CacheUtils::get($key, $this->getCacheName());
             if ($result !== NULL) {
                 $this->cacheL1[$key] = $result;
             }
@@ -71,7 +96,7 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
     protected function deleteFromCache($key, $includeCacheL2 = TRUE) {
         unset($this->cacheL1[$key]);
         if ($includeCacheL2) {
-            Quack_Util_CacheUtils::delete($key);
+            Quack_Util_CacheUtils::delete($key, $this->getCacheName());
         }
     }
 
