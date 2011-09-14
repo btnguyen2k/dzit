@@ -78,11 +78,15 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
     public function setEntry($sessionId, $sessionKey, $sessionValue) {
         //pre-open a connection so that subsequence operations will reuse it
         $conn = $this->getConnection();
-        $sessionValue = $this->getEntry($sessionId, $sessionKey);
         if ($sessionValue === NULL) {
-            $this->createEntry($sessionId, $sessionKey, $sessionValue);
+            $this->deleteEntry($sessionId, $sessionKey);
         } else {
-            $this->createEntry($sessionId, $sessionKey, $sessionValue);
+            $value = $this->getEntry($sessionId, $sessionKey);
+            if ($value === NULL) {
+                $this->createEntry($sessionId, $sessionKey, $sessionValue);
+            } else {
+                $this->createEntry($sessionId, $sessionKey, $sessionValue);
+            }
         }
         $this->closeConnection();
     }
