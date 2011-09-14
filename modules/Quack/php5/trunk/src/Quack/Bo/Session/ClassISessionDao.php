@@ -58,4 +58,11 @@ interface Quack_Bo_Session_ISessionDao extends Ddth_Dao_IDao {
      * @param int $maxlifetime
      */
     public function deleteExpiredSessions($maxlifetime);
+
+    /**
+     * Starts/Initializes a session.
+     *
+     * @param string $sesionId
+     */
+    public function startSession($sessionId);
 }

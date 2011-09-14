@@ -101,4 +101,37 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
         $params = Array(self::COL_SESSION_TIMESTAMP => time() - $maxlifetime);
         return $this->execNonQuery($sqlStm, $params);
     }
+
+    /**
+     * (non-PHPdoc)
+     * @see Quack_Bo_Session_ISessionDao::startSession()
+     */
+    public function startSession($sessionId) {
+        //pre-open a connection so that subsequence operations will reuse it
+        $conn = $this->getConnection();
+        $updateResult = $this->updateSession($sessionId);
+        if ($updateResult === FALSE || $updateResult <= 0) {
+            $this->createSession($sessionId);
+        }
+        $this->closeConnection();
+    }
+
+    protected function createSession($sessionId) {
+        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
+        $params = Array(self::COL_SESSION_ID => $sessionId, self::COL_SESSION_TIMESTAMP => time());
+        return $this->execNonQuery($sqlStm, $params);
+    }
+
+    protected function getSession($sessionId) {
+        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
+        $params = Array(self::COL_SESSION_ID => $sessionId);
+        $rows = $this->execSelect($sqlStm, $params);
+        return count($rows) > 0 ? $rows[0] : NULL;
+    }
+
+    protected function updateSession($sessionId) {
+        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
+        $params = Array(self::COL_SESSION_ID => $sessionId, self::COL_SESSION_TIMESTAMP => time());
+        return $this->execNonQuery($sqlStm, $params);
+    }
 }
