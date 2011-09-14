@@ -77,7 +77,7 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
         }
         $cacheKey = self::CACHE_KEY_SESSION_ENTRY . "_$sessionId" . "_$sessionKey";
         $result = $this->getFromCache($cacheKey);
-        if (result === NULL) {
+        if ($result === NULL) {
             $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
             $params = Array(self::COL_SESSION_ID => $sessionId,
                     self::COL_SESSION_KEY => $sessionKey);
