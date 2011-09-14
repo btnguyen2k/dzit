@@ -79,6 +79,10 @@ class Quack_Session_SessionHandler implements Countable, ArrayAccess, Iterator {
         //register_shutdown_function('session_write_close');
         session_start();
         $this->sessionId = session_id();
+        $dao = $this->getSessionDao();
+        if ($dao !== NULL) {
+            $dao->startSession($this->sessionId);
+        }
     }
 
     /**

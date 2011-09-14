@@ -124,11 +124,13 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
         if ($sessionValue === NULL) {
             $this->deleteEntry($sessionId, $sessionKey);
         } else {
-            $value = $this->getEntry($sessionId, $sessionKey);
-            if ($value === NULL) {
-                $this->createEntry($sessionId, $sessionKey, $sessionValue);
-            } else if ($value !== $sessionValue) {
-                $this->updateEntry($sessionId, $sessionKey, $sessionValue);
+            if ($this->getSession($sessionId) !== NULL) {
+                $value = $this->getEntry($sessionId, $sessionKey);
+                if ($value === NULL) {
+                    $this->createEntry($sessionId, $sessionKey, $sessionValue);
+                } else if ($value !== $sessionValue) {
+                    $this->updateEntry($sessionId, $sessionKey, $sessionValue);
+                }
             }
         }
         $this->closeConnection();
