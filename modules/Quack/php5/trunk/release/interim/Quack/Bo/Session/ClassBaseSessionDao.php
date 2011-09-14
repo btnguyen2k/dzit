@@ -84,7 +84,7 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
             $value = $this->getEntry($sessionId, $sessionKey);
             if ($value === NULL) {
                 $this->createEntry($sessionId, $sessionKey, $sessionValue);
-            } else {
+            } else if ($value !== $sessionValue) {
                 $this->updateEntry($sessionId, $sessionKey, $sessionValue);
             }
         }
