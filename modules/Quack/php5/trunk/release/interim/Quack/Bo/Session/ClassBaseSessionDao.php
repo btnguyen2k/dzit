@@ -53,18 +53,38 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
         }
     }
 
-    /**
-     * (non-PHPdoc)
-     * @see Quack_Bo_Session_ISessionDao::setEntry()
-     */
-    public function setEntry($sessionId, $sessionKey, $sessionValue) {
-        $this->deleteEntry($sessionId, $sessionKey);
-        $sqlStm = $this->getStatement('sql.' . 'createEntry');
+    protected function createEntry($sessionId, $sessionKey, $sessionValue) {
+        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
         $params = Array(self::COL_SESSION_ID => $sessionId,
                 self::COL_SESSION_KEY => $sessionKey,
                 self::COL_SESSION_VALUE => $sessionValue,
                 self::COL_SESSION_TIMESTAMP => time());
         return $this->execNonQuery($sqlStm, $params);
+    }
+
+    protected function updateEntry($sessionId, $sessionKey, $sessionValue) {
+        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
+        $params = Array(self::COL_SESSION_ID => $sessionId,
+                self::COL_SESSION_KEY => $sessionKey,
+                self::COL_SESSION_VALUE => $sessionValue,
+                self::COL_SESSION_TIMESTAMP => time());
+        return $this->execNonQuery($sqlStm, $params);
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see Quack_Bo_Session_ISessionDao::setEntry()
+     */
+    public function setEntry($sessionId, $sessionKey, $sessionValue) {
+        //pre-open a connection so that subsequence operations will reuse it
+        $conn = $this->getConnection();
+        $sessionValue = $this->getEntry($sessionId, $sessionKey);
+        if ($sessionValue === NULL) {
+            $this->createEntry($sessionId, $sessionKey, $sessionValue);
+        } else {
+            $this->createEntry($sessionId, $sessionKey, $sessionValue);
+        }
+        $this->closeConnection();
     }
 
     /**
