@@ -63,7 +63,6 @@ class Quack_SessionS_SessionHandler {
     public static function startSession($sessionDao) {
         if (self::$sessionHandler === NULL) {
             self::$sessionHandler = new Quack_SessionS_SessionHandler($sessionDao);
-            $_SESSION = self::$sessionHandler;
         }
     }
 
