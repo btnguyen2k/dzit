@@ -32,7 +32,7 @@ class Quack_SessionS_SessionHandler {
     /**
      * @var Ddth_Commons_Logging_ILog
      */
-    private $LOGGER;
+    private static $LOGGER;
 
     /**
      * @var boolean
@@ -68,8 +68,8 @@ class Quack_SessionS_SessionHandler {
     }
 
     public function __construct($sessionDao) {
-        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
-        $this->LOGGER->debug("Session Dao: [$sessionDao]");
+        self::$LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
+        self::$LOGGER->debug("Session Dao: [$sessionDao]");
 
         $this->sessionDao = $sessionDao;
         if (!($this->sessionDao instanceof Quack_Bo_SessionS_ISessionDao)) {
@@ -132,11 +132,11 @@ class Quack_SessionS_SessionHandler {
      */
     public static function sessionRead($id) {
         try {
-            $sessionData = $this->sessionDao->readSession($id);
+            $sessionData = self::$sessionHandler->getSessionDao()->readSession($id);
             return $sessionData !== NULL ? $sessionData : '';
         } catch (Exception $e) {
             $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]{$e->getMessage()}";
-            $this->LOGGER->fatal($msg, $e);
+            self::$LOGGER->fatal($msg, $e);
             throw $e;
         }
     }
@@ -147,11 +147,10 @@ class Quack_SessionS_SessionHandler {
      */
     public static function sessionWrite($id, $sess_data) {
         try {
-            $this->sessionDao->writeSession($id, $sess_data);
-            return TRUE;
+            self::$sessionHandler->getSessionDao()->writeSession($id, $sess_data);
         } catch (Exception $e) {
             $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]{$e->getMessage()}";
-            $this->LOGGER->fatal($msg, $e);
+            self::$LOGGER->fatal($msg, $e);
             throw $e;
         }
         return TRUE;
@@ -163,10 +162,10 @@ class Quack_SessionS_SessionHandler {
      */
     public static function sessionDestroy($id) {
         try {
-            $this->sessionDao->deleteSession($id);
+            self::$sessionHandler->getSessionDao()->deleteSession($id);
         } catch (Exception $e) {
             $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]{$e->getMessage()}";
-            $this->LOGGER->fatal($msg, $e);
+            self::$LOGGER->fatal($msg, $e);
             throw $e;
         }
         return TRUE;
@@ -178,10 +177,10 @@ class Quack_SessionS_SessionHandler {
      */
     public static function sessionGc($maxlifetime) {
         try {
-            $this->sessionDao->deleteExpiredSessions($maxlifetime);
+            self::$sessionHandler->getSessionDao()->deleteExpiredSessions($maxlifetime);
         } catch (Exception $e) {
             $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]{$e->getMessage()}";
-            $this->LOGGER->fatal($msg, $e);
+            self::$LOGGER->fatal($msg, $e);
             throw $e;
         }
         return TRUE;
