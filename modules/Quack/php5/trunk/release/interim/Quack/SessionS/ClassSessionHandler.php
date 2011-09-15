@@ -68,8 +68,8 @@ class Quack_SessionS_SessionHandler {
     }
 
     public function __construct($sessionDao) {
-        self::$LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
-        self::$LOGGER->debug("Session Dao: [$sessionDao]");
+        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
+        $this->LOGGER->debug("Session Dao: [$sessionDao]");
 
         if (!($sessionDao instanceof Quack_Bo_SessionS_ISessionDao)) {
             $sessionDao = Ddth_Dao_BaseDaoFactory::getInstance()->getDao($sessionDao);
