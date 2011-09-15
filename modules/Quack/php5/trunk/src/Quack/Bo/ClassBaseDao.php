@@ -137,14 +137,14 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
     }
 
     /**
-     * Executes a non-query (DELETE, INSERT, UPDATE) statement.
+     * Executes a non-select (DELETE, INSERT, UPDATE) statement.
      *
      * @param {@link Ddth_Dao_SqlStatement} $stm the statement to execute.
      * @param Array $params
      * @param mixed $conn an open db connection
      * @return int number of affected rows, FALSE if error, or -1 if not supported
      */
-    protected function execNonQuery($stm, $params = Array(), $conn = NULL) {
+    protected function execNonSelect($stm, $params = Array(), $conn = NULL) {
         $closeConn = FALSE;
         if ($conn === NULL) {
             $conn = $this->getConnection()->getConn();

@@ -60,7 +60,7 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
     public function deleteEntry($sessionId, $sessionKey) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
         $params = Array(self::COL_SESSION_ID => $sessionId, self::COL_SESSION_KEY => $sessionKey);
-        $result = $this->execNonQuery($sqlStm, $params);
+        $result = $this->execNonSelect($sqlStm, $params);
         $this->invalidateCache($sessionId, $sessionKey);
         return $result;
     }
@@ -98,7 +98,7 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
                 self::COL_SESSION_KEY => $sessionKey,
                 self::COL_SESSION_VALUE => $sessionValue,
                 self::COL_SESSION_TIMESTAMP => time());
-        return $this->execNonQuery($sqlStm, $params);
+        return $this->execNonSelect($sqlStm, $params);
     }
 
     protected function updateEntry($sessionId, $sessionKey, $sessionValue) {
@@ -107,7 +107,7 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
                 self::COL_SESSION_KEY => $sessionKey,
                 self::COL_SESSION_VALUE => $sessionValue,
                 self::COL_SESSION_TIMESTAMP => time());
-        $result = $this->execNonQuery($sqlStm, $params);
+        $result = $this->execNonSelect($sqlStm, $params);
         //refresh the cache
         $this->invalidateCache($sessionId, $sessionKey);
         $sessionEntry = $this->getEntry($sessionId, $sessionKey);
@@ -158,7 +158,7 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
     public function deleteSession($sessionId) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
         $params = Array(self::COL_SESSION_ID => $sessionId);
-        $result = $this->execNonQuery($sqlStm, $params);
+        $result = $this->execNonSelect($sqlStm, $params);
         $this->invalidateCache($sessionId);
         return $result;
     }
@@ -170,7 +170,7 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
     public function deleteExpiredSessions($maxlifetime) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
         $params = Array(self::COL_SESSION_TIMESTAMP => time() - $maxlifetime);
-        return $this->execNonQuery($sqlStm, $params);
+        return $this->execNonSelect($sqlStm, $params);
     }
 
     /**
@@ -190,7 +190,7 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
     protected function createSession($sessionId) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
         $params = Array(self::COL_SESSION_ID => $sessionId, self::COL_SESSION_TIMESTAMP => time());
-        return $this->execNonQuery($sqlStm, $params);
+        return $this->execNonSelect($sqlStm, $params);
     }
 
     protected function getSession($sessionId) {
@@ -211,7 +211,7 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
     protected function updateSession($sessionId) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
         $params = Array(self::COL_SESSION_ID => $sessionId, self::COL_SESSION_TIMESTAMP => time());
-        $result = $this->execNonQuery($sqlStm, $params);
+        $result = $this->execNonSelect($sqlStm, $params);
         //refresh cache
         $this->invalidateCache($sessionId);
         $session = $this->getSession($sessionId);
