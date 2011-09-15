@@ -71,14 +71,14 @@ class Quack_SessionS_SessionHandler {
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
         $this->LOGGER->debug("Session Dao: [$sessionDao]");
 
-        if (!($sessionDao instanceof Quack_Bo_SessionS_ISessionDao)) {
-            $sessionDao = Ddth_Dao_BaseDaoFactory::getInstance()->getDao($sessionDao);
+        $this->sessionDao = $sessionDao;
+        if (!($this->sessionDao instanceof Quack_Bo_SessionS_ISessionDao)) {
+            $this->sessionDao = Ddth_Dao_BaseDaoFactory::getInstance()->getDao($sessionDao);
         }
         if (!($this->sessionDao instanceof Quack_Bo_SessionS_ISessionDao)) {
             $msg = "[$sessionDao] is not instance of Quack_Bo_SessionS_ISessionDao!";
             throw new Exception($msg);
         }
-        $this->sessionDao = $sessionDao;
 
         $class = get_class($this);
         $handlerOpen = Array($class, 'sessionOpen');
