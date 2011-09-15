@@ -63,6 +63,7 @@ class Quack_SessionS_SessionHandler {
     public static function startSession($sessionDao) {
         if (self::$sessionHandler === NULL) {
             self::$sessionHandler = new Quack_SessionS_SessionHandler($sessionDao);
+            session_start();
         }
     }
 
@@ -87,7 +88,6 @@ class Quack_SessionS_SessionHandler {
         $handlerGc = Array(__CLASS__, 'sessionGc');
         session_set_save_handler($handlerOpen, $handlerClose, $handlerRead, $handlerWrite, $handlerDestroy, $handlerGc);
         session_cache_limiter('no-cache');
-        session_start();
     }
 
     public function __destruct() {
