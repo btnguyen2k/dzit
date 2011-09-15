@@ -79,13 +79,12 @@ class Quack_SessionS_SessionHandler {
             throw new Exception($msg);
         }
 
-        $class = get_class($this);
-        $handlerOpen = Array($class, 'sessionOpen');
-        $handlerClose = Array($class, 'sessionClose');
-        $handlerRead = Array($class, 'sessionRead');
-        $handlerWrite = Array($class, 'sessionWrite');
-        $handlerDestroy = Array($class, 'sessionDestroy');
-        $handlerGc = Array($class, 'sessionGc');
+        $handlerOpen = Array(__CLASS__, 'sessionOpen');
+        $handlerClose = Array(__CLASS__, 'sessionClose');
+        $handlerRead = Array(__CLASS__, 'sessionRead');
+        $handlerWrite = Array(__CLASS__, 'sessionWrite');
+        $handlerDestroy = Array(__CLASS__, 'sessionDestroy');
+        $handlerGc = Array(__CLASS__, 'sessionGc');
         session_set_save_handler($handlerOpen, $handlerClose, $handlerRead, $handlerWrite, $handlerDestroy, $handlerGc);
         session_cache_limiter('no-cache');
         session_start();
