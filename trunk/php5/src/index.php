@@ -105,18 +105,6 @@ if (defined('MODULES_DIR')) {
     ini_set('include_path', $includePath);
 }
 
-require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-require_once 'Ddth/Commons/ClassLoader.php';
-
-//load the configuration file if exists
-if (file_exists(CONFIG_DIR . '/dzit-config.php')) {
-    include_once CONFIG_DIR . '/dzit-config.php';
-}
-
-//load the bootstrap file if exists
-if (file_exists(CONFIG_DIR . '/dzit-bootstrap.php')) {
-    include_once CONFIG_DIR . '/dzit-bootstrap.php';
-}
 ?>
 <style>
 .ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 13px; }
@@ -165,10 +153,13 @@ function dzitErrorHandler($errno, $errstr, $errfile='', $errline=0, $env=Array()
     echo '<div class="ui-widget">';
     echo '<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">';
     echo '<p><strong>'.$errType.':</strong> '.$errMsg.'</p>';
+    echo '<p>'.$errContent.'</p>';
     if ( $stacktrace == '' ) {
-        echo '<p>'.$errContent.'</p>';
+        echo '<pre>';
+        debug_print_backtrace();
+        echo '</pre>';
     } else {
-        echo '<p>'.$stacktrace.'</p>';
+        echo '<pre>'.$stacktrace.'</pre>';
     }
     echo '</div>';
     echo '</div>';
@@ -182,6 +173,19 @@ function dzitErrorHandler($errno, $errstr, $errfile='', $errline=0, $env=Array()
 }
 
 set_error_handler("dzitErrorHandler");
+
+require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
+require_once 'Ddth/Commons/ClassLoader.php';
+
+//load the configuration file if exists
+if (file_exists(CONFIG_DIR . '/dzit-config.php')) {
+    include_once CONFIG_DIR . '/dzit-config.php';
+}
+
+//load the bootstrap file if exists
+if (file_exists(CONFIG_DIR . '/dzit-bootstrap.php')) {
+    include_once CONFIG_DIR . '/dzit-bootstrap.php';
+}
 
 $logger = Ddth_Commons_Logging_LogFactory::getLog('Dzit');
 try {
