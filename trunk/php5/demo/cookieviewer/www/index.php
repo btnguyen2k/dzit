@@ -147,6 +147,7 @@ function dzitErrorHandler($errno, $errstr, $errfile='', $errline=0, $env=Array()
         case E_USER_WARNING:
             $errType = 'WARNING';
             $errMsg = "[$errno] $errstr / PHP " . PHP_VERSION . " (" . PHP_OS . ")";
+            $errContent = "Warning on line <strong>$errline</strong> in file <strong>$errfile</strong>";
             break;
 
         case E_USER_NOTICE:
@@ -157,6 +158,7 @@ function dzitErrorHandler($errno, $errstr, $errfile='', $errline=0, $env=Array()
         default:
             $errType = 'UNKNOWN ERROR';
             $errMsg = "[$errno] $errstr / PHP " . PHP_VERSION . " (" . PHP_OS . ")";
+            $errContent = "Unknown error on line <strong>$errline</strong> in file <strong>$errfile</strong>";
             break;
     }
 
