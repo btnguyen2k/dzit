@@ -164,9 +164,16 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
      * @param {@link Ddth_Dao_SqlStatement} $stm the statement to execute.
      * @param Array $params
      * @param mixed $conn an open db connection
+     * @param string $cacheKey
      * @return Array
      */
-    protected function execSelect($stm, $params = Array(), $conn = NULL) {
+    protected function execSelect($stm, $params = Array(), $conn = NULL, $cacheKey = NULL, $includeCacheL2 = TRUE) {
+        if ($cacheKey !== NULL) {
+            $result = $this->getFromCache($cacheKey, $includeCacheL2);
+            if ($result !== NULL) {
+                return $result;
+            }
+        }
         $closeConn = FALSE;
         if ($conn === NULL) {
             $conn = $this->getConnection()->getConn();
@@ -180,6 +187,9 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
             $row = $this->fetchResultAssoc($rs);
         }
         $this->closeConnection();
+        if ($cacheKey !== NULL) {
+            $this->putToCache($cacheKey, $result, $includeCacheL2);
+        }
         return $result;
     }
 
