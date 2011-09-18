@@ -120,20 +120,35 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
      * @param {@link Ddth_Dao_SqlStatement} $stm
      * @param Array $params
      * @param mixed $conn an open db connection
+     * @param string $cacheKey
+     * @param boolean $includeCacheL2
      * @return int the "COUNT" value, or FALSE if error
      */
-    protected function execCount($stm, $params = Array(), $conn = NULL) {
+    protected function execCount($stm, $params = Array(), $conn = NULL, $cacheKey = NULL, $includeCacheL2 = TRUE) {
+        if ($cacheKey !== NULL) {
+            $result = $this->getFromCache($cacheKey, $includeCacheL2);
+            if ($result !== NULL) {
+                return $result;
+            }
+        }
         $closeConn = FALSE;
         if ($conn === NULL) {
             $conn = $this->getConnection()->getConn();
             $closeConn = TRUE;
+        }
+        if ($params === NULL) {
+            $params = Array();
         }
         $rs = $stm->execute($conn, $params);
         $result = $this->fetchResultArr($rs);
         if ($closeConn) {
             $this->closeConnection();
         }
-        return $result !== FALSE ? $result[0] : FALSE;
+        $result = $result !== FALSE ? $result[0] : FALSE;
+        if ($cacheKey !== NULL) {
+            $this->putToCache($cacheKey, $result, $includeCacheL2);
+        }
+        return $result;
     }
 
     /**
@@ -178,6 +193,9 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
         if ($conn === NULL) {
             $conn = $this->getConnection()->getConn();
             $closeConn = TRUE;
+        }
+        if ($params === NULL) {
+            $params = Array();
         }
         $rs = $stm->execute($conn, $params);
         $result = Array();
