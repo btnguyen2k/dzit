@@ -204,7 +204,9 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
             $result[] = $row;
             $row = $this->fetchResultAssoc($rs);
         }
-        $this->closeConnection();
+        if ($closeConn) {
+            $this->closeConnection();
+        }
         if ($cacheKey !== NULL) {
             $this->putToCache($cacheKey, $result, $includeCacheL2);
         }
