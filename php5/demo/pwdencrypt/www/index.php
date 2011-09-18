@@ -190,12 +190,11 @@ try {
     if ($dispatcher === NULL || !($dispatcher instanceof Dzit_IDispatcher)) {
         $dispatcher = new Dzit_DefaultDispatcher();
     }
-    throw new Exception('$dispatcher = NULL');
     if ($logger->isDebugEnabled()) {
         $logger->debug("[__CLASS__::__FUNCTION__]Use dispatcher class [" . get_class($dispatcher) . "]");
     }
     $dispatcher->dispatch();
 } catch (Exception $e) {
     $logger->error($e->getMessage(), $e);
-    dzitErrorHandler(E_USER_ERROR, $e->getMessage(), $e->getFile(), $e->getLine(), $e->getTraceAsString());
+    dzitErrorHandler(E_USER_ERROR, $e->getMessage(), $e->getFile(), $e->getLine(), Array(), $e->getTraceAsString());
 }
