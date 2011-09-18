@@ -105,6 +105,12 @@ if (defined('MODULES_DIR')) {
     ini_set('include_path', $includePath);
 }
 
+set_error_handler("dzitErrorHandler");
+
+function dzitErrorHandler($errno, $errstr, $errfile='', $errline=0, $env=Array(), $stacktrace='') {
+    if ( !defined('REPORT_ERROR') ) {
+        return FALSE;
+    }
 ?>
 <style>
 .ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 13px; }
@@ -115,10 +121,6 @@ if (defined('MODULES_DIR')) {
 .ui-state-error {border: 1px solid #cd0a0a; background-color: #fef1ec; color: #cd0a0a; }
 </style>
 <?php
-function dzitErrorHandler($errno, $errstr, $errfile='', $errline=0, $env=Array(), $stacktrace='') {
-    if ( !defined('REPORT_ERROR') ) {
-        return FALSE;
-    }
     //if (!(error_reporting() & $errno)) {
     //    // This error code is not included in error_reporting
     //    return;
@@ -171,8 +173,6 @@ function dzitErrorHandler($errno, $errstr, $errfile='', $errline=0, $env=Array()
     /* Don't execute PHP internal error handler */
     return TRUE;
 }
-
-set_error_handler("dzitErrorHandler");
 
 require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
 require_once 'Ddth/Commons/ClassLoader.php';
