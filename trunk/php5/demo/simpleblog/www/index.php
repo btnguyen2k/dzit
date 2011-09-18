@@ -117,6 +117,69 @@ if (file_exists(CONFIG_DIR . '/dzit-config.php')) {
 if (file_exists(CONFIG_DIR . '/dzit-bootstrap.php')) {
     include_once CONFIG_DIR . '/dzit-bootstrap.php';
 }
+?>
+<style>
+.ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 13px; }
+.ui-corner-all { -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; -khtml-border-top-left-radius: 4px; border-top-left-radius: 4px; }
+.ui-corner-all { -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; -khtml-border-top-right-radius: 4px; border-top-right-radius: 4px; }
+.ui-corner-all { -moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; -khtml-border-bottom-left-radius: 4px; border-bottom-left-radius: 4px; }
+.ui-corner-all { -moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; -khtml-border-bottom-right-radius: 4px; border-bottom-right-radius: 4px; }
+.ui-state-error {border: 1px solid #cd0a0a; background-color: #fef1ec; color: #cd0a0a; }
+</style>
+<?php
+function dzitErrorHandler($errno, $errstr, $errfile='', $errline=0, $env=Array(), $stacktrace='') {
+    if ( !defined('REPORT_ERROR') ) {
+        return FALSE;
+    }
+    //if (!(error_reporting() & $errno)) {
+    //    // This error code is not included in error_reporting
+    //    return;
+    //}
+    $halt = FALSE;
+    switch ($errno) {
+        case E_USER_ERROR:
+            $errType = 'ERROR';
+            $errMsg = "[$errno] $errstr / PHP " . PHP_VERSION . " (" . PHP_OS . ")";
+            $errContent = "Fatal error on line <strong>$errline</strong> in file <strong>$errfile</strong>";
+            $halt = TRUE;
+            break;
+
+        case E_USER_WARNING:
+            $errType = 'WARNING';
+            $errMsg = "[$errno] $errstr / PHP " . PHP_VERSION . " (" . PHP_OS . ")";
+            break;
+
+        case E_USER_NOTICE:
+            $errType = 'NOTICE';
+            $errMsg = "[$errno] $errstr / PHP " . PHP_VERSION . " (" . PHP_OS . ")";
+            break;
+
+        default:
+            $errType = 'UNKNOWN ERROR';
+            $errMsg = "[$errno] $errstr / PHP " . PHP_VERSION . " (" . PHP_OS . ")";
+            break;
+    }
+
+    echo '<div class="ui-widget">';
+    echo '<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">';
+    echo '<p><strong>'.$errType.':</strong> '.$errMsg.'</p>';
+    if ( $stacktrace == '' ) {
+        echo '<p>'.$errContent.'</p>';
+    } else {
+        echo '<p>'.$stacktrace.'</p>';
+    }
+    echo '</div>';
+    echo '</div>';
+
+    if ( $halt ) {
+        exit(-1);
+    }
+
+    /* Don't execute PHP internal error handler */
+    return TRUE;
+}
+
+set_error_handler("dzitErrorHandler");
 
 $logger = Ddth_Commons_Logging_LogFactory::getLog('Dzit');
 try {
@@ -127,11 +190,12 @@ try {
     if ($dispatcher === NULL || !($dispatcher instanceof Dzit_IDispatcher)) {
         $dispatcher = new Dzit_DefaultDispatcher();
     }
+    throw new Exception('$dispatcher = NULL');
     if ($logger->isDebugEnabled()) {
         $logger->debug("[__CLASS__::__FUNCTION__]Use dispatcher class [" . get_class($dispatcher) . "]");
     }
     $dispatcher->dispatch();
 } catch (Exception $e) {
     $logger->error($e->getMessage(), $e);
+    dzitErrorHandler(E_USER_ERROR, $e->getMessage(), $e->getFile(), $e->getLine(), $e->getTraceAsString());
 }
-?>
