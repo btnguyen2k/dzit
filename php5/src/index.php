@@ -113,7 +113,7 @@ function dzitErrorHandler($errno, $errstr, $errfile='', $errline=0, $env=Array()
     }
 ?>
 <style>
-.ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 13px; }
+.ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 13px; margin-bottom: 4px; }
 .ui-corner-all { -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; -khtml-border-top-left-radius: 4px; border-top-left-radius: 4px; }
 .ui-corner-all { -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; -khtml-border-top-right-radius: 4px; border-top-right-radius: 4px; }
 .ui-corner-all { -moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; -khtml-border-bottom-left-radius: 4px; border-bottom-left-radius: 4px; }
