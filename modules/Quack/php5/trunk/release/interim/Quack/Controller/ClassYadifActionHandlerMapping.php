@@ -25,7 +25,7 @@
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since      	Class available since v0.1
  */
-class Vcatalog_Controller_ActionHandlerMapping extends Dzit_DefaultActionHandlerMapping {
+class Quack_Controller_ActionHandlerMapping extends Dzit_DefaultActionHandlerMapping {
 
     /**
      * @var Yadif_Container
