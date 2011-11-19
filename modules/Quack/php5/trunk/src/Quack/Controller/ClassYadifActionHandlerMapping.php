@@ -35,7 +35,14 @@ class Quack_Controller_YadifActionHandlerMapping extends Dzit_DefaultActionHandl
     public function __construct($router = NULL) {
         parent::__construct($router);
         global $YADIF_CONFIG;
+        if (!is_array($YADIF_CONFIG)) {
+            $YADIF_CONFIG = Array();
+        }
         $this->yadif = new Yadif_Container($YADIF_CONFIG);
+    }
+
+    public function setYadifConfig($yadifConfig = Array()) {
+        $this->yadif->addComponents($yadifConfig);
     }
 
     /**
