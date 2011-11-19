@@ -40,7 +40,7 @@ class Quack_Util_UrlCreator {
         $host = preg_replace('/\/+$/', '', $host);
 
         $uri = $host . '/' . $uri;
-        $isHttps = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off';
+        $isHttps = Quack_Util_SystemUtils::isHttps();
         if ($secureType == 1) {
             //forece https
             $url = "https://$uri";
