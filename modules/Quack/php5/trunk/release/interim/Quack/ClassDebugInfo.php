@@ -61,8 +61,4 @@ class Quack_DebugInfo {
         }
         return $sqlLog;
     }
-
-    public function getCacheInfo() {
-        return Ddth_Cache_CacheManager::getInstance()->getCaches();
-    }
 }
