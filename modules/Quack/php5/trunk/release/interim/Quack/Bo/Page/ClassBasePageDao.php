@@ -151,7 +151,7 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
         $result = Array();
         if ($rows !== NULL) {
             foreach ($rows as $row) {
-                $pageId = $row[self::COL_ID];
+                $pageId = $row[Quack_Bo_Page_BoPage::COL_ID];
                 $page = $this->getPageById($pageId);
                 $result[] = $page;
             }
