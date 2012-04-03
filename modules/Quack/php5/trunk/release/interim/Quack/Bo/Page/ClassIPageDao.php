@@ -48,7 +48,7 @@ interface Quack_Bo_Page_IPageDao extends Ddth_Dao_IDao {
      * @param Array $filter
      * @return Array
      */
-    public function getPages($pageNum = 1, $pageSize = 10, $filter = Array());
+    public function getPages($pageNum = 1, $pageSize = PHP_INT_MAX, $filter = Array());
 
     /**
      * Updates a page.

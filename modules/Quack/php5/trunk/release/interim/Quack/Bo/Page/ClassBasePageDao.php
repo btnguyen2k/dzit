@@ -123,7 +123,7 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
      *
      * @see Quack_Bo_Page_IPageDao::getPages()
      */
-    public function getPages($pageNum = 1, $pageSize = 10, $filter = Array()) {
+    public function getPages($pageNum = 1, $pageSize = PHP_INT_MAX, $filter = Array()) {
         $hasFilterCat = $this->hasFilterCategory($filter);
         $hasFilterAttr = $this->hasFilterAttr($filter);
 
