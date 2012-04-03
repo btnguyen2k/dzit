@@ -147,7 +147,7 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
         }
 
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
-        $rows = $this->execSelect($sqlStm);
+        $rows = $this->execSelect($sqlStm, $params);
         $result = Array();
         if ($rows !== NULL) {
             foreach ($rows as $row) {
