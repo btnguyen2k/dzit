@@ -35,6 +35,18 @@ class Quack_Model_BaseModelObj {
         $this->setTargetObject($obj);
     }
 
+    public function __get($name) {
+        $methodName = 'get' . ucfirst($name);
+        return $this->obj->{$methodName}();
+    }
+
+    public function __call($name, $arguments) {
+        if (substr($name, 0, 3) == 'get') {
+            return $this->obj->{$name}($arguments);
+        }
+        throw new RuntimeException("Can not invoke method [$name] on this object!");
+    }
+
     protected function getTargetObject() {
         return $this->obj;
     }
