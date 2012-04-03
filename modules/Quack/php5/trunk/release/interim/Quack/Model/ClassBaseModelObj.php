@@ -36,12 +36,19 @@ class Quack_Model_BaseModelObj {
     }
 
     public function __get($name) {
-        $methodName = 'get' . ucfirst($name);
-        if (method_exists($this, $methodName)) {
-            return $this->{$methodName}();
+        $methodNameGet = 'get' . ucfirst($name);
+        $methodNameIs = 'is' . ucfirst($name);
+        if (method_exists($this, $methodNameGet)) {
+            return $this->{$methodNameGet}();
         }
-        if (method_exists($this->obj, $methodName)) {
-            return $this->obj->{$methodName}();
+        if (method_exists($this, $methodNameIs)) {
+            return $this->{$methodNameIs}();
+        }
+        if (method_exists($this->obj, $methodNameGet)) {
+            return $this->obj->{$methodNameGet}();
+        }
+        if (method_exists($this->obj, $methodNameIs)) {
+            return $this->obj->{$methodNameIs}();
         }
         $trace = debug_backtrace();
         trigger_error('Undefined property via __get(): ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'], E_USER_ERROR);
@@ -49,7 +56,7 @@ class Quack_Model_BaseModelObj {
     }
 
     public function __call($name, $arguments) {
-        if (substr($name, 0, 3) == 'get') {
+        if (substr($name, 0, 3) == 'get' || substr($name, 0, 2) == 'is') {
             return $this->obj->{$name}($arguments);
         }
         throw new RuntimeException("Can not invoke method [$name] on this object!");
