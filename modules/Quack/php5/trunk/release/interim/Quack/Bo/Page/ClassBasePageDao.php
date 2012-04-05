@@ -75,14 +75,14 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
      *
      * @see Quack_Bo_Page_IPageDao::createPage()
      */
-    public function createPage($id, $position, $title, $content, $category = '', $attr = 0) {
+    public function createPage($page) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
-        $params = Array(Quack_Bo_Page_BoPage::COL_ID => $id,
-                Quack_Bo_Page_BoPage::COL_POSITION => $position,
-                Quack_Bo_Page_BoPage::COL_TITLE => $title,
-                Quack_Bo_Page_BoPage::COL_CONTENT => $content,
-                Quack_Bo_Page_BoPage::COL_CATEGORY => $category,
-                Quack_Bo_Page_BoPage::COL_ATTR => $attr);
+        $params = Array(Quack_Bo_Page_BoPage::COL_ID => $page->getId(),
+                Quack_Bo_Page_BoPage::COL_POSITION => $page->getPosition(),
+                Quack_Bo_Page_BoPage::COL_TITLE => $page->getTitle(),
+                Quack_Bo_Page_BoPage::COL_CONTENT => $page->getContent(),
+                Quack_Bo_Page_BoPage::COL_CATEGORY => $page->getCategory(),
+                Quack_Bo_Page_BoPage::COL_ATTR => $page->getAttr());
         $this->execNonSelect($sqlStm, $params);
         $this->invalidatePageCache();
     }

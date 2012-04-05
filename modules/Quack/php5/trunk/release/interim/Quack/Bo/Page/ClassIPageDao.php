@@ -18,14 +18,9 @@ interface Quack_Bo_Page_IPageDao extends Ddth_Dao_IDao {
     /**
      * Creates a new page.
      *
-     * @param string $id
-     * @param int $position
-     * @param string $title
-     * @param string $content
-     * @param string $category
-     * @param int $attr
+     * @param Quack_Bo_Page_BoPage $page
      */
-    public function createPage($id, $position, $title, $content, $category = '', $attr = 0);
+    public function createPage($page);
 
     /**
      * Deletes a page.
