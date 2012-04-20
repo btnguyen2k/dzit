@@ -56,7 +56,7 @@ class Quack_Bo_BaseBo {
      * Populates the BO.
      *
      * This function expects the parameter to be an associative array. It obtains the mapping
-     * by calling {@link Commons_Bo_BaseBo::getFieldMap()} and uses setters to populate the BO.
+     * by calling {@link Quack_Bo_BaseBo::getFieldMap()} and uses setters to populate the BO.
      *
      * @param mixed $dataRow
      */

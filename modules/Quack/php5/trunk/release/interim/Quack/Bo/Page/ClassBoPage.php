@@ -11,7 +11,7 @@ class Quack_Bo_Page_BoPage extends Quack_Bo_BaseBo {
     private $id, $position, $title, $content, $category, $attr;
 
     /*
-     * (non-PHPdoc) @see Commons_Bo_BaseBo::getFieldMap()
+     * (non-PHPdoc) @see Quack_Bo_BaseBo::getFieldMap()
      */
     protected function getFieldMap() {
         return Array(self::COL_ID => Array('id'),
