@@ -182,6 +182,10 @@ Dzit_Config::set(Dzit_Config::CONF_VIEW_RESOLVER, new $viewResolverClass('skins/
 //$viewResolverClass = 'Dzit_View_SmartyViewResolver';
 //Dzit_Config::set(Dzit_Config::CONF_VIEW_RESOLVER, new $viewResolverClass('skins/default/page_'));
 
+/*
+ * Configure the url creator.
+ */
+Dzit_Config::set(Dzit_Config::CONF_URL_CREATOR, new Dzit_DefaultUrlCreator());
 
 /*
  * Name of the default language pack.
