@@ -7,28 +7,30 @@
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package     Dzit
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
- * @since       File available since v0.2
+ * @package Dzit
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version $Id$
+ * @since File available since v0.2
  */
 
 /**
  * OO-style of in-memory {key:value} storage.
  *
- * @package     Dzit
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since      	Class available since v0.2
+ * @package Dzit
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since Class available since v0.2
  */
 class Dzit_Config {
 
     /**
-     * Constant that holds the dispatcher instance (type {@link Dzit_IDispatcher}).
+     * Constant that holds the dispatcher instance (type {@link
+     * Dzit_IDispatcher}).
      *
      * Dispatcher is responsible for:
      * <ul>
-     *     <li>Routing the request {module:action} to the corresponding controller.</li>
-     *     <li>Rendering the view.</li>
+     * <li>Routing the request {module:action} to the corresponding
+     * controller.</li>
+     * <li>Rendering the view.</li>
      * </ul>
      *
      * @var string
@@ -41,13 +43,13 @@ class Dzit_Config {
      * Router information is {key:value} based, as the following:
      * <code>
      * {
-     *     'module1' => ControllerInstance1,
-     *     'module2' => 'ControllerClassName2',
-     *     'module3' =>
-     *     {
-     *         'action1' => ControllerInstance3,
-     *         'action2' => 'ControllerClassName4'
-     *     }
+     * 'module1' => ControllerInstance1,
+     * 'module2' => 'ControllerClassName2',
+     * 'module3' =>
+     * {
+     * 'action1' => ControllerInstance3,
+     * 'action2' => 'ControllerClassName4'
+     * }
      * }
      * </code>
      *
@@ -56,7 +58,8 @@ class Dzit_Config {
     const CONF_ROUTER = 'Dzit_Router';
 
     /**
-     * Constant that holds the action handler mapping instance (type {@link Dzit_IActionHandlerMapping}).
+     * Constant that holds the action handler mapping instance (type {@link
+     * Dzit_IActionHandlerMapping}).
      *
      * Action handler mapping is responsible for obtaining a controller instance
      * (type {@link Dzit_IController}) for a request {module:action}.
@@ -66,13 +69,26 @@ class Dzit_Config {
     const CONF_ACTION_HANDLER_MAPPING = 'Dzit_ActionHandlerMapping';
 
     /**
-     * Constant that holds the view resolver instance (type {@link Dzit_IViewResolver}).
+     * Constant that holds the view resolver instance (type {@link
+     * Dzit_IViewResolver}).
      *
-     * View resolver is responsible for resolving a {@link Dzit_IView} from name (string).
+     * View resolver is responsible for resolving a {@link Dzit_IView} from name
+     * (string).
      *
      * @var string
      */
     const CONF_VIEW_RESOLVER = 'Dzit_ViewResolver';
+
+    /**
+     * Constant that holds the url creator instance (type {@link
+     * Dzit_IUrlCreator}).
+     *
+     * Use a url creator throughout the application so that links generated from
+     * the application has the same format (good for SEO!).
+     *
+     * @var string
+     */
+    const CONF_URL_CREATOR = 'Dzit_UrlCreator';
 
     /**
      * Constant that holds name of the default template pack.
@@ -94,7 +110,7 @@ class Dzit_Config {
      * Constructs a new Dzit_Config object.
      */
     private function __construct() {
-        //singleton
+        // singleton
     }
 
     /**
@@ -104,7 +120,7 @@ class Dzit_Config {
      * @return mixed
      */
     public static function get($name) {
-        if ( isset(self::$config[$name]) ) {
+        if (isset(self::$config[$name])) {
             return self::$config[$name];
         }
         return NULL;
