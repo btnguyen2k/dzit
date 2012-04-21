@@ -279,8 +279,7 @@ class Dzit_View_SmartyViewResolver implements Dzit_IViewResolver {
      * @see Dzit_IViewResolver::resolveViewName()
      */
     public function resolveViewName($viewName) {
-        //a quick check to make sure we the view name is not malform!
-        if (preg_match('/^[a-z0-9_\\.\\-]+$/i', $viewName)) {
+        if (!preg_match('/\.\.[\\\/]/i', $viewName)) {
             $filename = $this->prefix . $viewName . '.tpl';
             return new Dzit_View_SmartyView($this->getSmarty(), $filename);
         }
