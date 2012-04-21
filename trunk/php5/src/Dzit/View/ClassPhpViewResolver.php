@@ -72,7 +72,7 @@ class Dzit_View_PhpViewResolver implements Dzit_IViewResolver {
      */
     public function resolveViewName($viewName) {
         // a quick check to make sure we the view name is not malform!
-        if (!preg_match('/\.\.[\\\/]/i', $viewName)) {
+        if (!preg_match('/\.\.[\\\\\/]/i', $viewName)) {
             $filename = $this->prefix . $viewName . '.php';
             return new Dzit_View_PhpView($filename);
         }
