@@ -7,26 +7,27 @@
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package     Dzit
- * @subpackage  View
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
- * @since       File available since v0.2
+ * @package Dzit
+ * @subpackage View
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version $Id$
+ * @since File available since v0.2
  */
 
 /**
  * PHP-based single-template view resolver.
  *
- * This class resolves view name to a {@link Dzit_View_PhpView}. Use this view resolver
+ * This class resolves view name to a {@link Dzit_View_PhpView}. Use this view
+ * resolver
  * if the application uses just a single PHP-based template.
  * This resolver receives a view name (e.g. 'main'), add a prefix (configurable,
  * e.g. 'skins/default/page_') and a suffix ('.php') to form the full filename
  * (e.g. 'skins/default/page_main.php').
  *
- * @package     Dzit
- * @subpackage  View
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since       Class available since v0.2
+ * @package Dzit
+ * @subpackage View
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since Class available since v0.2
  */
 class Dzit_View_PhpViewResolver implements Dzit_IViewResolver {
 
@@ -59,22 +60,22 @@ class Dzit_View_PhpViewResolver implements Dzit_IViewResolver {
         } else {
             $this->prefix = trim($prefix);
 
-     #$this->prefix = preg_replace('/\\/+$/', '', $prefix) . '/';
+            // this->prefix = preg_replace('/\\/+$/', '', $prefix) . '/';
         }
     }
 
     /**
-     * This function resolves a view name to an instance of {@link Dzit_View_PhpView}.
+     * This function resolves a view name to an instance of {@link
+     * Dzit_View_PhpView}.
      *
      * @see Dzit_IViewResolver::resolveViewName()
      */
     public function resolveViewName($viewName) {
-        //a quick check to make sure we the view name is not malform!
-        if (preg_match('/^[a-z0-9_\\.\\-]+$/i', $viewName)) {
+        // a quick check to make sure we the view name is not malform!
+        if (!preg_match('/\.\.[\\\/]/i', $viewName)) {
             $filename = $this->prefix . $viewName . '.php';
             return new Dzit_View_PhpView($filename);
         }
-        return NULL;
     }
 }
 ?>
