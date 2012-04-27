@@ -57,7 +57,7 @@ class RssReader_BaseController implements Dzit_IController {
         echo '<html>';
         echo '<head>';
         echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
-        echo '<title>Dzit Demo::PwdEncrypt</title>';
+        echo '<title>Dzit Demo::RssReader</title>';
         echo '</head>';
         echo '<body>';
     }
