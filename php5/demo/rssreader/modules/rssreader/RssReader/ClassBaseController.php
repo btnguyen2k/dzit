@@ -1,55 +1,58 @@
 <?php
-class PwdEncrypt_BaseController implements Dzit_IController {
+class RssReader_BaseController implements Dzit_IController {
 
     /**
+     *
      * @see Dzit_IController::execute()
      */
     public function execute($module, $action) {
         $this->printPageHeader();
 
-        $lang = $this->getLanguage();
+        $defaultRss = 'http://feeds.bbci.co.uk/sport/0/rss.xml?edition=uk';
+
         $script = $_SERVER['SCRIPT_NAME'];
         echo "<form method='post' action='$script'>";
-        echo $lang->getMessage('msg.input'), ': ';
-        echo "<input type='text' value='", isset($_POST['str']) ? htmlspecialchars($_POST['str']) : "", "' name='str'>";
-        echo "<input type='submit' value='", $lang->getMessage('msg.encrypt'), "'>";
+        echo 'Url to RSS: ';
+        echo "<input type='text' size='30' value='", isset($_POST['rss']) ? htmlspecialchars($_POST['rss']) : "$defaultRss", "' name='rss'>";
+        echo "<input type='submit' value='Load RSS'>";
         echo "</form>";
 
-        if (isset($_POST['str'])) {
-            echo '<pre>MD5   : ', md5($_POST['str']), '</pre>';
-            echo '<pre>Base64: ', base64_encode($_POST['str']), '</pre>';
-            echo '<pre>Crypt : ', crypt($_POST['str']), '</pre>';
+        if (isset($_POST['rss'])) {
+            $rssFile = $_POST['rss'];
+
+            echo "<h1>News from <code>$rssFile</code>:</h1>";
+
+            $xmlDoc = new DOMDocument();
+            $xmlDoc->load($rssFile);
+
+            // get the channel
+            $channel = $xmlDoc->getElementsByTagName('channel')->item(0);
+            $channel_title = $channel->getElementsByTagName('title')->item(0)->childNodes->item(0)->nodeValue;
+            $channel_link = $channel->getElementsByTagName('link')->item(0)->childNodes->item(0)->nodeValue;
+            $channel_desc = $channel->getElementsByTagName('description')->item(0)->childNodes->item(0)->nodeValue;
+
+            // print the header
+            echo "<h2><a href='", $channel_link, "'>", $channel_title, "</a></h2>";
+            echo '<em>', $channel_desc, '</em>';
+            echo '<br /><br /><br />';
+
+            // print items
+            $itemList = $xmlDoc->getElementsByTagName('item');
+            foreach ($itemList as $item) {
+                $item_title = $item->getElementsByTagName('title')->item(0)->childNodes->item(0)->nodeValue;
+                $item_link = $item->getElementsByTagName('link')->item(0)->childNodes->item(0)->nodeValue;
+                $item_desc = $item->getElementsByTagName('description')->item(0)->childNodes->item(0)->nodeValue;
+
+                echo ("<p><a href='" . $item_link . "'>" . $item_title . "</a>");
+                echo ("<br />");
+                echo ($item_desc . "</p>");
+            }
         }
 
         $this->printPageFooter();
     }
 
-    protected function getLanguageNames() {
-        $mlsFactory = Ddth_Mls_BaseLanguageFactory::getInstance();
-        return $mlsFactory->getLanguageNames();
-    }
-
-    /**
-     * Gets the current language pack.
-     *
-     * @return Ddth_Mls_ILanguage
-     */
-    protected function getLanguage() {
-        $defaultLanguageName = Dzit_Config::get(Dzit_Config::CONF_DEFAULT_LANGUAGE_NAME);
-        $langName = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : $defaultLanguageName;
-        $mlsFactory = Ddth_Mls_BaseLanguageFactory::getInstance();
-        $lang = $mlsFactory->getLanguage($langName);
-        if ($lang === NULL) {
-            $langName = $defaultLanguageName;
-        }
-        setcookie('lang', $langName);
-        //$_COOKIE['lang'] = $langName;
-        $lang = $mlsFactory->getLanguage($langName);
-        return $lang;
-    }
-
     protected function printPageHeader() {
-        $lang = $this->getLanguage();
         echo '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">';
         echo '<html>';
         echo '<head>';
@@ -57,15 +60,6 @@ class PwdEncrypt_BaseController implements Dzit_IController {
         echo '<title>Dzit Demo::PwdEncrypt</title>';
         echo '</head>';
         echo '<body>';
-
-        $script = $_SERVER['SCRIPT_NAME'];
-        echo '<p>';
-        echo $lang->getMessage('msg.languages'), ': ';
-        $languageNames = $this->getLanguageNames();
-        foreach ($languageNames as $langName) {
-            echo '<a href="', $script, '/lang?l=', $langName, '">', $langName, '</a> | ';
-        }
-        echo '</p>';
     }
 
     protected function printPageFooter() {
