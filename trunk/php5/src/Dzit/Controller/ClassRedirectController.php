@@ -54,6 +54,6 @@ class Dzit_Controller_RedirectController implements Dzit_IController {
      */
     public function execute($module, $action) {
         $view = new Dzit_View_RedirectView($this->url);
-        return new Dzit_ModelAndView(view, null);
+        return new Dzit_ModelAndView($view, null);
     }
 }
