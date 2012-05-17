@@ -62,6 +62,9 @@ class Dzit_RequestParser {
         } else if (isset($_SERVER['SCRIPT_URL']) && isset($_SERVER['SCRIPT_NAME'])) {
             //fall back to SCRIPT_URL to extract path info
             $pathInfo = substr($_SERVER['SCRIPT_URL'], strlen($_SERVER['SCRIPT_NAME']));
+        } else {
+            //fallback method
+            $pathInfo = substr($_SERVER['DOCUMENT_URI'], strlen($_SERVER['SCRIPT_NAME']));
         }
         $tokens = explode('/', $pathInfo);
         foreach ($tokens as $token) {
