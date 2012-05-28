@@ -3,12 +3,11 @@ class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
 
     const COL_DOMAIN = 'siteDomain';
     const COL_REF = 'siteRef';
-    const COL_PROD_LEVEL = 'productLevel';
-    const COL_PROD_TIMESTAMP = 'productTimestamp';
-    const COL_PROD_EXPIRY = 'productExpiry';
-    const COL_PROD_CONFIG = 'productConfig';
+    const COL_TIMESTAMP = 'siteTimestamp';
+    const COL_CUSTOMER_ID = 'customerId';
 
-    private $siteDomain, $siteRef, $productLevel, $productTimestamp, $productExpiry, $productConfig;
+    private $siteDomain, $siteRef, $siteTimestamp, $customerId;
+    private $products = Array();
 
     /**
      *
@@ -22,154 +21,84 @@ class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
     protected function getFieldMap() {
         return Array(self::COL_DOMAIN => Array('siteDomain'),
                 self::COL_REF => Array('siteRef'),
-                self::COL_PROD_CONFIG => Array('productConfig'),
-                self::COL_PROD_EXPIRY => Array('productExpiry', self::TYPE_INT),
-                self::COL_PROD_LEVEL => Array('productLevel', self::TYPE_INT),
-                self::COL_PROD_TIMESTAMP => Array('productTimestamp', self::TYPE_INT));
+                self::COL_TIMESTAMP => (int)Array('siteTimestamp'),
+                self::COL_CUSTOMER_ID => Array('customerId'));
+    }
+
+    public function getProducts() {
+        return $this->products;
+    }
+
+    public function setProducts($products = Array()) {
+        $this->products = $products;
     }
 
     /**
-     * Getter for $siteDomain.
+     * Adds a product.
      *
-     * @return field_type
+     * @param string $prodName
+     * @param Quack_Bo_Site_BoProduct $product
      */
+    public function addProduct($prodName, $product) {
+        $this->products[$prodName] = $product;
+    }
+
+    /**
+     * Removes a product from the site.
+     *
+     * @param Quack_Bo_Site_BoProduct $product
+     */
+    public function removeproduct($product) {
+        unset($this->products[$product->getProductName()]);
+    }
+
+    /**
+     * Gets a product by name.
+     *
+     * @param string $prodName
+     * @return Quack_Bo_Site_BoProduct
+     */
+    public function getProduct($prodName) {
+        return isset($this->products[$prodName]) ? $this->products[$prodName] : NULL;
+    }
+
+    public function getCustomerId() {
+        return $this->customerId;
+    }
+
+    public function setCustomerId($customerId) {
+        $this->customerId = $customerId;
+    }
+
     public function getSiteDomain() {
         return $this->siteDomain;
     }
 
-    /**
-     * Getter for $siteRef.
-     *
-     * @return field_type
-     */
-    public function getSiteRef() {
-        return $this->siteRef;
-    }
-
-    /**
-     * Getter for $productLevel.
-     *
-     * @return field_type
-     */
-    public function getProductLevel() {
-        if ( $this->refSite !== NULL ) {
-            return $this->refSite->getProductLevel();
-        }
-        return $this->productLevel;
-    }
-
-    /**
-     * Getter for $productTimestamp.
-     *
-     * @return field_type
-     */
-    public function getProductTimestamp() {
-        if ( $this->refSite !== NULL ) {
-            return $this->refSite->getProductTimestamp();
-        }
-        return $this->productTimestamp;
-    }
-
-    /**
-     * Getter for $productExpiry.
-     *
-     * @return field_type
-     */
-    public function getProductExpiry() {
-        if ( $this->refSite !== NULL ) {
-            return $this->refSite->getProductExpiry();
-        }
-        return $this->productExpiry;
-    }
-
-    /**
-     * Getter for $productConfig.
-     *
-     * @return field_type
-     */
-    public function getProductConfig() {
-        if ( $this->refSite !== NULL ) {
-            return $this->refSite->getProductConfig();
-        }
-        return $this->productConfig;
-    }
-
-    /**
-     * Getter for $refSite.
-     *
-     * @return field_type
-     */
-    public function getRefSite() {
-        return $this->refSite;
-    }
-
-    /**
-     * Setter for $siteDomain.
-     *
-     * @param field_type $siteDomain
-     */
     public function setSiteDomain($siteDomain) {
         $this->siteDomain = $siteDomain;
     }
 
-    /**
-     * Setter for $siteRef.
-     *
-     * @param field_type $siteRef
-     */
+    public function getSiteRef() {
+        return $this->siteRef;
+    }
+
     public function setSiteRef($siteRef) {
         $this->siteRef = $siteRef;
     }
 
-    /**
-     * Setter for $productLevel.
-     *
-     * @param field_type $productLevel
-     */
-    public function setProductLevel($productLevel) {
-        $this->productLevel = $productLevel;
+    public function getSiteTimestamp() {
+        return $this->siteTimestamp;
     }
 
-    /**
-     * Setter for $productTimestamp.
-     *
-     * @param field_type $productTimestamp
-     */
-    public function setProductTimestamp($productTimestamp) {
-        $this->productTimestamp = $productTimestamp;
+    public function setSiteTimestamp($siteTimestamp) {
+        $this->siteTimestamp = $siteTimestamp;
     }
 
-    /**
-     * Setter for $productExpiry.
-     *
-     * @param field_type $productExpiry
-     */
-    public function setProductExpiry($productExpiry) {
-        $this->productExpiry = $productExpiry;
+    public function getRefSite() {
+        return $this->refSite;
     }
 
-    /**
-     * Setter for $productConfig.
-     *
-     * @param field_type $productConfig
-     */
-    public function setProductConfig($productConfig) {
-        $this->productConfig = $productConfig;
-    }
-
-    /**
-     * Setter for $refSite.
-     *
-     * @param field_type $refSite
-     */
     public function setRefSite($refSite) {
         $this->refSite = $refSite;
-    }
-
-    public function isExpired() {
-        if ($this->refSite !== NULL) {
-            return $this->refSite->isExpired();
-        }
-        return $this->productExpiry > 0 && $this->productExpiry < time();
     }
 }
