@@ -7,31 +7,29 @@
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package Quack
- * @subpackage Model
- * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version $Id: ClassICache.php 251 2010-12-25 19:21:35Z btnguyen2k@gmail.com $
- * @since File available since v0.1
+ * @package     Quack
+ * @subpackage	Model
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassICache.php 251 2010-12-25 19:21:35Z btnguyen2k@gmail.com $
+ * @since       File available since v0.1
  */
 
 /**
  * Model object: Paginator.
  *
- * @package Quack
- * @subpackage Model
- * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since Class available since v0.1
+ * @package     Quack
+ * @subpackage	Model
+ * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since      	Class available since v0.1
  */
 class Quack_Model_Paginator {
 
-    private $numVisiblePages = 11;
     private $numEntries = 0;
     private $pageSize = 1;
     private $currentPage = 1;
     private $urlTemplate;
 
     /**
-     *
      * @var Ddth_Commons_Logging_ILog
      */
     private $LOGGER;
@@ -43,15 +41,13 @@ class Quack_Model_Paginator {
      * @param int $numEntries
      * @param int $pageSize
      * @param int $currentPage
-     * @param int $numVisiblePages
      */
-    public function __construct($urlTemplate, $numEntries, $pageSize, $currentPage = 1, $numVisiblePages = 11) {
+    public function __construct($urlTemplate, $numEntries, $pageSize, $currentPage = 1) {
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
         $this->urlTemplate = $urlTemplate;
         $this->numEntries = $numEntries;
         $this->pageSize = $pageSize;
         $this->currentPage = $currentPage;
-        $this->numVisiblePages = $numVisiblePages;
     }
 
     /**
@@ -73,30 +69,12 @@ class Quack_Model_Paginator {
     }
 
     /**
-     * Gets the number of visible pages.
-     *
-     * @return int
-     */
-    public function getNumVisiblePages() {
-        return $this->numVisiblePages;
-    }
-
-    /**
-     * Sets the number of visible pages.
-     *
-     * @param int $numVisiblePages
-     */
-    public function setNumVisiblePages($numVisiblePages) {
-        $this->numVisiblePages = $numVisiblePages;
-    }
-
-    /**
      * Gets number of pages.
      *
      * @return int
      */
     public function getNumPages() {
-        $numPages = (int)($this->numEntries / $this->pageSize);
+        $numPages = $this->numEntries / $this->pageSize;
         return $numPages * $this->pageSize == $this->numEntries ? $numPages : $numPages + 1;
     }
 
@@ -142,56 +120,6 @@ class Quack_Model_Paginator {
                 '/\$\{page\}/i');
         $url = $this->templateReplace($url, $searchTerms, $pageNum);
         return $url;
-    }
-
-    /**
-     * Gets list of visible pages.
-     *
-     * @return Array
-     */
-    public function getVisiblePages() {
-        $result = Array();
-        $numPages = $this->getNumPages();
-        if ($numPages > $this->numVisiblePages) {
-            $result[] = $this->currentPage;
-
-            // tail
-            for ($temp = $this->currentPage + 1; $temp <= $this->currentPage + 2; $temp++) {
-                if ($temp <= $numPages) {
-                    $result[] = $temp;
-                }
-            }
-            if ($this->currentPage + 2 < $numPages) {
-                if ($this->currentPage + 4 < $numPages) {
-                    $result[] = 0;
-                }
-                if ($this->currentPage + 3 < $numPages) {
-                    $result[] = $numPages - 1;
-                }
-                $result[] = $numPages;
-            }
-
-            // head
-            for ($temp = $this->currentPage - 1; $temp >= $this->currentPage - 2; $temp--) {
-                if ($temp >= 1) {
-                    array_unshift($result, $temp);
-                }
-            }
-            if ($this->currentPage - 2 > 1) {
-                if ($this->currentPage - 4 > 1) {
-                    array_unshift($result, 0);
-                }
-                if ($this->currentPage - 3 > 1) {
-                    array_unshift($result, 2);
-                }
-                array_unshift($result, 1);
-            }
-        } else {
-            for ($i = 1; $i <= $numPages; $i++) {
-                $result[] = $i;
-            }
-        }
-        return $result;
     }
 
     private function templateReplace($subject, $searchTerms = Array(), $replacement = '') {

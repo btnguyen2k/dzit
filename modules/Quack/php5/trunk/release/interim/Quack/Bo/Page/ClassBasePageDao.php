@@ -146,6 +146,7 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
             $params['pageCategories'] = $filter[self::FILTER_CATS];
         }
 
+        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
         $rows = $this->execSelect($sqlStm, $params);
         $result = Array();
         if ($rows !== NULL) {
