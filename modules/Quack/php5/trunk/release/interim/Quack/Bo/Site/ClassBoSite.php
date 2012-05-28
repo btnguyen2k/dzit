@@ -9,6 +9,11 @@ class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
     const COL_PROD_CONFIG = 'productConfig';
 
     private $siteDomain, $siteRef, $productLevel, $productTimestamp, $productExpiry, $productConfig;
+
+    /**
+     *
+     * @var Quack_Bo_Site_BoSite
+     */
     private $refSite = NULL;
 
     /*
@@ -47,6 +52,9 @@ class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
      * @return field_type
      */
     public function getProductLevel() {
+        if ( $this->refSite !== NULL ) {
+            return $this->refSite->getProductLevel();
+        }
         return $this->productLevel;
     }
 
@@ -56,6 +64,9 @@ class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
      * @return field_type
      */
     public function getProductTimestamp() {
+        if ( $this->refSite !== NULL ) {
+            return $this->refSite->getProductTimestamp();
+        }
         return $this->productTimestamp;
     }
 
@@ -65,6 +76,9 @@ class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
      * @return field_type
      */
     public function getProductExpiry() {
+        if ( $this->refSite !== NULL ) {
+            return $this->refSite->getProductExpiry();
+        }
         return $this->productExpiry;
     }
 
@@ -74,6 +88,9 @@ class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
      * @return field_type
      */
     public function getProductConfig() {
+        if ( $this->refSite !== NULL ) {
+            return $this->refSite->getProductConfig();
+        }
         return $this->productConfig;
     }
 
@@ -147,5 +164,12 @@ class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
      */
     public function setRefSite($refSite) {
         $this->refSite = $refSite;
+    }
+
+    public function isExpired() {
+        if ($this->refSite !== NULL) {
+            return $this->refSite->isExpired();
+        }
+        return $this->productExpiry > 0 && $this->productExpiry < time();
     }
 }

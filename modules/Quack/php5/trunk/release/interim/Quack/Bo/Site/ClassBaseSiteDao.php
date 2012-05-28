@@ -86,6 +86,10 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
             if ($rows !== NULL && count($rows) > 0) {
                 $site = new Quack_Bo_Site_BoSite();
                 $site->populate($rows[0]);
+                $siteRef = $site->getSiteRef();
+                if ( $siteRef !== NULL && $siteRef === '' ) {
+                    $site->setRefSite($this->getSiteByDomain($siteRef));
+                }
                 $this->putToCache($cacheKey, $site);
             }
         }
