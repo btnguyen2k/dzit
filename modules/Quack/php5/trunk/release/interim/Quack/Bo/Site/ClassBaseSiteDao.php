@@ -186,9 +186,9 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
         $result = Array();
         if ($rows !== NULL) {
             foreach ($rows as $row) {
-                $siteDomain = $row[Quack_Bo_Site_BoProduct::COL_SITE_DOMAIN];
+                //$siteDomain = $row[Quack_Bo_Site_BoProduct::COL_SITE_DOMAIN];
                 $prodName = $row[Quack_Bo_Site_BoProduct::COL_NAME];
-                $prod = $this->getProductByName($siteDomain, $prodName);
+                $prod = $this->getProductByName($site, $prodName);
                 $result[] = $prod;
             }
         }
