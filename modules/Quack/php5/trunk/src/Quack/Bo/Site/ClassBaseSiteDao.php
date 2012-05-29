@@ -163,9 +163,6 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
                 $site = new Quack_Bo_Site_BoSite();
                 $site->populate($rows[0]);
 
-                $prods = $this->getProductsForSite($site);
-                $site->setProducts($prods);
-
                 $siteRef = $site->getSiteRef();
                 if ($siteRef !== NULL && $siteRef === '') {
                     $site->setRefSite($this->getSiteByDomain($siteRef));
@@ -173,6 +170,8 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
                 $this->putToCache($cacheKey, $site);
             }
         }
+        $prods = $this->getProductsForSite($site);
+        $site->setProducts($prods);
         return $site;
     }
 

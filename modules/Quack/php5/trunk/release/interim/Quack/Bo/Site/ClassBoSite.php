@@ -26,10 +26,16 @@ class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
     }
 
     public function getProducts() {
+        if ($this->refSite !== NULL) {
+            return $this->refSite->getProducts();
+        }
         return $this->products;
     }
 
     public function setProducts($products = Array()) {
+        if ($this->refSite !== NULL) {
+            return $this->refSite->setProducts($products);
+        }
         $this->products = $products;
     }
 
@@ -40,6 +46,9 @@ class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
      * @param Quack_Bo_Site_BoProduct $product
      */
     public function addProduct($prodName, $product) {
+        if ($this->refSite !== NULL) {
+            $this->refSite->addProduct($prodName, $product);
+        }
         $this->products[$prodName] = $product;
     }
 
@@ -48,7 +57,10 @@ class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
      *
      * @param Quack_Bo_Site_BoProduct $product
      */
-    public function removeproduct($product) {
+    public function removeProduct($product) {
+        if ($this->refSite !== NULL) {
+            $this->refSite->removeProduct($product);
+        }
         unset($this->products[$product->getProductName()]);
     }
 
@@ -59,6 +71,9 @@ class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
      * @return Quack_Bo_Site_BoProduct
      */
     public function getProduct($prodName) {
+        if ($this->refSite !== NULL) {
+            return $this->refSite->getProduct($prodName);
+        }
         return isset($this->products[$prodName]) ? $this->products[$prodName] : NULL;
     }
 
