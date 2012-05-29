@@ -7,18 +7,18 @@
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package     Dzit
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
- * @since       File available since v0.2
+ * @package Dzit
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version $Id$
+ * @since File available since v0.2
  */
 
 /**
  * Parses the HTTP request into tokens (module, action, parameters).
  *
- * @package     Dzit
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since      	Class available since v0.2
+ * @package Dzit
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since Class available since v0.2
  */
 class Dzit_RequestParser {
 
@@ -30,8 +30,7 @@ class Dzit_RequestParser {
      * Constructs a new Dzit_RequestParser object.
      */
     private function __construct() {
-        //singleton
-
+        // singleton
 
         /* parses the path info parameters */
         $this->pathInfo = $this->parsePathInfo();
@@ -60,10 +59,11 @@ class Dzit_RequestParser {
         if (isset($_SERVER['PATH_INFO'])) {
             $pathInfo = $_SERVER['PATH_INFO'];
         } else if (isset($_SERVER['SCRIPT_URL']) && isset($_SERVER['SCRIPT_NAME'])) {
-            //fall back to SCRIPT_URL to extract path info
+            // fall back to SCRIPT_URL to extract path info
             $pathInfo = substr($_SERVER['SCRIPT_URL'], strlen($_SERVER['SCRIPT_NAME']));
         } else {
-            //fallback method
+            // fallback method
+            $uri = isset($_SERVER['DOCUMENT_URI']) ? $_SERVER['DOCUMENT_URI'] : $_SERVER['REQUEST_URI'];
             $pathInfo = substr($_SERVER['DOCUMENT_URI'], strlen($_SERVER['SCRIPT_NAME']));
         }
         $tokens = explode('/', $pathInfo);
