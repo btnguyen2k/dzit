@@ -83,7 +83,7 @@ class Quack_Bo_Site_BoProduct extends Quack_Bo_BaseBo {
 
     public function getProductConfigMap() {
         if ($this->productConfigMap === NULL) {
-            $this->productConfigMap = json_decode($this->sproductConfig, TRUE);
+            $this->productConfigMap = json_decode($this->productConfig, TRUE);
         }
         return $this->productConfigMap;
     }
