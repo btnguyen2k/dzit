@@ -64,7 +64,7 @@ class Dzit_RequestParser {
         } else {
             // fallback method
             $uri = isset($_SERVER['DOCUMENT_URI']) ? $_SERVER['DOCUMENT_URI'] : $_SERVER['REQUEST_URI'];
-            $pathInfo = substr($_SERVER['DOCUMENT_URI'], strlen($_SERVER['SCRIPT_NAME']));
+            $pathInfo = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
         }
         $tokens = explode('/', $pathInfo);
         foreach ($tokens as $token) {
