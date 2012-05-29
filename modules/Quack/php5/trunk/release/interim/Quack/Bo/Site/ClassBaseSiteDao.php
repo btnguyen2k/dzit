@@ -181,7 +181,7 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
      */
     public function getProductsForSite($site) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
-        $params = Array();
+        $params = Array(Quack_Bo_Site_BoProduct::COL_SITE_DOMAIN => $site->getSiteDomain());
         $rows = $this->execSelect($sqlStm, $params);
         $result = Array();
         if ($rows !== NULL) {
