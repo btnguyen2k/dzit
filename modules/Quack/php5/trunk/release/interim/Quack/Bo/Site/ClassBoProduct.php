@@ -14,6 +14,7 @@ class Quack_Bo_Site_BoProduct extends Quack_Bo_BaseBo {
 
     private $productName, $productLevel, $productTimestamp, $productExpiry, $productConfig;
     private $productVersion1, $productVersion2, $productVersion3, $productVersion4;
+    private $productConfigMap = NULL;
 
     /*
      * (non-PHPdoc) @see Commons_Bo_BaseBo::getFieldMap()
@@ -77,6 +78,14 @@ class Quack_Bo_Site_BoProduct extends Quack_Bo_BaseBo {
 
     public function setProductConfig($productConfig) {
         $this->productConfig = $productConfig;
+        $this->productConfigMap = json_decode($this->productConfig, TRUE);
+    }
+
+    public function getProductConfigMap() {
+        if ($this->productConfigMap === NULL) {
+            $this->productConfigMap = json_decode($this->sproductConfig, TRUE);
+        }
+        return $this->productConfigMap;
     }
 
     public function getProductVersion1() {
