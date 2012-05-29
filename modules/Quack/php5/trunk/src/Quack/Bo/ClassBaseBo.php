@@ -62,7 +62,7 @@ class Quack_Bo_BaseBo {
      */
     public function populate($dataRow) {
         if ($dataRow === NULL || !is_array($dataRow)) {
-            $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Invalid argument!";
+            $msg = '[' . get_class($this) . '::' . __FUNCTION__ . "]Invalid argument!";
             $this->LOGGER->warn($msg);
             return;
         }
@@ -70,18 +70,18 @@ class Quack_Bo_BaseBo {
         foreach ($dataRow as $key => $value) {
             $fieldInfo = isset($fieldMap[$key]) ? $fieldMap[$key] : NULL;
             if ($fieldInfo == NULL || !is_array($fieldInfo)) {
-                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Can not map db column [$key] to class member variable!";
+                $msg = '[' . get_class($this) . '::' . __FUNCTION__ . "]Can not map db column [$key] to class member variable!";
                 $this->LOGGER->warn($msg);
                 continue;
             }
             $memberName = $fieldInfo[0];
             if ($this->LOGGER->isDebugEnabled()) {
-                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Db column [$key] is mapped to class member variable [$memberName]";
+                $msg = '[' . get_class($this) . '::' . __FUNCTION__ . "]Db column [$key] is mapped to class member variable [$memberName]";
                 $this->LOGGER->debug($msg);
             }
             $methodName = 'set' . ucfirst($memberName);
             if (!method_exists($this, $methodName)) {
-                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Setter [$methodName] does not exist in class [" . __CLASS__ . "!";
+                $msg = '[' . get_class($this) . '::' . __FUNCTION__ . "]Setter [$methodName] does not exist in class [" . __CLASS__ . "!";
                 $this->LOGGER->warn($msg);
                 continue;
             }

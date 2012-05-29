@@ -21,7 +21,7 @@ class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
     protected function getFieldMap() {
         return Array(self::COL_DOMAIN => Array('siteDomain'),
                 self::COL_REF => Array('siteRef'),
-                self::COL_TIMESTAMP => (int)Array('siteTimestamp'),
+                self::COL_TIMESTAMP => Array('siteTimestamp', self::TYPE_INT),
                 self::COL_CUSTOMER_ID => Array('customerId'));
     }
 
