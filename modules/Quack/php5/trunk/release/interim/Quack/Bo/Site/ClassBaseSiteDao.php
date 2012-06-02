@@ -24,11 +24,20 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
     /**
      * Creates the cache key for product.
      *
+     * @param mixed $prodName
+     */
+    protected function createCacheKeyProduct($prodName) {
+        return "PROD_{$prodName}";
+    }
+
+    /**
+     * Creates the cache key for site-product.
+     *
      * @param mixed $siteDomain
      * @param mixed $prodName
      */
-    protected function createCacheKeyProduct($siteDomain, $prodName) {
-        return "PROD_{$siteDomain}_{$prodName}";
+    protected function createCacheKeySiteProduct($siteDomain, $prodName) {
+        return "SITEPROD_{$siteDomain}_{$prodName}";
     }
 
     /**
@@ -50,7 +59,19 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
      */
     protected function invalidateProdCache($prod = NULL) {
         if ($prod !== NULL) {
-            $cacheKey = $this->createCacheKeyProduct($prod->getSiteDomain(), $prod->getProductName());
+            $cacheKey = $this->createCacheKeyProduct($prod->getProductName());
+            $this->deleteFromCache($cacheKey);
+        }
+    }
+
+    /**
+     * Invalidates the site-product cache due to change.
+     *
+     * @param Quack_Bo_Site_BoSiteProduct $siteProd
+     */
+    protected function invalidateSiteProdCache($siteProd = NULL) {
+        if ($siteProd !== NULL) {
+            $cacheKey = $this->createCacheKeySiteProduct($siteProd->getSiteDomain(), $siteProd->getProductName());
             $this->deleteFromCache($cacheKey);
         }
     }
@@ -68,16 +89,35 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
 
     /**
      *
+     * @see Quack_Bo_Site_ISiteDao::countNumProducts()
+     */
+    public function countNumProducts($filter = Array()) {
+        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
+        $params = Array();
+        $result = $this->execCount($sqlStm, $params);
+        return (int)$result;
+    }
+
+    /**
+     *
+     * @see Quack_Bo_Site_ISiteDao::countNumProductsForSite()
+     */
+    public function countNumProductsForSite($site, $filter = Array()) {
+        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
+        $params = Array($site->getSiteDomain());
+        $result = $this->execCount($sqlStm, $params);
+        return (int)$result;
+    }
+
+    /**
+     *
      * @see Quack_Bo_Site_ISiteDao::createProduct()
      */
     public function createProduct($product) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
-        $params = Array(Quack_Bo_Site_BoProduct::COL_SITE_DOMAIN => $product->getSiteDomain(),
+        $params = Array(Quack_Bo_Site_BoProduct::COL_ACTIVE => $product->isActive() ? 1 : 0,
                 Quack_Bo_Site_BoProduct::COL_CONFIG => $product->getProductConfig(),
-                Quack_Bo_Site_BoProduct::COL_EXPIRY => (int)$product->getProductExpiry(),
-                Quack_Bo_Site_BoProduct::COL_LEVEL => (int)$product->getProductLevel(),
                 Quack_Bo_Site_BoProduct::COL_NAME => $product->getProductName(),
-                Quack_Bo_Site_BoProduct::COL_TIMESTAMP => (int)$product->getProductTimestamp(),
                 Quack_Bo_Site_BoProduct::COL_VERSION_1 => (int)$product->getProductVersion1(),
                 Quack_Bo_Site_BoProduct::COL_VERSION_2 => (int)$product->getProductVersion2(),
                 Quack_Bo_Site_BoProduct::COL_VERSION_3 => (int)$product->getProductVersion3(),
@@ -100,6 +140,22 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
                 Quack_Bo_Site_BoSite::COL_PROD_TIMESTAMP => (int)$site->getProductTimestamp());
         $this->execNonSelect($sqlStm, $params);
         $this->invalidateSiteCache();
+    }
+
+    /**
+     *
+     * @see Quack_Bo_Site_ISiteDao::createSiteProduct()
+     */
+    public function createSiteProduct($siteProd) {
+        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
+        $params = Array(Quack_Bo_Site_BoSiteProduct::COL_SITE_DOMAIN => $siteProd->getSiteDomain(),
+                Quack_Bo_Site_BoSiteProduct::COL_CONFIG => $siteProd->getProductConfig(),
+                Quack_Bo_Site_BoSiteProduct::COL_EXPIRY => (int)$siteProd->getProductExpiry(),
+                Quack_Bo_Site_BoSiteProduct::COL_LEVEL => (int)$siteProd->getProductLevel(),
+                Quack_Bo_Site_BoSiteProduct::COL_NAME => $siteProd->getProductName(),
+                Quack_Bo_Site_BoSiteProduct::COL_TIMESTAMP => (int)$siteProd->getProductTimestamp());
+        $this->execNonSelect($sqlStm, $params);
+        $this->invalidateProdCache();
     }
 
     /**
@@ -186,7 +242,7 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
         $result = Array();
         if ($rows !== NULL) {
             foreach ($rows as $row) {
-                //$siteDomain = $row[Quack_Bo_Site_BoProduct::COL_SITE_DOMAIN];
+                // $siteDomain = $row[Quack_Bo_Site_BoProduct::COL_SITE_DOMAIN];
                 $prodName = $row[Quack_Bo_Site_BoProduct::COL_NAME];
                 $prod = $this->getProductByName($site, $prodName);
                 $result[$prodName] = $prod;

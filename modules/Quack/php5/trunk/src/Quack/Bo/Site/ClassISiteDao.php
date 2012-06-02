@@ -13,9 +13,25 @@ interface Quack_Bo_Site_ISiteDao extends Ddth_Dao_IDao {
     public function countNumSites($filter = Array());
 
     /**
+     * Counts number of current products.
+     *
+     * @param Array $filter
+     * @return int
+     */
+    public function countNumProducts($filter = Array());
+
+    /**
+     * Counts number of current products for a site.
+     *
+     * @param Quack_Bo_Site_BoSite $site
+     * @param Array $filter
+     */
+    public function countNumProductsForSite($site, $filter = Array());
+
+    /**
      * Creates a new product.
      *
-     * @param Quack_Bo_Site_BoProduct $product
+     * @param Quack_Bo_Site_BoSiteProduct $product
      */
     public function createProduct($product);
 
@@ -25,6 +41,13 @@ interface Quack_Bo_Site_ISiteDao extends Ddth_Dao_IDao {
      * @param Quack_Bo_Site_BoSite $site
      */
     public function createSite($site);
+
+    /**
+     * Adds a site-product.
+     *
+     * @param Quack_Bo_Site_BoSiteProduct $siteProd
+     */
+    public function createSiteProduct($siteProd);
 
     /**
      * Deletes a product.

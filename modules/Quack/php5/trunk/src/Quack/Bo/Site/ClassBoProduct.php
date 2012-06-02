@@ -1,18 +1,15 @@
 <?php
 class Quack_Bo_Site_BoProduct extends Quack_Bo_BaseBo {
 
-    const COL_SITE_DOMAIN = 'siteDomain';
     const COL_NAME = 'prodName';
-    const COL_LEVEL = 'prodLevel';
-    const COL_TIMESTAMP = 'prodTimestamp';
-    const COL_EXPIRY = 'prodExpiry';
+    const COL_ACTIVE = 'prodActive';
     const COL_CONFIG = 'prodConfig';
     const COL_VERSION_1 = 'prodVer1';
     const COL_VERSION_2 = 'prodVer2';
     const COL_VERSION_3 = 'prodVer3';
     const COL_VERSION_4 = 'prodVer4';
 
-    private $productName, $productLevel, $productTimestamp, $productExpiry, $productConfig;
+    private $productName, $productActive, $productConfig;
     private $productVersion1, $productVersion2, $productVersion3, $productVersion4;
     private $productConfigMap = NULL;
 
@@ -20,24 +17,13 @@ class Quack_Bo_Site_BoProduct extends Quack_Bo_BaseBo {
      * (non-PHPdoc) @see Commons_Bo_BaseBo::getFieldMap()
      */
     protected function getFieldMap() {
-        return Array(self::COL_SITE_DOMAIN => Array('siteDomain'),
-                self::COL_NAME => Array('productName'),
+        return Array(self::COL_NAME => Array('productName'),
                 self::COL_CONFIG => Array('productConfig'),
-                self::COL_EXPIRY => Array('productExpiry', self::TYPE_INT),
-                self::COL_LEVEL => Array('productLevel', self::TYPE_INT),
-                self::COL_TIMESTAMP => Array('productTimestamp', self::TYPE_INT),
+                self::COL_ACTIVE => Array('productActive', self::TYPE_BOOLEAN),
                 self::COL_VERSION_1 => Array('productVersion1', self::TYPE_INT),
                 self::COL_VERSION_2 => Array('productVersion2', self::TYPE_INT),
                 self::COL_VERSION_3 => Array('productVersion3', self::TYPE_INT),
                 self::COL_VERSION_4 => Array('productVersion4', self::TYPE_INT));
-    }
-
-    public function getSiteDomain() {
-        return $this->siteDomain;
-    }
-
-    public function setSiteDomain($siteDomain) {
-        $this->siteDomain = $siteDomain;
     }
 
     public function getProductName() {
@@ -46,30 +32,6 @@ class Quack_Bo_Site_BoProduct extends Quack_Bo_BaseBo {
 
     public function setProductName($productName) {
         $this->productName = $productName;
-    }
-
-    public function getProductLevel() {
-        return $this->productLevel;
-    }
-
-    public function setProductLevel($productLevel) {
-        $this->productLevel = $productLevel;
-    }
-
-    public function getProductTimestamp() {
-        return $this->productTimestamp;
-    }
-
-    public function setProductTimestamp($productTimestamp) {
-        $this->productTimestamp = $productTimestamp;
-    }
-
-    public function getProductExpiry() {
-        return $this->productExpiry;
-    }
-
-    public function setProductExpiry($productExpiry) {
-        $this->productExpiry = $productExpiry;
     }
 
     public function getProductConfig() {
@@ -86,6 +48,18 @@ class Quack_Bo_Site_BoProduct extends Quack_Bo_BaseBo {
             $this->productConfigMap = json_decode($this->productConfig, TRUE);
         }
         return $this->productConfigMap;
+    }
+
+    public function isActive() {
+        return $this->getProductActive();
+    }
+
+    public function getProductActive() {
+        return $this->productActive;
+    }
+
+    public function setProductActive($value) {
+        $this->productActive = $value;
     }
 
     public function getProductVersion1() {
@@ -128,9 +102,5 @@ class Quack_Bo_Site_BoProduct extends Quack_Bo_BaseBo {
         $this->productVersion2 = count($versions) > 1 ? (int)$versions[1] : 0;
         $this->productVersion3 = count($versions) > 2 ? (int)$versions[2] : 0;
         $this->productVersion4 = count($versions) > 3 ? (int)$versions[3] : 0;
-    }
-
-    public function isExpired() {
-        return $this->productExpiry > 0 && $this->productExpiry < time();
     }
 }
