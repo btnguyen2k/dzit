@@ -241,7 +241,7 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
                 $this->putToCache($cacheKey, $site);
             }
         }
-        if ($site->getRefSite() === NULL) {
+        if ($site !== NULL && $site->getRefSite() === NULL) {
             $prods = $this->getProductsForSite($site);
             $site->setProducts($prods);
         }
