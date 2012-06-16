@@ -14,11 +14,12 @@ class Quack_Util_IdUtils {
     const SHIFT_NODE_ID_128 = 16;
 
     /**
-     * Generates a 64-bit id as a binary string (no padding).
+     * Generates a 64-bit id as a binary string.
      *
      * @param string $nodeId
+     * @param int $padding
      */
-    public static function id64bin($nodeId = 1) {
+    public static function id64bin($nodeId = 1, $padding = 0) {
         list($usec, $sec) = explode(" ", microtime());
         $usec = $usec * 1000000;
 
@@ -37,20 +38,21 @@ class Quack_Util_IdUtils {
             $sequenceBin = "0$sequenceBin";
         }
 
-        return $timestampBin . $nodeIdBin . $sequenceBin;
+        $result = $timestampBin . $nodeIdBin . $sequenceBin;
+        while (strlen($result) < $padding) {
+            $result = "0$result";
+        }
+        return $result;
     }
 
     /**
-     * Generates a 64-bit id as a hexadeximal string (with padding).
+     * Generates a 64-bit id as a hexadeximal string.
      *
      * @param string $nodeId
+     * @param int $padding
      */
-    public static function id64hex($nodeId = 1) {
-        $resultBin = self::id64bin($nodeId);
-        while (strlen($resultBin) < 64) {
-            $resultBin = "0$resultBin";
-        }
-
+    public static function id64hex($nodeId = 1, $padding = 0) {
+        $resultBin = self::id64bin($nodeId, 64);
         $tokens = str_split($resultBin, 8);
         $resultHex = '';
         foreach ($tokens as $token) {
@@ -60,31 +62,9 @@ class Quack_Util_IdUtils {
             }
             $resultHex .= $temp;
         }
+        while (strlen($resultHex) < $padding) {
+            $resultHex = "0$resultHex";
+        }
         return $resultHex;
     }
-
-    // /**
-    // * Generates a 64-bit id.
-    // *
-    // * @param int $nodeId
-    // */
-    // public static function id64($nodeId = 1) {
-    // $timestamp = time();
-    // $sequence = $timestamp & self::MASK_SEQUENCE_128;
-    // $nodeId = $nodeId & self::MASK_NODE_ID_64;
-    // var_dump($timestamp);
-    // var_dump($nodeId);
-    // var_dump($sequence);
-
-    // $timestamp = ($timestamp - self::TIMESTAMP_EPOCH) &
-    // self::MASK_TIMESTAMP_64;
-    // return ($timestamp << self::SHIFT_TIMESTAMP_64) | ($nodeId <<
-    // self::MASK_NODE_ID_64) | ($sequence);
-    // }
 }
-
-echo Quack_Util_IdUtils::id64hex(1), "\n";
-usleep(1);
-echo Quack_Util_IdUtils::id64hex(2), "\n";
-usleep(1);
-echo Quack_Util_IdUtils::id64hex(3), "\n";
