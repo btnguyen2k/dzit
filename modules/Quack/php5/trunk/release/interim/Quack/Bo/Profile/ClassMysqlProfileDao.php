@@ -1,5 +1,5 @@
 <?php
-class Quack_Bo_Profile_MysqlPageDao extends Quack_Bo_Profile_BaseProfileDao implements
+class Quack_Bo_Profile_MysqlProfileDao extends Quack_Bo_Profile_BaseProfileDao implements
         Ddth_Dao_Mysql_IMysqlDao {
 
     protected function fetchResultAssoc($rs) {
