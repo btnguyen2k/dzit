@@ -1,5 +1,5 @@
 <?php
-class Quack_Utils_ProfileLog {
+class Quack_Utils_ProfileUtils {
 
     const KEY_CHILDREN = 'CHILDREN';
     const KEY_PARENT = 'PARENT';
