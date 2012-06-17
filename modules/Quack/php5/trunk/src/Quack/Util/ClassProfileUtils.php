@@ -70,9 +70,8 @@ class Quack_Util_ProfileUtils {
 
         list($usecStart, $secStart) = explode(" ", $timeStart);
         list($usecEnd, $secEnd) = explode(" ", $timeEnd);
-
-        $duration = ($secEnd - $secStart) + ($usecEnd - $usecEnd);
-        $result[self::KEY_DURATION] = round($duration, 3);
+        $duration = ($secEnd + $usecEnd)-($secStart + $usecStart);
+        $result[self::KEY_DURATION] = round($duration, 6);
 
         foreach ($result[self::KEY_CHILDREN] as &$child) {
             self::prepareProfileResult($child);
