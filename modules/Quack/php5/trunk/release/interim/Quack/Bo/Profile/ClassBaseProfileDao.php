@@ -32,7 +32,7 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
         $params = Array('profileId' => $id,
                 'profileUrl' => $url,
                 'profileDuration' => (float)$duration);
-        $stm = $this->getSqlStatement(__FUNCTION__);
+        $stm = $this->getSqlStatement('sql.' . __FUNCTION__);
         $this->execNonSelect($stm, $params);
 
         foreach ($entryList as $entry) {
@@ -51,7 +51,7 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
                 'profileDetailParentId' => $parentId,
                 'profileDetailName' => $name,
                 'profileDetailDuration' => (float)$duration);
-        $stm = $this->getSqlStatement(__FUNCTION__);
+        $stm = $this->getSqlStatement('sql.' . __FUNCTION__);
         $this->execNonSelect($stm, $params);
 
         $children = is_array($entry[Quack_Util_ProfileUtils::KEY_CHILDREN]) ? $entry[Quack_Util_ProfileUtils::KEY_CHILDREN] : Array();
