@@ -92,7 +92,7 @@ class Dzit_DefaultDispatcher implements Dzit_IDispatcher {
             /**
              * @var Dzit_ModelAndView
              */
-            $mav = $actionHandler->execute($module, $action);
+            $mav = $this->executeAction($actionHandler, $module, $action);
             if ( $mav != NULL ) {
                 $this->renderModelAndView($mav, $module, $action);
             } else {
@@ -112,6 +112,16 @@ class Dzit_DefaultDispatcher implements Dzit_IDispatcher {
      */
     protected function getRequestParser() {
         return Dzit_RequestParser::getInstance();
+    }
+
+    /**
+     * Invokes the action handler
+     * @param Dzit_IController $actionHandler
+     * @param string $module
+     * @param string $action
+     */
+    protected function executeAction($actionHandler, $module, $action) {
+        return $actionHandler->execute($module, $action);
     }
 
     /**
