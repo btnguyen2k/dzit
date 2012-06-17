@@ -36,13 +36,13 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
         $this->execNonSelect($stm, $params);
 
         foreach ($entryList as $entry) {
-            $this->writeProfileDataDetail($id, NULL, $entry);
+            $this->writeProfilingDataDetail($id, NULL, $entry);
         }
 
         $this->closeConnection();
     }
 
-    private function writeProfileDataDetail($id, $parentId, $entry) {
+    private function writeProfilingDataDetail($id, $parentId, $entry) {
         $idDetail = Quack_Util_IdUtils::id64bin(rand(1, time()));
         $name = isset($entry[Quack_Util_ProfileUtils::KEY_NAME]) ? $entry[Quack_Util_ProfileUtils::KEY_NAME] : '';
         $duration = isset($entry[Quack_Util_ProfileUtils::KEY_DURATION]) ? $entry[Quack_Util_ProfileUtils::KEY_DURATION] : 0.0;
@@ -56,7 +56,7 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
 
         $children = is_array($entry[Quack_Util_ProfileUtils::KEY_CHILDREN]) ? $entry[Quack_Util_ProfileUtils::KEY_CHILDREN] : Array();
         foreach ($children as $child) {
-            $this->writeProfileDataDetail($id, $idDetail, $child);
+            $this->writeProfilingDataDetail($id, $idDetail, $child);
         }
     }
 }
