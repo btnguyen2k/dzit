@@ -19,12 +19,12 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
      * @see Quack_Bo_Profile_IProfileDao::writeProfilingData()
      */
     public function writeProfilingData() {
-        $entryList = Quack_Utils_ProfileUtils::get();
+        $entryList = Quack_Util_ProfileUtils::get();
         $id = Quack_Util_IdUtils::id64bin(rand(1, time()));
         $url = $_SERVER['REQUEST_URI'];
         $duration = 0;
         foreach ($entryList as $entry) {
-            $duration += $entry[Quack_Utils_ProfileUtils::KEY_DURATION];
+            $duration += $entry[Quack_Util_ProfileUtils::KEY_DURATION];
         }
         // pre-open a connection so that subsequence operations will reuse it
         $conn = $this->getConnection(TRUE);
@@ -44,8 +44,8 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
 
     private function writeProfileDataDetail($id, $parentId, $entry) {
         $idDetail = Quack_Util_IdUtils::id64bin(rand(1, time()));
-        $name = isset($entry[Quack_Utils_ProfileUtils::KEY_NAME]) ? $entry[Quack_Utils_ProfileUtils::KEY_NAME] : '';
-        $duration = isset($entry[Quack_Utils_ProfileUtils::KEY_DURATION]) ? $entry[Quack_Utils_ProfileUtils::KEY_DURATION] : 0.0;
+        $name = isset($entry[Quack_Util_ProfileUtils::KEY_NAME]) ? $entry[Quack_Util_ProfileUtils::KEY_NAME] : '';
+        $duration = isset($entry[Quack_Util_ProfileUtils::KEY_DURATION]) ? $entry[Quack_Util_ProfileUtils::KEY_DURATION] : 0.0;
         $params = Array('profileId' => $id,
                 'profileDetailId' => $idDetail,
                 'profileDetailParentId' => $parentId,
@@ -54,7 +54,7 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
         $stm = $this->getSqlStatement(__FUNCTION__);
         $this->execNonSelect($stm, $params);
 
-        $children = is_array($entry[Quack_Utils_ProfileUtils::KEY_CHILDREN]) ? $entry[Quack_Utils_ProfileUtils::KEY_CHILDREN] : Array();
+        $children = is_array($entry[Quack_Util_ProfileUtils::KEY_CHILDREN]) ? $entry[Quack_Util_ProfileUtils::KEY_CHILDREN] : Array();
         foreach ($children as $child) {
             $this->writeProfileDataDetail($id, $idDetail, $child);
         }
