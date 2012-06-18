@@ -104,13 +104,3 @@ class Quack_Util_ProfileUtils {
         return $result;
     }
 }
-
-Quack_Util_ProfileUtils::push('ROOT');
-Quack_Util_ProfileUtils::push('EXECUTE_ACTION');
-Quack_Util_ProfileUtils::pop();
-Quack_Util_ProfileUtils::push('RENDER_MAV');
-Quack_Util_ProfileUtils::pop();
-Quack_Util_ProfileUtils::pop();
-$result = Quack_Util_ProfileUtils::get();
-print_r($result);
-print_r(json_encode($result));
