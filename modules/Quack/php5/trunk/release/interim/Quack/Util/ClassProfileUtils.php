@@ -9,9 +9,23 @@ class Quack_Util_ProfileUtils {
     const KEY_DURATION = 'DURATION';
 
     private static $root = Array();
-    private static $current = NULL;
     private static $logEntry = NULL;
-    private static $profiling = Array();
+    private static $profiling = Array(self::KEY_PARENT => NULL,
+            self::KEY_CHILDREN => Array(),
+            self::KEY_NAME => '');
+    private static $current = NULL;
+
+    private static function &locateNode($path) {
+        if ($path === NULL) {
+            return NULL;
+        }
+        $tokens = explode('|', $path);
+        $temp = &self::$profiling;
+        foreach ($tokens as $token) {
+            $temp = &$temp[self::KEY_CHILDREN][$token];
+        }
+        return $temp;
+    }
 
     /**
      * "Pushes" a profiling data to the stack.
@@ -19,13 +33,25 @@ class Quack_Util_ProfileUtils {
      * @param string $name
      */
     public static function push($name) {
-        $entry = self::createEntry($name, self::$current);
+        // create a new entry
+        $entry = Array(self::KEY_CHILDREN => Array(),
+                self::KEY_NAME => $name,
+                self::KEY_PARENT => self::$current,
+                self::KEY_TIMESTAMP_START => microtime());
         if (self::$current !== NULL) {
-            self::$current[self::KEY_CHILDREN][] = &$entry;
+            $current = &self::locateNode(self::$current);
+            $children = &$current[self::KEY_CHILDREN];
+            $children[] = &$entry;
+            self::$current = self::$current . '|' . (count($children) - 1);
         } else {
-            self::$profiling[] = &$entry;
+            self::$profiling[self::KEY_CHILDREN][] = &$entry;
+            self::$current = count(self::$profiling[self::KEY_CHILDREN]) - 1;
         }
-        self::$current = &$entry;
+    }
+
+    private static function debug() {
+        $temp = self::$profiling;
+        print_r($temp);
     }
 
     /**
@@ -35,16 +61,9 @@ class Quack_Util_ProfileUtils {
         if (self::$current === NULL) {
             throw new Exception('Illegal state!');
         }
-        self::$current[self::KEY_TIMESTAMP_END] = microtime();
-        self::$current = &self::$current[self::KEY_PARENT];
-    }
-
-    private static function createEntry($name, &$parent) {
-        $entry = Array(self::KEY_CHILDREN => Array(),
-                self::KEY_NAME => $name,
-                self::KEY_PARENT => $parent,
-                self::KEY_TIMESTAMP_START => microtime());
-        return $entry;
+        $current = &self::locateNode(self::$current);
+        $current[self::KEY_TIMESTAMP_END] = microtime();
+        self::$current = $current[self::KEY_PARENT];
     }
 
     /**
@@ -53,14 +72,14 @@ class Quack_Util_ProfileUtils {
      * @return Array
      */
     public static function get() {
-        $result = self::$profiling;
-        foreach ($result as &$item) {
-            self::prepareProfileResult($item);
+        $result = Array();
+        foreach (self::$profiling[self::KEY_CHILDREN] as $child) {
+            $result[] = self::prepareProfileResult($child);
         }
         return $result;
     }
 
-    private static function prepareProfileResult(&$result) {
+    private static function prepareProfileResult($result) {
         unset($result[self::KEY_PARENT]);
         $timeStart = $result[self::KEY_TIMESTAMP_START];
         if (!isset($result[self::KEY_TIMESTAMP_END])) {
@@ -68,13 +87,30 @@ class Quack_Util_ProfileUtils {
         }
         $timeEnd = $result[self::KEY_TIMESTAMP_END];
 
+        unset($result[self::KEY_TIMESTAMP_END]);
+        unset($result[self::KEY_TIMESTAMP_START]);
+
         list($usecStart, $secStart) = explode(" ", $timeStart);
         list($usecEnd, $secEnd) = explode(" ", $timeEnd);
-        $duration = ($secEnd + $usecEnd)-($secStart + $usecStart);
-        $result[self::KEY_DURATION] = round($duration, 6);
+        $duration = ($secEnd + $usecEnd) - ($secStart + $usecStart);
+        $result[self::KEY_DURATION] = round($duration, 4);
 
-        foreach ($result[self::KEY_CHILDREN] as &$child) {
-            self::prepareProfileResult($child);
+        $children = Array();
+        foreach ($result[self::KEY_CHILDREN] as $child) {
+            $children[] = self::prepareProfileResult($child);
         }
+        $result[self::KEY_CHILDREN] = $children;
+
+        return $result;
     }
 }
+
+Quack_Util_ProfileUtils::push('ROOT');
+Quack_Util_ProfileUtils::push('EXECUTE_ACTION');
+Quack_Util_ProfileUtils::pop();
+Quack_Util_ProfileUtils::push('RENDER_MAV');
+Quack_Util_ProfileUtils::pop();
+Quack_Util_ProfileUtils::pop();
+$result = Quack_Util_ProfileUtils::get();
+print_r($result);
+print_r(json_encode($result));
