@@ -31,7 +31,8 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
 
         $params = Array('profileId' => $id,
                 'profileUrl' => $url,
-                'profileDuration' => (float)$duration);
+                'profileDuration' => (float)$duration,
+                'profileDetail' => json_encode($entryList));
         $stm = $this->getSqlStatement('sql.' . __FUNCTION__);
         $this->execNonSelect($stm, $params);
 
