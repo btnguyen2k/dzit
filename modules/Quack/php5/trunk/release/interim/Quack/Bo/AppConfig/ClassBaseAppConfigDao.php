@@ -57,7 +57,7 @@ abstract class Quack_Bo_AppConfig_BaseAppConfigDao extends Quack_Bo_BaseDao impl
         $result = $this->getFromCache($cacheKey);
         if ($result === NULL) {
             $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
-            $params = Array('key' => $key);
+            $params = Array(Quack_Bo_AppConfig_BoAppConfig::COL_KEY => $key);
             $rows = $this->execSelect($sqlStm, $params);
             if ($rows !== NULL && count($rows) > 0) {
                 $result = new Quack_Bo_AppConfig_BoAppConfig();
