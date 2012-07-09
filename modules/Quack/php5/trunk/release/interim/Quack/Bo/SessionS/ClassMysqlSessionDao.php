@@ -27,11 +27,6 @@
 class Quack_Bo_SessionS_MysqlSessionDao extends Quack_Bo_SessionS_BaseSessionDao implements
         Ddth_Dao_Mysql_IMysqlDao {
 
-    protected function initSqlStatementFactory() {
-        $this->setSqlStatementFile('Quack/Bo/SessionS/sql_session.mysql.properties');
-        parent::initSqlStatementFactory();
-    }
-
     protected function fetchResultAssoc($rs) {
         return mysql_fetch_array($rs, MYSQL_ASSOC);
     }

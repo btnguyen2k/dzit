@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * MySQL-based implementation of {@link Quack_Bo_SessionS_ISessionDao}.
+ * PgSQL-based implementation of {@link Quack_Bo_SessionS_ISessionDao}.
  *
  * LICENSE: See the included license.txt file for detail.
  *
@@ -16,7 +16,7 @@
  */
 
 /**
- * MySQL-based implementation of {@link Quack_Bo_SessionS_ISessionDao}.
+ * PgSQL-based implementation of {@link Quack_Bo_SessionS_ISessionDao}.
  *
  * @package     Quack
  * @subpackage	Bo
@@ -24,14 +24,14 @@
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since      	Class available since v0.1
  */
-class Quack_Bo_SessionS_MysqlSessionDao extends Quack_Bo_SessionS_BaseSessionDao implements
-        Ddth_Dao_Mysql_IMysqlDao {
+class Quack_Bo_SessionS_PgsqlSessionDao extends Quack_Bo_SessionS_BaseSessionDao implements
+        Ddth_Dao_Pgsql_IPgsqlDao {
 
     protected function fetchResultAssoc($rs) {
-        return mysql_fetch_array($rs, MYSQL_ASSOC);
+        return pg_fetch_array($rs, NULL, PGSQL_ASSOC);
     }
 
     protected function fetchResultArr($rs) {
-        return mysql_fetch_array($rs, MYSQL_NUM);
+        return pg_fetch_array($rs, NULL, PGSQL_NUM);
     }
 }
