@@ -1,12 +1,12 @@
 <?php
 class Quack_Bo_Site_BoSiteProduct extends Quack_Bo_BaseBo {
 
-    const COL_SITE_DOMAIN = 'siteDomain';
-    const COL_NAME = 'prodName';
-    const COL_LEVEL = 'prodLevel';
-    const COL_TIMESTAMP = 'prodTimestamp';
-    const COL_EXPIRY = 'prodExpiry';
-    const COL_CONFIG = 'prodConfig';
+    const COL_SITE_DOMAIN = 'site_domain';
+    const COL_NAME = 'prod_name';
+    const COL_LEVEL = 'prod_level';
+    const COL_TIMESTAMP = 'prod_timestamp';
+    const COL_EXPIRY = 'prod_expiry';
+    const COL_CONFIG = 'prod_config';
 
     private $productName, $productLevel, $productTimestamp, $productExpiry, $productConfig;
     private $productConfigMap = NULL;

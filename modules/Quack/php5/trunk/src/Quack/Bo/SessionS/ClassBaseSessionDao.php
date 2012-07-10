@@ -28,9 +28,9 @@ abstract class Quack_Bo_SessionS_BaseSessionDao extends Quack_Bo_BaseDao impleme
         Quack_Bo_SessionS_ISessionDao {
 
     /* Virtual columns */
-    const COL_SESSION_ID = 'sessionId';
-    const COL_SESSION_TIMESTAMP = 'sessionTimestamp';
-    const COL_SESSION_DATA = 'sessionData';
+    const COL_SESSION_ID = 'session_id';
+    const COL_SESSION_TIMESTAMP = 'session_timestamp';
+    const COL_SESSION_DATA = 'session_data';
 
     /**
      * @var Ddth_Commons_Logging_ILog

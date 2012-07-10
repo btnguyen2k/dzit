@@ -1,10 +1,10 @@
 <?php
 class Quack_Bo_Site_BoSite extends Quack_Bo_BaseBo {
 
-    const COL_DOMAIN = 'siteDomain';
-    const COL_REF = 'siteRef';
-    const COL_TIMESTAMP = 'siteTimestamp';
-    const COL_CUSTOMER_ID = 'customerId';
+    const COL_DOMAIN = 'site_domain';
+    const COL_REF = 'site_ref';
+    const COL_TIMESTAMP = 'site_timestamp';
+    const COL_CUSTOMER_ID = 'customer_id';
 
     private $siteDomain, $siteRef, $siteTimestamp, $customerId;
     private $products = Array();

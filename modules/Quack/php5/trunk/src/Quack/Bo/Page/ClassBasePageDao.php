@@ -1,6 +1,9 @@
 <?php
 abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Quack_Bo_Page_IPageDao {
 
+    const PAGE_ATTRS = 'page_attrs';
+    const PAGE_CATEGORIES = 'page_categories';
+
     /**
      *
      * @var Ddth_Commons_Logging_ILog
@@ -61,10 +64,10 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
 
         $params = Array();
         if ($hasFilterAttr) {
-            $params['pageAttrs'] = $filter[self::FILTER_ATTRS];
+            $params[self::PAGE_ATTRS] = $filter[self::FILTER_ATTRS];
         }
         if ($hasFilterCat) {
-            $params['pageCategories'] = $filter[self::FILTER_CATS];
+            $params[self::PAGE_CATEGORIES] = $filter[self::FILTER_CATS];
         }
 
         $result = $this->execCount($sqlStm, $params);
@@ -140,10 +143,10 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
         $params = Array(self::PARAM_START_OFFSET => ($pageNum - 1) * $pageSize,
                 self::PARAM_PAGE_SIZE => $pageSize);
         if ($hasFilterAttr) {
-            $params['pageAttrs'] = $filter[self::FILTER_ATTRS];
+            $params[self::PAGE_ATTRS] = $filter[self::FILTER_ATTRS];
         }
         if ($hasFilterCat) {
-            $params['pageCategories'] = $filter[self::FILTER_CATS];
+            $params[self::PAGE_CATEGORIES] = $filter[self::FILTER_CATS];
         }
 
         $rows = $this->execSelect($sqlStm, $params);

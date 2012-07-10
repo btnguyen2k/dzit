@@ -1,12 +1,12 @@
 <?php
 class Quack_Bo_Page_BoPage extends Quack_Bo_BaseBo {
 
-    const COL_ID = 'pageId';
-    const COL_POSITION = 'pagePosition';
-    const COL_TITLE = 'pageTitle';
-    const COL_CONTENT = 'pageContent';
-    const COL_CATEGORY = 'pageCategory';
-    const COL_ATTR = 'pageAttr';
+    const COL_ID = 'page_id';
+    const COL_POSITION = 'page_position';
+    const COL_TITLE = 'page_title';
+    const COL_CONTENT = 'page_content';
+    const COL_CATEGORY = 'page_category';
+    const COL_ATTR = 'page_attr';
 
     private $id, $position, $title, $content, $category, $attr;
 

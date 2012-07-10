@@ -1,8 +1,8 @@
 <?php
 class Quack_Bo_AppConfig_BoAppConfig extends Quack_Bo_BaseBo {
 
-    const COL_KEY = 'confKey';
-    const COL_VALUE = 'confValue';
+    const COL_KEY = 'conf_key';
+    const COL_VALUE = 'conf_value';
 
     private $key, $value;
 

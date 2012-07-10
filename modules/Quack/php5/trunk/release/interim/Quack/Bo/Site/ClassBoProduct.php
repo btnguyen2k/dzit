@@ -1,13 +1,13 @@
 <?php
 class Quack_Bo_Site_BoProduct extends Quack_Bo_BaseBo {
 
-    const COL_NAME = 'prodName';
-    const COL_ACTIVE = 'prodActive';
-    const COL_CONFIG = 'prodConfig';
-    const COL_VERSION_1 = 'prodVer1';
-    const COL_VERSION_2 = 'prodVer2';
-    const COL_VERSION_3 = 'prodVer3';
-    const COL_VERSION_4 = 'prodVer4';
+    const COL_NAME = 'prod_name';
+    const COL_ACTIVE = 'prod_active';
+    const COL_CONFIG = 'prod_config';
+    const COL_VERSION_1 = 'prod_ver1';
+    const COL_VERSION_2 = 'prod_ver2';
+    const COL_VERSION_3 = 'prod_ver3';
+    const COL_VERSION_4 = 'prod_ver4';
 
     private $productName, $productActive, $productConfig;
     private $productVersion1, $productVersion2, $productVersion3, $productVersion4;
