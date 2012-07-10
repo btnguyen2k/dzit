@@ -7,9 +7,11 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
      * @var Ddth_Commons_Logging_ILog
      */
     private $LOGGER;
+    private $nodeId;
 
     public function __construct() {
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
+        $this->nodeId = rand(1, time());
         parent::__construct();
     }
 
@@ -20,9 +22,9 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
      */
     public function writeProfilingData() {
         $entryList = Quack_Util_ProfileUtils::get();
-        $id = Quack_Util_IdUtils::id64hex(rand(1, time()));
+        $id = Quack_Util_IdUtils::id64hex($this->nodeId, 16);
         $url = $_SERVER['REQUEST_URI'];
-        $duration = 0;
+        $duration = 0.0;
         foreach ($entryList as $entry) {
             $duration += $entry[Quack_Util_ProfileUtils::KEY_DURATION];
         }
@@ -44,7 +46,7 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
     }
 
     private function writeProfilingDataDetail($id, $parentId, $entry) {
-        $idDetail = Quack_Util_IdUtils::id64hex(rand(1, time()));
+        $idDetail = Quack_Util_IdUtils::id64hex($this->nodeId, 16);
         $name = isset($entry[Quack_Util_ProfileUtils::KEY_NAME]) ? $entry[Quack_Util_ProfileUtils::KEY_NAME] : '';
         $duration = isset($entry[Quack_Util_ProfileUtils::KEY_DURATION]) ? $entry[Quack_Util_ProfileUtils::KEY_DURATION] : 0.0;
         $params = Array('profileId' => $id,
