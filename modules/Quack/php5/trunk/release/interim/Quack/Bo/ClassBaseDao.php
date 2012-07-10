@@ -165,8 +165,8 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
             $conn = $this->getConnection()->getConn();
             $closeConn = TRUE;
         }
-        $stm->execute($conn, $params);
-        $result = $stm->getNumAffectedRows($conn);
+        $qres = $stm->execute($conn, $params);
+        $result = $stm->getNumAffectedRows($conn, $qres);
         if ($closeConn) {
             $this->closeConnection();
         }
