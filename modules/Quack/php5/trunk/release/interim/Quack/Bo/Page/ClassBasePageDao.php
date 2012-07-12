@@ -120,17 +120,7 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
                 $result->populate($rows[0]);
             }
         }
-        if ($result === NULL) {
-            // cache "not found" result
-            $this->putToCache($cacheKey, NULL);
-        } else if ($result instanceof Ddth_Cache_CacheEntry) {
-            $this->putToCache($cacheKey, $result); // refresh cache entry
-            $result = $result->getValue();
-        } else {
-            $cacheEntry = new Ddth_Cache_CacheEntry($result);
-            $this->putToCache($cacheKey, $cacheEntry);
-        }
-        return $result;
+        return $this->returnCachedResult($result, $cacheKey);
     }
 
     /**

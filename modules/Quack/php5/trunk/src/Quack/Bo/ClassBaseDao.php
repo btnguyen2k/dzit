@@ -57,6 +57,26 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
     }
 
     /**
+     * Convenient method to return a cached result.
+     *
+     * @param mixed $result
+     * @param string $cacheKey
+     */
+    protected function returnCachedResult($result, $cacheKey) {
+        if ($result === NULL) {
+            // cache "not found" result
+            $this->putToCache($cacheKey, NULL);
+        } else if ($result instanceof Ddth_Cache_CacheEntry) {
+            $this->putToCache($cacheKey, $result); // refresh cache entry
+            $result = $result->getValue();
+        } else {
+            $cacheEntry = new Ddth_Cache_CacheEntry($result);
+            $this->putToCache($cacheKey, $cacheEntry);
+        }
+        return $result;
+    }
+
+    /**
      * Put an entry to cache.
      *
      * @param string $key
