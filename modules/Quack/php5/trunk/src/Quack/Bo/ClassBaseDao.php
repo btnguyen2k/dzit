@@ -7,23 +7,24 @@
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package     Quack
- * @subpackage	Bo
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassICache.php 251 2010-12-25 19:21:35Z btnguyen2k@gmail.com $
- * @since       File available since v0.1
+ * @package Quack
+ * @subpackage Bo
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version $Id$
+ * @since File available since v0.1
  */
 
 /**
  * Base class for application's DAOs.
  *
- * @package     Quack
- * @subpackage	Bo
- * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since      	Class available since v0.1
+ * @package Quack
+ * @subpackage Bo
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since Class available since v0.1
  */
 abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
 
+    const DEFAULT_CACHE_WRITE_EXPIRY = 3600;
     protected $cacheL1 = Array();
 
     /**
@@ -63,6 +64,13 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
      * @param boolean $includeCacheL2
      */
     protected function putToCache($key, $value, $includeCacheL2 = TRUE) {
+        if (!($value instanceof Ddth_Cache_CacheEntry)) {
+            $obj = new Ddth_Cache_CacheEntry($value);
+            if ($value === NULL) {
+                $obj->setExpireAfterWrite(self::DEFAULT_CACHE_WRITE_EXPIRY);
+            }
+            $value = $obj;
+        }
         $this->cacheL1[$key] = $value;
         if ($includeCacheL2) {
             Quack_Util_CacheUtils::put($key, $value, $this->getCacheName());
@@ -83,6 +91,9 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
             if ($result !== NULL) {
                 $this->cacheL1[$key] = $result;
             }
+        }
+        if (($result instanceof Ddth_Cache_CacheEntry) && $result->isExpired()) {
+            $result = NULL;
         }
         return $result;
     }
@@ -117,9 +128,11 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
     /**
      * Executes a "COUNT" statement.
      *
-     * @param {@link Ddth_Dao_SqlStatement} $stm
+     * @param
+     *            {@link Ddth_Dao_SqlStatement} $stm
      * @param Array $params
-     * @param mixed $conn an open db connection
+     * @param mixed $conn
+     *            an open db connection
      * @param string $cacheKey
      * @param boolean $includeCacheL2
      * @return int the "COUNT" value, or FALSE if error
@@ -154,10 +167,13 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
     /**
      * Executes a non-select (DELETE, INSERT, UPDATE) statement.
      *
-     * @param {@link Ddth_Dao_SqlStatement} $stm the statement to execute.
+     * @param
+     *            {@link Ddth_Dao_SqlStatement} $stm the statement to execute.
      * @param Array $params
-     * @param mixed $conn an open db connection
-     * @return int number of affected rows, FALSE if error, or -1 if not supported
+     * @param mixed $conn
+     *            an open db connection
+     * @return int number of affected rows, FALSE if error, or -1 if not
+     *         supported
      */
     protected function execNonSelect($stm, $params = Array(), $conn = NULL) {
         $closeConn = FALSE;
@@ -176,9 +192,11 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
     /**
      * Executes a "SELECT" statement.
      *
-     * @param {@link Ddth_Dao_SqlStatement} $stm the statement to execute.
+     * @param
+     *            {@link Ddth_Dao_SqlStatement} $stm the statement to execute.
      * @param Array $params
-     * @param mixed $conn an open db connection
+     * @param mixed $conn
+     *            an open db connection
      * @param string $cacheKey
      * @return Array
      */
@@ -214,9 +232,11 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
     }
 
     /**
-     * Gets a {@link Ddth_Dao_SqlStatement} object, throws exception if not found.
+     * Gets a {@link Ddth_Dao_SqlStatement} object, throws exception if not
+     * found.
      *
-     * @param string $name name of the statement to get
+     * @param string $name
+     *            name of the statement to get
      * @return Ddth_Dao_SqlStatement
      */
     protected function getStatement($name) {

@@ -25,24 +25,6 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
     }
 
     /**
-     * (non-PHPdoc)
-     *
-     * @see Quack_Bo_BaseDao::putToCache()
-     */
-    protected function putToCache($key, $value) {
-        if ($value instanceof Ddth_Cache_CacheEntry) {
-            parent::putToCache($key, $value);
-        } else {
-            $obj = new Ddth_Cache_CacheEntry($value);
-            if ($value === NULL) {
-                // expires after 1 hour
-                $obj->setExpireAfterWrite(3600);
-            }
-            parent::putToCache($key, $obj);
-        }
-    }
-
-    /**
      * Invalidates the page cache due to change.
      *
      * @param Quack_Bo_Page_BoPage $page
