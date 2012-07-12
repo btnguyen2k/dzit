@@ -25,6 +25,24 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
     }
 
     /**
+     * (non-PHPdoc)
+     *
+     * @see Quack_Bo_BaseDao::putToCache()
+     */
+    protected function putToCache($key, $value) {
+        if ($value instanceof Ddth_Cache_CacheEntry) {
+            parent::putToCache($key, $value);
+        } else {
+            $obj = new Ddth_Cache_CacheEntry($value);
+            if ($value === NULL) {
+                // expires after 1 hour
+                $obj->setExpireAfterWrite(3600);
+            }
+            parent::putToCache($key, $obj);
+        }
+    }
+
+    /**
      * Invalidates the page cache due to change.
      *
      * @param Quack_Bo_Page_BoPage $page
@@ -88,6 +106,8 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
                 Quack_Bo_Page_BoPage::COL_ATTR => $page->getAttr());
         $this->execNonSelect($sqlStm, $params);
         $this->invalidatePageCache();
+        $cacheKey = $this->createCacheKeyPage($page->getId());
+        $this->putToCache($cacheKey, $page);
     }
 
     /**
@@ -108,18 +128,27 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
      */
     public function getPageById($id) {
         $cacheKey = $this->createCacheKeyPage($id);
-        $page = $this->getFromCache($cacheKey);
-        if ($page === NULL) {
+        $result = $this->getFromCache($cacheKey);
+        if ($result === NULL) {
             $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
             $params = Array(Quack_Bo_Page_BoPage::COL_ID => $id);
             $rows = $this->execSelect($sqlStm, $params);
             if ($rows !== NULL && count($rows) > 0) {
-                $page = new Quack_Bo_Page_BoPage();
-                $page->populate($rows[0]);
-                $this->putToCache($cacheKey, $page);
+                $result = new Quack_Bo_Page_BoPage();
+                $result->populate($rows[0]);
             }
         }
-        return $page;
+        if ($result === NULL) {
+            // cache "not found" result
+            $this->putToCache($cacheKey, NULL);
+        } else if ($result instanceof Ddth_Cache_CacheEntry) {
+            $this->putToCache($cacheKey, $result); // refresh cache entry
+            $result = $result->getValue();
+        } else {
+            $cacheEntry = new Ddth_Cache_CacheEntry($result);
+            $this->putToCache($cacheKey, $cacheEntry);
+        }
+        return $result;
     }
 
     /**
@@ -175,6 +204,8 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
                 Quack_Bo_Page_BoPage::COL_ATTR => $page->getAttr());
         $result = $this->execNonSelect($sqlStm, $params);
         $this->invalidatePageCache($page);
+        $cacheKey = $this->createCacheKeyPage($page->getId());
+        $this->putToCache($cacheKey, $page);
         return $result;
     }
 }

@@ -41,6 +41,24 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
     }
 
     /**
+     * (non-PHPdoc)
+     *
+     * @see Quack_Bo_BaseDao::putToCache()
+     */
+    protected function putToCache($key, $value) {
+        if ($value instanceof Ddth_Cache_CacheEntry) {
+            parent::putToCache($key, $value);
+        } else {
+            $obj = new Ddth_Cache_CacheEntry($value);
+            if ($value === NULL) {
+                // expires after 1 hour
+                $obj->setExpireAfterWrite(3600);
+            }
+            parent::putToCache($key, $obj);
+        }
+    }
+
+    /**
      * Invalidates the site cache due to change.
      *
      * @param Quack_Bo_Site_BoSite $site
@@ -124,6 +142,8 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
                 Quack_Bo_Site_BoProduct::COL_VERSION_4 => (int)$product->getProductVersion4());
         $this->execNonSelect($sqlStm, $params);
         $this->invalidateProdCache();
+        $cacheKey = $this->createCacheKeyProduct($product->getProductName());
+        $this->putToCache($cacheKey, $product);
         return $product;
     }
 
@@ -141,6 +161,8 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
                 Quack_Bo_Site_BoSite::COL_PROD_TIMESTAMP => (int)$site->getProductTimestamp());
         $this->execNonSelect($sqlStm, $params);
         $this->invalidateSiteCache();
+        $cacheKey = $this->createCacheKeySite($site->getSiteDomain());
+        $this->putToCache($cacheKey, $site);
         return $site;
     }
 
@@ -158,6 +180,8 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
                 Quack_Bo_Site_BoSiteProduct::COL_TIMESTAMP => (int)$siteProd->getProductTimestamp());
         $this->execNonSelect($sqlStm, $params);
         $this->invalidateProdCache();
+        $cacheKey = $this->createCacheKeySiteProduct($siteProd->getSiteDomain(), $siteProd->getProductName());
+        $this->putToCache($cacheKey, $siteProd);
         return $siteProd;
     }
 
@@ -204,18 +228,27 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
      */
     public function getProductByName($name) {
         $cacheKey = $this->createCacheKeyProduct($name);
-        $prod = $this->getFromCache($cacheKey);
-        if ($prod == NULL) {
+        $result = $this->getFromCache($cacheKey);
+        if ($result == NULL) {
             $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
             $params = Array(Quack_Bo_Site_BoProduct::COL_NAME => $name);
             $rows = $this->execSelect($sqlStm, $params);
             if ($rows !== NULL && count($rows) > 0) {
-                $prod = new Quack_Bo_Site_BoProduct();
-                $prod->populate($rows[0]);
-                $this->putToCache($cacheKey, $prod);
+                $result = new Quack_Bo_Site_BoProduct();
+                $result->populate($rows[0]);
             }
         }
-        return $prod;
+        if ($result === NULL) {
+            // cache "not found" result
+            $this->putToCache($cacheKey, NULL);
+        } else if ($result instanceof Ddth_Cache_CacheEntry) {
+            $this->putToCache($cacheKey, $result); // refresh cache entry
+            $result = $result->getValue();
+        } else {
+            $cacheEntry = new Ddth_Cache_CacheEntry($result);
+            $this->putToCache($cacheKey, $cacheEntry);
+        }
+        return $result;
     }
 
     /**
@@ -224,28 +257,37 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
      */
     public function getSiteByDomain($domain) {
         $cacheKey = $this->createCacheKeySite($domain);
-        $site = $this->getFromCache($cacheKey);
-        if ($site === NULL) {
+        $result = $this->getFromCache($cacheKey);
+        if ($result === NULL) {
             $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
             $params = Array(Quack_Bo_Site_BoSite::COL_DOMAIN => $domain);
             $rows = $this->execSelect($sqlStm, $params);
             if ($rows !== NULL && count($rows) > 0) {
-                $site = new Quack_Bo_Site_BoSite();
-                $site->populate($rows[0]);
+                $result = new Quack_Bo_Site_BoSite();
+                $result->populate($rows[0]);
 
-                $siteRef = $site->getSiteRef();
+                $siteRef = $result->getSiteRef();
                 if ($siteRef !== NULL && $siteRef !== '') {
                     $temp = $this->getSiteByDomain($siteRef);
-                    $site->setRefSite($temp);
+                    $result->setRefSite($temp);
                 }
-                $this->putToCache($cacheKey, $site);
             }
         }
-        if ($site !== NULL && $site->getRefSite() === NULL) {
-            $prods = $this->getProductsForSite($site);
-            $site->setProducts($prods);
+        if ($result !== NULL && $result->getRefSite() === NULL) {
+            $prods = $this->getProductsForSite($result);
+            $result->setProducts($prods);
         }
-        return $site;
+        if ($result === NULL) {
+            // cache "not found" result
+            $this->putToCache($cacheKey, NULL);
+        } else if ($result instanceof Ddth_Cache_CacheEntry) {
+            $this->putToCache($cacheKey, $result); // refresh cache entry
+            $result = $result->getValue();
+        } else {
+            $cacheEntry = new Ddth_Cache_CacheEntry($result);
+            $this->putToCache($cacheKey, $cacheEntry);
+        }
+        return $result;
     }
 
     /**
@@ -254,19 +296,28 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
      */
     public function getSiteProductByName($site, $name) {
         $cacheKey = $this->createCacheKeySiteProduct($site->getSiteDomain(), $name);
-        $siteProd = $this->getFromCache($cacheKey);
-        if ($siteProd == NULL) {
+        $result = $this->getFromCache($cacheKey);
+        if ($result == NULL) {
             $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
             $params = Array(Quack_Bo_Site_BoSiteProduct::COL_SITE_DOMAIN => $site->getSiteDomain(),
                     Quack_Bo_Site_BoSiteProduct::COL_NAME => $name);
             $rows = $this->execSelect($sqlStm, $params);
             if ($rows !== NULL && count($rows) > 0) {
-                $siteProd = new Quack_Bo_Site_BoSiteProduct();
-                $siteProd->populate($rows[0]);
-                $this->putToCache($cacheKey, $siteProd);
+                $result = new Quack_Bo_Site_BoSiteProduct();
+                $result->populate($rows[0]);
             }
         }
-        return $siteProd;
+        if ($result === NULL) {
+            // cache "not found" result
+            $this->putToCache($cacheKey, NULL);
+        } else if ($result instanceof Ddth_Cache_CacheEntry) {
+            $this->putToCache($cacheKey, $result); // refresh cache entry
+            $result = $result->getValue();
+        } else {
+            $cacheEntry = new Ddth_Cache_CacheEntry($result);
+            $this->putToCache($cacheKey, $cacheEntry);
+        }
+        return $result;
     }
 
     /**
@@ -343,6 +394,8 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
                 Quack_Bo_Site_BoProduct::COL_VERSION_4 => (int)$product->getProductVersion4());
         $result = $this->execNonSelect($sqlStm, $params);
         $this->invalidateProdCache($product);
+        $cacheKey = $this->createCacheKeyProduct($product->getProductName());
+        $this->putToCache($cacheKey, $product);
         return $result;
     }
 
@@ -360,6 +413,8 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
                 Quack_Bo_Site_BoSite::COL_PROD_TIMESTAMP => (int)$site->getProductTimestamp());
         $result = $this->execNonSelect($sqlStm, $params);
         $this->invalidateSiteCache($site);
+        $cacheKey = $this->createCacheKeySite($site->getSiteDomain());
+        $this->putToCache($cacheKey, $site);
         return $result;
     }
 
@@ -377,6 +432,8 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
                 Quack_Bo_Site_BoSiteProduct::COL_TIMESTAMP => (int)$siteProd->getProductTimestamp());
         $result = $this->execNonSelect($sqlStm, $params);
         $this->invalidateSiteProdCache($siteProd);
+        $cacheKey = $this->createCacheKeySiteProduct($siteProd->getSiteDomain(), $siteProd->getProductName());
+        $this->putToCache($cacheKey, $siteProd);
         return $result;
     }
 }

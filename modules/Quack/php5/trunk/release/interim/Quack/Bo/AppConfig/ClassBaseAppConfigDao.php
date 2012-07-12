@@ -32,6 +32,24 @@ abstract class Quack_Bo_AppConfig_BaseAppConfigDao extends Quack_Bo_BaseDao impl
     }
 
     /**
+     * (non-PHPdoc)
+     *
+     * @see Quack_Bo_BaseDao::putToCache()
+     */
+    protected function putToCache($key, $value) {
+        if ($value instanceof Ddth_Cache_CacheEntry) {
+            parent::putToCache($key, $value);
+        } else {
+            $obj = new Ddth_Cache_CacheEntry($value);
+            if ($value === NULL) {
+                // expires after 1 hour
+                $obj->setExpireAfterWrite(3600);
+            }
+            parent::putToCache($key, $obj);
+        }
+    }
+
+    /**
      * Invalidates cache due to change.
      *
      * @param Quack_Bo_AppConfig_BoAppConfig $config
@@ -40,11 +58,6 @@ abstract class Quack_Bo_AppConfig_BaseAppConfigDao extends Quack_Bo_BaseDao impl
         if ($config !== NULL) {
             $cacheKey = $this->createCacheKeyConfig($config->getKey());
             $this->putToCache($cacheKey, $config);
-            // if ($configValue === NULL) {
-            // $this->deleteFromCache($cacheKey);
-            // } else {
-            // $this->putToCache($cacheKey, $configValue);
-            // }
         }
     }
 
@@ -62,8 +75,17 @@ abstract class Quack_Bo_AppConfig_BaseAppConfigDao extends Quack_Bo_BaseDao impl
             if ($rows !== NULL && count($rows) > 0) {
                 $result = new Quack_Bo_AppConfig_BoAppConfig();
                 $result->populate($rows[0]);
-                $this->putToCache($cacheKey, $result);
             }
+        }
+        if ($result === NULL) {
+            // cache "not found" result
+            $this->putToCache($cacheKey, NULL);
+        } else if ($result instanceof Ddth_Cache_CacheEntry) {
+            $this->putToCache($cacheKey, $result); // refresh cache entry
+            $result = $result->getValue();
+        } else {
+            $cacheEntry = new Ddth_Cache_CacheEntry($result);
+            $this->putToCache($cacheKey, $cacheEntry);
         }
         return $result;
     }
