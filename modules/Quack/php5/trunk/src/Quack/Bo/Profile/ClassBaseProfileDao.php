@@ -29,7 +29,7 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
             $duration += $entry[Quack_Util_ProfileUtils::KEY_DURATION];
         }
         // pre-open a connection so that subsequence operations will reuse it
-        $conn = $this->getConnection(TRUE);
+        $conn = $this->getConnection();
 
         $params = Array('profileId' => $id,
                 'profileUrl' => $url,

@@ -11,7 +11,7 @@
  * @subpackage	Bo
  * @subpackage 	SessionS
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassICache.php 251 2010-12-25 19:21:35Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassBaseSessionDao.php 211 2012-07-12 13:52:48Z btnguyen2k $
  * @since       File available since v0.1
  */
 
