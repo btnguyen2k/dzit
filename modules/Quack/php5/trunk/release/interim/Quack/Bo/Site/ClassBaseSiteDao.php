@@ -73,6 +73,8 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
         if ($siteProd !== NULL) {
             $cacheKey = $this->createCacheKeySiteProduct($siteProd->getSiteDomain(), $siteProd->getProductName());
             $this->deleteFromCache($cacheKey);
+            $cacheKey = $this->createCacheKeySite($siteProd->getSiteDomain());
+            $this->deleteFromCache($cacheKey);
         }
     }
 
@@ -243,12 +245,14 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
                     $temp = $this->getSiteByDomain($siteRef);
                     $result->setRefSite($temp);
                 }
+                $prods = $this->getProductsForSite($result);
+                $result->setProducts($prods);
             }
         }
-        if ($result !== NULL && $result->getRefSite() === NULL) {
-            $prods = $this->getProductsForSite($result);
-            $result->setProducts($prods);
-        }
+        // if ($result !== NULL && $result->getRefSite() === NULL) {
+        // $prods = $this->getProductsForSite($result);
+        // $result->setProducts($prods);
+        // }
         return $this->returnCachedResult($result, $cacheKey);
     }
 
