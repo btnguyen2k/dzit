@@ -28,9 +28,6 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
         foreach ($entryList as $entry) {
             $duration += $entry[Quack_Util_ProfileUtils::KEY_DURATION];
         }
-        // pre-open a connection so that subsequence operations will reuse it
-        $conn = $this->getConnection();
-
         $params = Array('profileId' => $id,
                 'profileUrl' => $url,
                 'profileDuration' => (float)$duration,
@@ -41,8 +38,6 @@ abstract class Quack_Bo_Profile_BaseProfileDao extends Quack_Bo_BaseDao implemen
         foreach ($entryList as $entry) {
             $this->writeProfilingDataDetail($id, NULL, $entry);
         }
-
-        $this->closeConnection();
     }
 
     private function writeProfilingDataDetail($id, $parentId, $entry) {

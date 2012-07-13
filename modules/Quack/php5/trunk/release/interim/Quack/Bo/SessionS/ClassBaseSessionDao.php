@@ -121,13 +121,10 @@ abstract class Quack_Bo_SessionS_BaseSessionDao extends Quack_Bo_BaseDao impleme
             $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Session Id: {$id}/Data: {$data}";
             $this->LOGGER->debug($msg);
         }
-        //pre-open a connection so that subsequence operations will reuse it
-        $conn = $this->getConnection();
         $result = $this->updateSession($id, $data);
         if ($result === FALSE || $result < 1) {
             $result = $this->createSession($id, $data);
         }
-        $this->closeConnection();
         return $result;
     }
 }

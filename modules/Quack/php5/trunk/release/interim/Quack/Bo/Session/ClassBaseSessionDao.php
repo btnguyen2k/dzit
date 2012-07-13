@@ -119,9 +119,6 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
      * @see Quack_Bo_Session_ISessionDao::setEntry()
      */
     public function setEntry($sessionId, $sessionKey, $sessionValue) {
-        //pre-open a connection so that subsequence operations will reuse it
-        $conn = $this->getConnection();
-
         if ($sessionValue === NULL) {
             $this->deleteEntry($sessionId, $sessionKey);
         } else {
@@ -134,8 +131,6 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
                 }
             }
         }
-
-        $this->closeConnection(FALSE);
     }
 
     /**
@@ -180,15 +175,10 @@ abstract class Quack_Bo_Session_BaseSessionDao extends Quack_Bo_BaseDao implemen
      * @see Quack_Bo_Session_ISessionDao::startSession()
      */
     public function startSession($sessionId) {
-        //pre-open a connection so that subsequence operations will reuse it
-        $conn = $this->getConnection();
-
         $updateResult = $this->updateSession($sessionId);
         if ($updateResult === FALSE || $updateResult <= 0) {
             $this->createSession($sessionId);
         }
-
-        $this->closeConnection(FALSE);
     }
 
     protected function createSession($sessionId) {
