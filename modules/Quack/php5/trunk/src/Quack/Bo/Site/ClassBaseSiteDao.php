@@ -245,8 +245,10 @@ abstract class Quack_Bo_Site_BaseSiteDao extends Quack_Bo_BaseDao implements Qua
                     $temp = $this->getSiteByDomain($siteRef);
                     $result->setRefSite($temp);
                 }
-                $prods = $this->getProductsForSite($result);
-                $result->setProducts($prods);
+                if ($result !== NULL && $result->getRefSite() === NULL) {
+                    $prods = $this->getProductsForSite($result);
+                    $result->setProducts($prods);
+                }
             }
         }
         // if ($result !== NULL && $result->getRefSite() === NULL) {
