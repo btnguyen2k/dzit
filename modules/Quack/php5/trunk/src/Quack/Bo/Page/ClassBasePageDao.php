@@ -87,7 +87,7 @@ abstract class Quack_Bo_Page_BasePageDao extends Quack_Bo_BaseDao implements Qua
                 Quack_Bo_Page_BoPage::COL_CATEGORY => $page->getCategory(),
                 Quack_Bo_Page_BoPage::COL_ATTR => $page->getAttr());
         $this->execNonSelect($sqlStm, $params);
-        $this->invalidatePageCache();
+        $this->invalidatePageCache($page);
         $cacheKey = $this->createCacheKeyPage($page->getId());
         $this->putToCache($cacheKey, $page);
     }

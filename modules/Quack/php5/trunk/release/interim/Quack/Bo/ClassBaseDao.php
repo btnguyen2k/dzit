@@ -10,7 +10,7 @@
  * @package Quack
  * @subpackage Bo
  * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version $Id: ClassBaseDao.php 211 2012-07-12 13:52:48Z btnguyen2k $
+ * @version $Id: ClassBaseDao.php 213 2012-07-12 17:34:09Z btnguyen2k $
  * @since File available since v0.1
  */
 

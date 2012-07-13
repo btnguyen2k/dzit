@@ -76,9 +76,17 @@ abstract class Quack_Bo_AppConfig_BaseAppConfigDao extends Quack_Bo_BaseDao impl
         } else {
             $this->invalidateCache($config);
         }
-        return $result;
+        $cacheKey = $this->createCacheKeyConfig($config->getKey());
+        $this->putToCache($cacheKey, $config);
+        return $config;
     }
 
+    /**
+     * Creates a new config
+     *
+     * @param int $config
+     *            usually this is number of DB's affected rows.
+     */
     protected function createConfig($config) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
         $params = Array(Quack_Bo_AppConfig_BoAppConfig::COL_KEY => $config->getKey(),
