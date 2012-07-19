@@ -7,22 +7,22 @@
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package     Quack
- * @subpackage	Bo
- * @subpackage 	SessionS
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassBaseSessionDao.php 217 2012-07-13 15:33:00Z btnguyen2k $
- * @since       File available since v0.1
+ * @package Quack
+ * @subpackage Bo
+ * @subpackage SessionS
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version $Id: ClassBaseSessionDao.php 217 2012-07-13 15:33:00Z btnguyen2k $
+ * @since File available since v0.1
  */
 
 /**
  * Abstract/Base implementation of {@link Quack_Bo_SessionS_ISessionDao}.
  *
- * @package     Quack
- * @subpackage	Bo
- * @subpackage	SessionS
- * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since      	Class available since v0.1
+ * @package Quack
+ * @subpackage Bo
+ * @subpackage SessionS
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since Class available since v0.1
  */
 abstract class Quack_Bo_SessionS_BaseSessionDao extends Quack_Bo_BaseDao implements
         Quack_Bo_SessionS_ISessionDao {
@@ -33,6 +33,7 @@ abstract class Quack_Bo_SessionS_BaseSessionDao extends Quack_Bo_BaseDao impleme
     const COL_SESSION_DATA = 'session_data';
 
     /**
+     *
      * @var Ddth_Commons_Logging_ILog
      */
     private $LOGGER;
@@ -43,6 +44,7 @@ abstract class Quack_Bo_SessionS_BaseSessionDao extends Quack_Bo_BaseDao impleme
     }
 
     /**
+     *
      * @see Quack_Bo_SessionS_ISessionDao::deleteExpiredSessions()
      */
     public function deleteExpiredSessions($maxlifetime) {
@@ -57,6 +59,7 @@ abstract class Quack_Bo_SessionS_BaseSessionDao extends Quack_Bo_BaseDao impleme
     }
 
     /**
+     *
      * @see Quack_Bo_SessionS_ISessionDao::deleteSession()
      */
     public function deleteSession($id) {
@@ -71,6 +74,7 @@ abstract class Quack_Bo_SessionS_BaseSessionDao extends Quack_Bo_BaseDao impleme
     }
 
     /**
+     *
      * @see Quack_Bo_SessionS_ISessionDao::readSession()
      */
     public function readSession($id) {
@@ -114,6 +118,7 @@ abstract class Quack_Bo_SessionS_BaseSessionDao extends Quack_Bo_BaseDao impleme
     }
 
     /**
+     *
      * @see Quack_Bo_SessionS_ISessionDao::writeSession()
      */
     public function writeSession($id, $data) {
@@ -121,9 +126,13 @@ abstract class Quack_Bo_SessionS_BaseSessionDao extends Quack_Bo_BaseDao impleme
             $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Session Id: {$id}/Data: {$data}";
             $this->LOGGER->debug($msg);
         }
-        $result = $this->updateSession($id, $data);
-        if ($result === FALSE || $result < 1) {
+        $sessionData = $this->readSession($id);
+        if ($sessionData != NULL) {
             $result = $this->createSession($id, $data);
+        } else {
+            if (crc32($data) != crc32($sessionData)) {
+                $result = $this->updateSession($id, $data);
+            }
         }
         return $result;
     }
