@@ -11,7 +11,7 @@
  * @subpackage Bo
  * @subpackage SessionS
  * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version $Id: ClassBaseSessionDao.php 217 2012-07-13 15:33:00Z btnguyen2k $
+ * @version $Id: ClassBaseSessionDao.php 219 2012-07-19 08:19:49Z btnguyen2k $
  * @since File available since v0.1
  */
 
@@ -132,6 +132,8 @@ abstract class Quack_Bo_SessionS_BaseSessionDao extends Quack_Bo_BaseDao impleme
         } else {
             if (crc32($data) != crc32($sessionData)) {
                 $result = $this->updateSession($id, $data);
+            } else {
+                $result = 0;
             }
         }
         return $result;

@@ -132,6 +132,8 @@ abstract class Quack_Bo_SessionS_BaseSessionDao extends Quack_Bo_BaseDao impleme
         } else {
             if (crc32($data) != crc32($sessionData)) {
                 $result = $this->updateSession($id, $data);
+            } else {
+                $result = 0;
             }
         }
         return $result;
