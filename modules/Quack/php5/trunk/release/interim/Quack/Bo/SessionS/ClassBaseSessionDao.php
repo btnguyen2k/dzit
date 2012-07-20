@@ -87,10 +87,11 @@ abstract class Quack_Bo_SessionS_BaseSessionDao extends Quack_Bo_BaseDao impleme
         $rows = $this->execSelect($sqlStm, $params);
         if ($rows !== NULL && count($rows) > 0) {
             $result = $rows[0][self::COL_SESSION_DATA];
+            $result = $result !== NULL ? $result : '';
         } else {
             $result = NULL;
         }
-        return $result !== NULL ? $result : ' ';
+        return $result;
     }
 
     protected function updateSession($id, $data) {
