@@ -83,10 +83,9 @@ abstract class Quack_Bo_AppConfig_BaseAppConfigDao extends Quack_Bo_BaseDao impl
     }
 
     /**
-     * Creates a new config
+     * Creates a new config.
      *
-     * @param int $config
-     *            usually this is number of DB's affected rows.
+     * @param Quack_Bo_AppConfig_BoAppConfig $config
      */
     protected function createConfig($config) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
