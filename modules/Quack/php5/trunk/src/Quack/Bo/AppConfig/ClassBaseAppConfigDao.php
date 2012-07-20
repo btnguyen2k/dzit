@@ -67,18 +67,19 @@ abstract class Quack_Bo_AppConfig_BaseAppConfigDao extends Quack_Bo_BaseDao impl
      * @see Quack_Bo_AppConfig_IAppConfigDao::saveConfig()
      */
     public function saveConfig($config) {
-        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
-        $params = Array(Quack_Bo_AppConfig_BoAppConfig::COL_KEY => $config->getKey(),
-                Quack_Bo_AppConfig_BoAppConfig::COL_VALUE => $config->getValue());
-        $result = $this->execNonSelect($sqlStm, $params);
-        if ($result == 0) {
-            $result = $this->createConfig($config);
+        $configData = $this->loadConfig($config->getKey());
+        if ($configData === NULL) {
+            $this->createConfig($config);
         } else {
-            $this->invalidateCache($config);
+            if ($config->getValue() !== $configData->getValue()) {
+                $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
+                $params = Array(Quack_Bo_AppConfig_BoAppConfig::COL_KEY => $config->getKey(),
+                        Quack_Bo_AppConfig_BoAppConfig::COL_VALUE => $config->getValue());
+                $result = $this->execNonSelect($sqlStm, $params);
+            }
         }
-        $cacheKey = $this->createCacheKeyConfig($config->getKey());
-        $this->putToCache($cacheKey, $config);
-        return $config;
+        $this->invalidateCache($config);
+        return $this->loadConfig($config->getKey());
     }
 
     /**
