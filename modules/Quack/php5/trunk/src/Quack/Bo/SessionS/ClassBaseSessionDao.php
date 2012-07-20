@@ -127,7 +127,7 @@ abstract class Quack_Bo_SessionS_BaseSessionDao extends Quack_Bo_BaseDao impleme
             $this->LOGGER->debug($msg);
         }
         $sessionData = $this->readSession($id);
-        if ($sessionData != NULL) {
+        if ($sessionData == NULL) {
             $result = $this->createSession($id, $data);
         } else {
             if (crc32($data) != crc32($sessionData)) {
