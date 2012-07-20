@@ -6,6 +6,11 @@ class Quack_Bo_AppConfig_BoAppConfig extends Quack_Bo_BaseBo {
 
     private $key, $value;
 
+    public function __construct($key = NULL, $value = NULL) {
+        $this->key = $key;
+        $this->value = $value;
+    }
+
     /*
      * (non-PHPdoc) @see Commons_Bo_BaseBo::getFieldMap()
      */
