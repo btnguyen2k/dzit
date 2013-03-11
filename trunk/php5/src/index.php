@@ -19,18 +19,24 @@ spl_autoload_register('dzitAutoload');
  * Dzit's class auto loader.
  */
 function dzitAutoload($className) {
+    global $_DZIT_IGNORE_ERROR_REPORTING;
+    $oldValue = $_DZIT_IGNORE_ERROR_REPORTING;
+    $_DZIT_IGNORE_ERROR_REPORTING = TRUE;
     global $DZIT_IGNORE_AUTOLOAD;
     if (isset($DZIT_IGNORE_AUTOLOAD) && is_array($DZIT_IGNORE_AUTOLOAD)) {
         foreach ($DZIT_IGNORE_AUTOLOAD as $pattern) {
             if (preg_match($pattern, $className)) {
+                $_DZIT_IGNORE_ERROR_REPORTING = $oldValue;
                 return FALSE;
             }
         }
     }
     $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
     if (!Ddth_Commons_Loader::loadClass($className, $translator)) {
+        $_DZIT_IGNORE_ERROR_REPORTING = $oldValue;
         return FALSE;
     }
+    $_DZIT_IGNORE_ERROR_REPORTING = $oldValue;
     return TRUE;
 }
 
@@ -108,6 +114,10 @@ if (defined('MODULES_DIR')) {
 set_error_handler("dzitErrorHandler");
 
 function dzitErrorHandler($errno, $errstr, $errfile='', $errline=0, $env=Array(), $stacktrace='') {
+    global $_DZIT_IGNORE_ERROR_REPORTING;
+    if ( !$_DZIT_IGNORE_ERROR_REPORTING ) {
+        return FALSE;
+    }
     if ( !defined('REPORT_ERROR') ) {
         return FALSE;
     }
