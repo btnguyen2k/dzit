@@ -115,7 +115,7 @@ set_error_handler("dzitErrorHandler");
 
 function dzitErrorHandler($errno, $errstr, $errfile='', $errline=0, $env=Array(), $stacktrace='') {
     global $_DZIT_IGNORE_ERROR_REPORTING;
-    if ( !$_DZIT_IGNORE_ERROR_REPORTING ) {
+    if ( $_DZIT_IGNORE_ERROR_REPORTING ) {
         return FALSE;
     }
     if ( !defined('REPORT_ERROR') ) {
