@@ -1,1 +1,1 @@
-Quack is a Dzit module, aims to provide necessary base interfaces, classes, and utility classes to develop applications on Dzit framework.
+Paperclip is a Dzit module to manage (save, delete, get) uploaded files.
