@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Quack" default="help" basedir=".">
+	<description>
+        Build file for Quack
+    </description>
+
+	<!-- set global properties for this build -->
+	<property name="dir.src" location="src" />
+	<property name="dir.temp" location="temp" />
+	<property name="dir.release" location="release" />
+	<property name="dir.release.tags" location="${dir.release}/tags" />
+	<property name="dir.release.interim" location="${dir.release}/interim" />
+
+	<tstamp />
+
+	<target name="help">
+		<echo>Run ant -p for list of targets</echo>
+	</target>
+
+	<target name="release-interim" description="Release the interim">
+		<copy todir="${dir.release.interim}">
+			<fileset dir="${dir.src}">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+	</target>
+</project>

@@ -1,0 +1,1 @@
+Quack is a Dzit module, aims to provide necessary base interfaces, classes, and utility classes to develop applications on Dzit framework.
