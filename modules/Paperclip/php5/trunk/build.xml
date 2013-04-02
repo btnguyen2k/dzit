@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Quack" default="help" basedir=".">
+<project name="Paperclip" default="help" basedir=".">
 	<description>
         Build file for Paperclip
     </description>
