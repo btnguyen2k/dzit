@@ -1,27 +1,26 @@
 <?php
 class Paperclip_Bo_BoPaperclip extends Quack_Bo_BaseBo {
 
+    const META_FILENAME = 'filename';
+
     const COL_ID = 'pc_id';
-    const COL_FILENAME = 'pc_filename';
-    const COL_FILESIZE = 'pc_filesize';
-    const COL_FILECONTENT = 'pc_filecontent';
-    const COL_THUMBNAIL = 'pc_thumbnail';
-    const COL_MIMETYPE = 'pc_mime_type';
     const COL_TIMESTAMP = 'pc_timestamp';
-    const COL_IS_DRAFT = 'pc_is_draft';
-    const COL_IMG_WIDTH = 'pc_img_width';
-    const COL_IMG_HEIGHT = 'pc_img_height';
+    const COL_FILESIZE = 'pc_filesize';
+    const COL_FILESTATUS = 'pc_filestatus';
+    const COL_FILECONTENT = 'pc_filecontent';
+    const COL_MIMETYPE = 'pc_mimetype';
+    const COL_OWNER = 'pc_owner';
+    const COL_METADATA = 'pc_metadata';
 
     private $id;
-    private $filename;
-    private $filesize;
-    private $filecontent;
-    private $thumbnail;
-    private $mimetype;
     private $timestamp;
-    private $isDraft;
-    private $imgWidth;
-    private $imgHeight;
+    private $filesize;
+    private $filestatus;
+    private $filecontent;
+    private $mimetype;
+    private $owner;
+    private $metadata;
+    private $objMetadata = NULL;
 
     /**
      *
@@ -29,203 +28,191 @@ class Paperclip_Bo_BoPaperclip extends Quack_Bo_BaseBo {
      */
     protected function getFieldMap() {
         return Array(self::COL_ID => Array('id'),
-                self::COL_FILENAME => Array('filename'),
-                self::COL_FILESIZE => Array('filesize', self::TYPE_INT),
                 self::COL_FILECONTENT => Array('filecontent'),
-                self::COL_THUMBNAIL => Array('thumbnail'),
+                self::COL_FILESIZE => Array('filesize', self::TYPE_INT),
+                self::COL_FILESTATUS => Array('filestatus'),
+                self::COL_METADATA => Array('metadata'),
                 self::COL_MIMETYPE => Array('mimetype'),
-                self::COL_TIMESTAMP => Array('timestamp', self::TYPE_INT),
-                self::COL_IS_DRAFT => Array('isDraft', self::TYPE_BOOLEAN),
-                self::COL_IMG_WIDTH => Array('imgWidth', self::TYPE_INT),
-                self::COL_IMG_HEIGHT => Array('imgHeight', self::TYPE_INT));
+                self::COL_OWNER => Array('owner'),
+                self::COL_TIMESTAMP => Array('timestamp', self::TYPE_INT));
     }
 
     /**
      * Getter for $id.
      *
-     * @return string
+     * @return field_type
      */
     public function getId() {
         return $this->id;
     }
 
     /**
-     * Setter for $id.
-     *
-     * @param string $id
-     */
-    public function setId($id) {
-        $this->id = $id;
-    }
-
-    /**
-     * Getter for $filename.
-     *
-     * @return string
-     */
-    public function getFilename() {
-        return $this->filename;
-    }
-
-    /**
-     * Setter for $filename.
-     *
-     * @param string $filename
-     */
-    public function setFilename($filename) {
-        $this->filename = $filename;
-    }
-
-    /**
-     * Getter for $filesize.
-     *
-     * @return int
-     */
-    public function getFilesize() {
-        return $this->filesize;
-    }
-
-    /**
-     * Setter for $filesize.
-     *
-     * @param int $filesize
-     */
-    public function setFilesize($filesize) {
-        $this->filesize = $filesize;
-    }
-
-    /**
-     * Getter for $filecontent.
-     *
-     * @return string
-     */
-    public function getFilecontent() {
-        return $this->filecontent;
-    }
-
-    /**
-     * Setter for $filecontent.
-     *
-     * @param string $filecontent
-     */
-    public function setFilecontent($filecontent) {
-        $this->filecontent = $filecontent;
-    }
-
-    /**
-     * Getter for $imgWidth.
-     *
-     * @return int
-     */
-    public function getImgWidth() {
-        return $this->imgWidth;
-    }
-
-    /**
-     * Setter for $imgWidth.
-     *
-     * @param int $imgWidth
-     */
-    public function setImgWidth($imgWidth) {
-        $this->imgWidth = $imgWidth;
-    }
-
-    /**
-     * Getter for $imgHeight.
-     *
-     * @return int
-     */
-    public function getImgHeight() {
-        return $this->imgHeight;
-    }
-
-    /**
-     * Setter for $imgHeight.
-     *
-     * @param int $imgHeight
-     */
-    public function setImgHeight($imgHeight) {
-        $this->imgHeight = $imgHeight;
-    }
-
-    /**
-     * Getter for $thumbnail.
-     *
-     * @return string
-     */
-    public function getThumbnail() {
-        return $this->thumbnail;
-    }
-
-    /**
-     * Setter for $thumbnail.
-     *
-     * @param string $thumbnail
-     */
-    public function setThumbnail($thumbnail) {
-        $this->thumbnail = $thumbnail;
-    }
-
-    /**
-     * Getter for $mimetype.
-     *
-     * @return string
-     */
-    public function getMimetype() {
-        return $this->mimetype;
-    }
-
-    /**
-     * Setter for $mimetype.
-     *
-     * @param string $mimetype
-     */
-    public function setMimetype($mimetype) {
-        $this->mimetype = $mimetype;
-    }
-
-    /**
      * Getter for $timestamp.
      *
-     * @return int
+     * @return field_type
      */
     public function getTimestamp() {
         return $this->timestamp;
     }
 
     /**
+     * Getter for $filesize.
+     *
+     * @return field_type
+     */
+    public function getFilesize() {
+        return $this->filesize;
+    }
+
+    /**
+     * Getter for $filestatus.
+     *
+     * @return field_type
+     */
+    public function getFilestatus() {
+        return $this->filestatus;
+    }
+
+    /**
+     * Getter for $filecontent.
+     *
+     * @return field_type
+     */
+    public function getFilecontent() {
+        return $this->filecontent;
+    }
+
+    /**
+     * Getter for $mimetype.
+     *
+     * @return field_type
+     */
+    public function getMimetype() {
+        return $this->mimetype;
+    }
+
+    /**
+     * Getter for $owner.
+     *
+     * @return field_type
+     */
+    public function getOwner() {
+        return $this->owner;
+    }
+
+    /**
+     * Getter for $metadata.
+     *
+     * @return field_type
+     */
+    public function getMetadata() {
+        return $this->metadata;
+    }
+
+    /**
+     * Setter for $id.
+     *
+     * @param field_type $id
+     * @return this object
+     */
+    public function setId($id) {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
      * Setter for $timestamp.
      *
-     * @param int $timestamp
+     * @param field_type $timestamp
+     * @return this object
      */
     public function setTimestamp($timestamp) {
         $this->timestamp = $timestamp;
+        return $this;
     }
 
     /**
-     * Getter for $isDraft.
+     * Setter for $filesize.
      *
-     * @return boolean
+     * @param field_type $filesize
+     * @return this object
      */
-    public function getIsDraft() {
-        return $this->isDraft;
+    public function setFilesize($filesize) {
+        $this->filesize = $filesize;
+        return $this;
     }
 
     /**
-     * Setter for $isDraft.
+     * Setter for $filestatus.
      *
-     * @param boolean $isDraft
+     * @param field_type $filestatus
+     * @return this object
      */
-    public function setIsDraft($isDraft) {
-        $this->isDraft = $isDraft;
+    public function setFilestatus($filestatus) {
+        $this->filestatus = $filestatus;
+        return $this;
     }
 
     /**
-     * Checks if the item is in "draft" state.
+     * Setter for $filecontent.
      *
-     * @return boolean
+     * @param field_type $filecontent
+     * @return this object
      */
-    public function isDraft() {
-        return $this->isDraft;
+    public function setFilecontent($filecontent) {
+        $this->filecontent = $filecontent;
+        return $this;
+    }
+
+    /**
+     * Setter for $mimetype.
+     *
+     * @param field_type $mimetype
+     * @return this object
+     */
+    public function setMimetype($mimetype) {
+        $this->mimetype = $mimetype;
+        return $this;
+    }
+
+    /**
+     * Setter for $owner.
+     *
+     * @param field_type $owner
+     * @return this object
+     */
+    public function setOwner($owner) {
+        $this->owner = $owner;
+        return $this;
+    }
+
+    /**
+     * Setter for $metadata.
+     *
+     * @param field_type $metadata
+     * @return this object
+     */
+    public function setMetadata($metadata) {
+        $this->metadata = $metadata;
+        $this->objMetadata = json_decode($this->metadata, TRUE);
+        return $this;
+    }
+
+    public function getMetadataEntry($name) {
+        return isset($this->objMetadata[$name]) ? $this->objMetadata[$name] : NULL;
+    }
+
+    public function setMetadataEntry($name, $value) {
+        $this->objMetadata[$name] = $value;
+        $this->metadata = json_encode($this->objMetadata);
+        return $this;
+    }
+
+    public function removeMetadataEntry($name) {
+        if (isset($this->objMetadata[$name])) {
+            unset($this->objMetadata[$name]);
+            $this->metadata = json_encode($this->objMetadata);
+        }
+        return $this;
     }
 }
