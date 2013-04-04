@@ -1,5 +1,26 @@
 <?php
-class Paperclip_Controller_ViewThumbnailController implements Dzit_IController {
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+/**
+ * Controller to view the attachment online.
+ *
+ * LICENSE: See the included license.txt file for detail.
+ *
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @package     Paperclip
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassAdodbException.php 248 2010-12-23 19:22:32Z btnguyen2k@gmail.com $
+ * @since       File available since v0.1
+ */
+
+/**
+ * Controller to view the attachment online.
+ *
+ * @package    	Paperclip
+ * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since      	Class available since v0.1
+ */
+class Paperclip_Controller_ViewController implements Dzit_IController {
     /**
      * @see Dzit_IController::execute()
      */
@@ -24,8 +45,11 @@ class Paperclip_Controller_ViewThumbnailController implements Dzit_IController {
                 header("Last-Modified: " . gmdate("D, d M Y H:i:s", $item->getTimestamp()) . " GMT");
                 //header("Expires: " . gmdate("D, d M Y H:i:s", time() + 3600) . " GMT");
             }
-            header('Content-type: image/jpeg');
-            echo $item->getThumbnail();
+            if ($item->getMimetype()) {
+                header('Content-type: ' . $item->getMimeType());
+            }
+            header('Content-length: ' . $item->getFilesize());
+            echo $item->getFilecontent();
         } else {
             header('HTTP/1.0 404 Not Found', TRUE, 404);
         }

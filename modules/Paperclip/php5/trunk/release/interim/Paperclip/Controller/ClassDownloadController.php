@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Controller to view the attachment online.
+ * Controller to force download the attachment.
  *
  * LICENSE: See the included license.txt file for detail.
  *
@@ -9,12 +9,12 @@
  *
  * @package     Paperclip
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
+ * @version     $Id: ClassAdodbException.php 248 2010-12-23 19:22:32Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 
 /**
- * Controller to view the attachment online.
+ * Controller to force download the attachment.
  *
  * @package    	Paperclip
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
@@ -38,13 +38,9 @@ class Paperclip_Controller_ViewController implements Dzit_IController {
         }
         $item = $dao->getAttachment($id);
         if ($item !== NULL) {
-            if ($viewValue['onetime']) {
-                header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-                header("Expires: Sat, 1 Jan 2011 00:00:00 GMT"); // Date in the past
-            } else {
-                header("Last-Modified: " . gmdate("D, d M Y H:i:s", $item->getTimestamp()) . " GMT");
-                //header("Expires: " . gmdate("D, d M Y H:i:s", time() + 3600) . " GMT");
-            }
+            header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+            header("Expires: Sat, 1 Jan 2011 00:00:00 GMT"); // Date in the past
+            header('Content-Disposition: attachment; filename="' . $item->getFilename() . '"');
             if ($item->getMimetype()) {
                 header('Content-type: ' . $item->getMimeType());
             }
