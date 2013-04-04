@@ -6,6 +6,20 @@ class Paperclip_Utils {
     }
 
     /**
+     * Reads file content and returns it as binary string.
+     *
+     * @param string $filepath
+     * @return string
+     */
+    public static function getFileContent($filepath) {
+        $filesize = filesize($filepath);
+        $fp = fopen($filepath, 'rb');
+        $filecontent = fread($fp, $filesize);
+        fclose($fp);
+        return $filecontent;
+    }
+
+    /**
      * Gets an attached image's dimensions (width and height).
      *
      * @param string $id
