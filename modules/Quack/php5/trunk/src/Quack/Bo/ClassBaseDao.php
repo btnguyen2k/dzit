@@ -61,17 +61,20 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
      *
      * @param mixed $result
      * @param string $cacheKey
+     * @param boolean $includeCacheL2
      */
-    protected function returnCachedResult($result, $cacheKey) {
-        if ($result === NULL) {
-            // cache "not found" result
-            $this->putToCache($cacheKey, NULL);
-        } else if ($result instanceof Ddth_Cache_CacheEntry) {
-            $this->putToCache($cacheKey, $result); // refresh cache entry
-            $result = $result->getValue();
-        } else {
-            $cacheEntry = new Ddth_Cache_CacheEntry($result);
-            $this->putToCache($cacheKey, $cacheEntry);
+    protected function returnCachedResult($result, $cacheKey, $includeCacheL2 = TRUE) {
+        if ( $cacheKey !== NULL ) {
+            if ($result === NULL) {
+                // cache "not found" result
+                $this->putToCache($cacheKey, NULL, $includeCacheL2);
+            } else if ($result instanceof Ddth_Cache_CacheEntry) {
+                $this->putToCache($cacheKey, $result, $includeCacheL2); // refresh cache entry
+                $result = $result->getValue();
+            } else {
+                $cacheEntry = new Ddth_Cache_CacheEntry($result);
+                $this->putToCache($cacheKey, $cacheEntry, $includeCacheL2);
+            }
         }
         return $result;
     }
@@ -178,10 +181,7 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
             $this->closeConnection();
         }
         $result = $result !== FALSE ? $result[0] : FALSE;
-        if ($cacheKey !== NULL) {
-            $this->putToCache($cacheKey, $result, $includeCacheL2);
-        }
-        return $result;
+        return $this->returnCachedResult($result, $cacheKey, $includeCacheL2);
     }
 
     /**
@@ -245,10 +245,11 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
         if ($closeConn) {
             $this->closeConnection();
         }
-        if ($cacheKey !== NULL) {
-            $this->putToCache($cacheKey, $result, $includeCacheL2);
+        if ( count($result) == 0 ) {
+            //return NULL if not found
+            $result = NULL;
         }
-        return $result;
+        return $this->returnCachedResult($result, $cacheKey, $includeCacheL2);
     }
 
     /**
