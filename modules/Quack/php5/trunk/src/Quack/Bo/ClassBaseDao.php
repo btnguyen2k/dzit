@@ -164,7 +164,7 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
         if ($cacheKey !== NULL) {
             $result = $this->getFromCache($cacheKey, $includeCacheL2);
             if ($result !== NULL) {
-                return $result;
+                return $this->returnCachedResult($result, $cacheKey, $includeCacheL2);
             }
         }
         $closeConn = FALSE;
@@ -224,7 +224,7 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
         if ($cacheKey !== NULL) {
             $result = $this->getFromCache($cacheKey, $includeCacheL2);
             if ($result !== NULL) {
-                return $result;
+                return $this->returnCachedResult($result, $cacheKey, $includeCacheL2);
             }
         }
         $closeConn = FALSE;

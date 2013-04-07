@@ -10,7 +10,7 @@
  * @package Quack
  * @subpackage Bo
  * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version $Id: ClassBaseDao.php 213 2012-07-12 17:34:09Z btnguyen2k $
+ * @version $Id: ClassBaseDao.php 240 2013-04-05 16:31:02Z btnguyen2k $
  * @since File available since v0.1
  */
 
@@ -164,7 +164,7 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
         if ($cacheKey !== NULL) {
             $result = $this->getFromCache($cacheKey, $includeCacheL2);
             if ($result !== NULL) {
-                return $result;
+                return $this->returnCachedResult($result, $cacheKey, $includeCacheL2);
             }
         }
         $closeConn = FALSE;
@@ -224,7 +224,7 @@ abstract class Quack_Bo_BaseDao extends Ddth_Dao_AbstractSqlStatementDao {
         if ($cacheKey !== NULL) {
             $result = $this->getFromCache($cacheKey, $includeCacheL2);
             if ($result !== NULL) {
-                return $result;
+                return $this->returnCachedResult($result, $cacheKey, $includeCacheL2);
             }
         }
         $closeConn = FALSE;
