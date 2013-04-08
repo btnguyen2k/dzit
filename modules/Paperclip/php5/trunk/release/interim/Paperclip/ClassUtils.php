@@ -92,7 +92,7 @@ class Paperclip_Utils {
             return NULL;
         }
         $viewEntry = Array('id' => $id, 'onetime' => $onetimeView);
-        $viewKey = md5("thumbnail$id");
+        $viewKey = md5("view$id");
         $_SESSION["PAPERCLIP_$viewKey"] = new Commons_Utils_SessionWrapper($viewEntry);
         return $_SERVER['SCRIPT_NAME'] . '/paperclip/view/' . $viewKey . '?' . $item->getTimestamp();
     }

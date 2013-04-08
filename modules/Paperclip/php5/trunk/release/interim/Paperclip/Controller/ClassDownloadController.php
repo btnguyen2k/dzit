@@ -9,7 +9,7 @@
  *
  * @package     Paperclip
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassAdodbException.php 248 2010-12-23 19:22:32Z btnguyen2k@gmail.com $
+ * @version     $Id: ClassDownloadController.php 239 2013-04-04 16:26:50Z btnguyen2k $
  * @since       File available since v0.1
  */
 
