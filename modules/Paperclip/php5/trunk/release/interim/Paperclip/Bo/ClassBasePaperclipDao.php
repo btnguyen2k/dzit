@@ -1,9 +1,12 @@
 <?php
-abstract class Paperclip_Bo_BasePaperclipDao extends Quack_Bo_BaseDao implements
-Paperclip_Bo_IPaperclipDao {
+abstract class Paperclip_Bo_BasePaperclipDao extends Quack_Bo_BaseDao implements Paperclip_Bo_IPaperclipDao {
+
+    public static function calcCacheKeyPaperclip($attachmentOrId) {
+        $pcId = ($attachmentOrId instanceof Paperclip_Bo_BoPaperclip) ? $attachmentOrId->getId() : $attachmentOrId;
+        return "PAPERCLIP_$pcId";
+    }
 
     /**
-     *
      * @var Ddth_Commons_Logging_ILog
      */
     private $LOGGER;
@@ -22,28 +25,21 @@ Paperclip_Bo_IPaperclipDao {
         return 'IPaperclipDao';
     }
 
-    protected function createCacheKeyPcId($pcId) {
-        return $pcId;
-    }
-
     /**
      * Invalidates the cache due to change.
      *
-     * @param Paperclip_Bo_BoPaperclip $user
+     * @param Paperclip_Bo_BoPaperclip $attachment
      */
-    protected function invalidateCache($pc = NULL) {
-        if ($pc !== NULL) {
-            $pcId = $pc->getId();
-            $this->deleteFromCache($this->createCacheKeyPcId($pcId));
+    protected function invalidateCache($attachment = NULL) {
+        if ($attachment !== NULL) {
+            $this->deleteFromCache(self::calcCacheKeyPaperclip($attachment));
         }
     }
 
     /**
-     *
+     * (non-PHPdoc)
      * @see Paperclip_Bo_IPaperclipDao::createAttachment()
      */
-    // public function createAttachment($pathToFileContent, $filename,
-    // $mimeType, $isDraft = FALSE, $thumbnail = NULL) {
     public function createAttachment($params = Array()) {
         //file content
         if ( isset($params[Paperclip_Bo_IPaperclipDao::PARAM_CONTENT]) ) {
@@ -84,7 +80,7 @@ Paperclip_Bo_IPaperclipDao {
     }
 
     /**
-     *
+     * (non-PHPdoc)
      * @see Paperclip_Bo_IPaperclipDao::deleteAttachment()
      */
     public function deleteAttachment($attachment) {
@@ -95,53 +91,40 @@ Paperclip_Bo_IPaperclipDao {
     }
 
     /**
-     *
+     * (non-PHPdoc)
      * @see Paperclip_Bo_IPaperclipDao::getAttachment()
      */
     public function getAttachment($id) {
         if ($id === NULL) {
             return NULL;
         }
-        $cacheKey = $this->createCacheKeyPcId($id);
-        $result = $this->getFromCache($cacheKey);
-        if ($result === NULL) {
-            $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
-            $params = Array(Paperclip_Bo_BoPaperclip::COL_ID => $id);
-            $rows = $this->execSelect($sqlStm, $params);
-            if ($rows !== NULL && count($rows) > 0) {
-                $result = new Paperclip_Bo_BoPaperclip();
-                $result->populate($rows[0]);
-            }
+        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
+        $params = Array(Paperclip_Bo_BoPaperclip::COL_ID => $id);
+        $rows = $this->execSelect($sqlStm, $params, NULL, self::calcCacheKeyPaperclip($id));
+        if ($rows !== NULL && count($rows) > 0) {
+            $result = new Paperclip_Bo_BoPaperclip();
+            $result->populate($rows[0]);
+        } else {
+            $result = NULL;
         }
-        /*
-        $timestamp = time();
-        $attchment = ($result instanceof Ddth_Cache_CacheEntry) ? $result->getValue() : $result;
-        if ($attchment !== NULL && $attchment->getTimestamp() + 24 * 3600 < $timestamp) {
-            // update timestamp if needed
-            $attchment->setTimestamp($timestamp);
-            $this->updateAttachment($attchment);
-            $this->putToCache($cacheKey, $attchment);
-        }
-        */
-        return $this->returnCachedResult($result, $cacheKey);
+        return $result;
     }
 
     /**
-     *
+     * (non-PHPdoc)
      * @see Paperclip_Bo_IPaperclipDao::updateAttachment()
      */
     public function updateAttachment($attachment) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
         $params = Array(Paperclip_Bo_BoPaperclip::COL_ID => $attachment->getId(),
-                Paperclip_Bo_BoPaperclip::COL_FILENAME => $attachment->getFilename(),
-                Paperclip_Bo_BoPaperclip::COL_FILESIZE => $attachment->getFilesize(),
                 Paperclip_Bo_BoPaperclip::COL_FILECONTENT => $attachment->getFilecontent(),
-                Paperclip_Bo_BoPaperclip::COL_IMG_WIDTH => $attachment->getImgWidth(),
-                Paperclip_Bo_BoPaperclip::COL_IMG_HEIGHT => $attachment->getImgHeight(),
-                Paperclip_Bo_BoPaperclip::COL_THUMBNAIL => $attachment->getThumbnail(),
+                Paperclip_Bo_BoPaperclip::COL_FILESIZE => $attachment->getFilesize(),
+                Paperclip_Bo_BoPaperclip::COL_FILESTATUS => $attachment->getFilestatus(),
+                Paperclip_Bo_BoPaperclip::COL_METADATA => $attachment->getMetadata(),
                 Paperclip_Bo_BoPaperclip::COL_MIMETYPE => $attachment->getMimetype(),
-                Paperclip_Bo_BoPaperclip::COL_TIMESTAMP => $attachment->getTimestamp(),
-                Paperclip_Bo_BoPaperclip::COL_IS_DRAFT => $attachment->isDraft() ? 1 : 0);
+                Paperclip_Bo_BoPaperclip::COL_OWNER => $attachment->getOwner(),
+                Paperclip_Bo_BoPaperclip::COL_TIMESTAMP => $attachment->getTimestamp()
+        );
         $this->execNonSelect($sqlStm, $params);
         $this->invalidateCache($attachment);
     }
