@@ -20,7 +20,7 @@
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since      	Class available since v0.1
  */
-class Paperclip_Controller_ViewController implements Dzit_IController {
+class Paperclip_Controller_DownloadController implements Dzit_IController {
     /**
      * @see Dzit_IController::execute()
      */

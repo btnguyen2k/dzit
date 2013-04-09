@@ -74,10 +74,10 @@ class Paperclip_Utils {
         if ($item === NULL) {
             return NULL;
         }
-        $viewEntry = Array('id' => $id, 'onetime' => $onetimeView);
+        $viewEntry = Array('id' => $id, 'onetime' => $onetimeView, 'timestamp' => time());
         $viewKey = md5("thumbnail$id");
         if ( !isset($_SESSION["PAPERCLIP_$viewKey"]) ) {
-            $_SESSION["PAPERCLIP_$viewKey"] = new Commons_Utils_SessionWrapper($viewEntry);
+            $_SESSION["PAPERCLIP_$viewKey"] = $viewEntry;
         }
         $url = $urlCreator->createUrl(Array(
                 Dzit_IUrlCreator::PARAM_MODULE => $paperclipModule,
@@ -105,10 +105,10 @@ class Paperclip_Utils {
         if ($item === NULL) {
             return NULL;
         }
-        $viewEntry = Array('id' => $id, 'onetime' => $onetimeView);
+        $viewEntry = Array('id' => $id, 'onetime' => $onetimeView, 'timestamp' => time());
         $viewKey = md5("view$id");
         if ( !isset($_SESSION["PAPERCLIP_$viewKey"]) ) {
-            $_SESSION["PAPERCLIP_$viewKey"] = new Commons_Utils_SessionWrapper($viewEntry);
+            $_SESSION["PAPERCLIP_$viewKey"] = $viewKey;
         }
         $url = $urlCreator->createUrl(Array(
                 Dzit_IUrlCreator::PARAM_MODULE => $paperclipModule,
@@ -136,10 +136,10 @@ class Paperclip_Utils {
         if ($item === NULL) {
             return NULL;
         }
-        $viewEntry = Array('id' => $id, 'onetime' => $onetimeView);
+        $viewEntry = Array('id' => $id, 'onetime' => $onetimeView, 'timestamp' => time());
         $viewKey = md5("download$id");
         if ( !isset($_SESSION["PAPERCLIP_$viewKey"]) ) {
-            $_SESSION["PAPERCLIP_$viewKey"] = new Commons_Utils_SessionWrapper($viewEntry);
+            $_SESSION["PAPERCLIP_$viewKey"] = $viewEntry;
         }
         $url = $urlCreator->createUrl(Array(
                 Dzit_IUrlCreator::PARAM_MODULE => $paperclipModule,
