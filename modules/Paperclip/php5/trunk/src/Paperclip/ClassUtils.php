@@ -61,59 +61,92 @@ class Paperclip_Utils {
      * Creates a URL to view a paperclip item as thumbnail.
      *
      * @param string $id
+     * @param Paperclip_Bo_IPaperclipDao $paperclipDao
+     * @param Dzit_IUrlCreator $urlCreator
+     * @param string $paperclipModule='paperclip'
+     * @param string $thumbnailAction='thumbnail'
      * @param boolean $onetimeView
      *            set to TRUE to make the URL one-time-use
      * @return string the URL or NULL
      */
-    public static function createUrlThumbnail($id, $onetimeView = FALSE) {
-        $dao = self::getDao(DAO_PAPERCLIP);
-        $item = $dao->getAttachment($id);
+    public static function createUrlThumbnail($id, $paperclipDao, $urlCreator, $paperclipModule='paperclip', $thumbnailAction='thumbnail', $onetimeView = FALSE) {
+        $item = $paperclipDao->getAttachment($id);
         if ($item === NULL) {
             return NULL;
         }
         $viewEntry = Array('id' => $id, 'onetime' => $onetimeView);
         $viewKey = md5("thumbnail$id");
-        $_SESSION["PAPERCLIP_$viewKey"] = new Commons_Utils_SessionWrapper($viewEntry);
-        return $_SERVER['SCRIPT_NAME'] . '/paperclip/thumbnail/' . $viewKey . '?' . $item->getTimestamp();
+        if ( !isset($_SESSION["PAPERCLIP_$viewKey"]) ) {
+            $_SESSION["PAPERCLIP_$viewKey"] = new Commons_Utils_SessionWrapper($viewEntry);
+        }
+        $url = $urlCreator->createUrl(Array(
+                Dzit_IUrlCreator::PARAM_MODULE => $paperclipModule,
+                Dzit_IUrlCreator::PARAM_ACTION => $thumbnailAction,
+                Dzit_IUrlCreator::PARAM_PATH_INFO_PARAMS => Array($viewKey, $item->getTimestamp)
+            )
+        );
+        return $url;
     }
 
     /**
      * Creates a URL to view a paperclip item.
      *
      * @param string $id
+     * @param Paperclip_Bo_IPaperclipDao $paperclipDao
+     * @param Dzit_IUrlCreator $urlCreator
+     * @param string $paperclipModule='paperclip'
+     * @param string $viewAction='thumbnail'
      * @param boolean $onetimeView
      *            set to TRUE to make the URL one-time-use
      * @return string the URL or NULL
      */
-    public static function createUrlView($id, $onetimeView = FALSE) {
-        $dao = self::getDao(DAO_PAPERCLIP);
-        $item = $dao->getAttachment($id);
+    public static function createUrlView($id, $paperclipDao, $urlCreator, $paperclipModule='paperclip', $viewAction='view', $onetimeView = FALSE) {
+        $item = $paperclipDao->getAttachment($id);
         if ($item === NULL) {
             return NULL;
         }
         $viewEntry = Array('id' => $id, 'onetime' => $onetimeView);
         $viewKey = md5("view$id");
-        $_SESSION["PAPERCLIP_$viewKey"] = new Commons_Utils_SessionWrapper($viewEntry);
-        return $_SERVER['SCRIPT_NAME'] . '/paperclip/view/' . $viewKey . '?' . $item->getTimestamp();
+        if ( !isset($_SESSION["PAPERCLIP_$viewKey"]) ) {
+            $_SESSION["PAPERCLIP_$viewKey"] = new Commons_Utils_SessionWrapper($viewEntry);
+        }
+        $url = $urlCreator->createUrl(Array(
+                Dzit_IUrlCreator::PARAM_MODULE => $paperclipModule,
+                Dzit_IUrlCreator::PARAM_ACTION => $viewAction,
+                Dzit_IUrlCreator::PARAM_PATH_INFO_PARAMS => Array($viewKey, $item->getTimestamp)
+        )
+        );
+        return $url;
     }
 
     /**
      * Creates a URL to download a paperclip item.
      *
      * @param string $id
+     * @param Paperclip_Bo_IPaperclipDao $paperclipDao
+     * @param Dzit_IUrlCreator $urlCreator
+     * @param string $paperclipModule='paperclip'
+     * @param string $downloadAction='thumbnail'
      * @param boolean $onetimeView
      *            set to TRUE to make the URL one-time-use
      * @return string the URL or NULL
      */
-    public static function createUrlDownload($id, $onetimeView = FALSE) {
-        $dao = self::getDao(DAO_PAPERCLIP);
-        $item = $dao->getAttachment($id);
+    public static function createUrlDownload($id, $paperclipDao, $urlCreator, $paperclipModule='paperclip', $downloadAction='download', $onetimeView = FALSE) {
+        $item = $paperclipDao->getAttachment($id);
         if ($item === NULL) {
             return NULL;
         }
         $viewEntry = Array('id' => $id, 'onetime' => $onetimeView);
         $viewKey = md5("download$id");
-        $_SESSION["PAPERCLIP_$viewKey"] = new Commons_Utils_SessionWrapper($viewEntry);
-        return $_SERVER['SCRIPT_NAME'] . '/paperclip/download/' . $viewKey . '?' . $item->getTimestamp();
+        if ( !isset($_SESSION["PAPERCLIP_$viewKey"]) ) {
+            $_SESSION["PAPERCLIP_$viewKey"] = new Commons_Utils_SessionWrapper($viewEntry);
+        }
+        $url = $urlCreator->createUrl(Array(
+                Dzit_IUrlCreator::PARAM_MODULE => $paperclipModule,
+                Dzit_IUrlCreator::PARAM_ACTION => $downloadAction,
+                Dzit_IUrlCreator::PARAM_PATH_INFO_PARAMS => Array($viewKey, $item->getTimestamp)
+        )
+        );
+        return $url;
     }
 }
