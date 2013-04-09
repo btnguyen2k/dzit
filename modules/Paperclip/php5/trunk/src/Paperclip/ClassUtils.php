@@ -82,7 +82,7 @@ class Paperclip_Utils {
         $url = $urlCreator->createUrl(Array(
                 Dzit_IUrlCreator::PARAM_MODULE => $paperclipModule,
                 Dzit_IUrlCreator::PARAM_ACTION => $thumbnailAction,
-                Dzit_IUrlCreator::PARAM_PATH_INFO_PARAMS => Array($viewKey, $item->getTimestamp)
+                Dzit_IUrlCreator::PARAM_PATH_INFO_PARAMS => Array($viewKey, $item->getTimestamp())
             )
         );
         return $url;
@@ -113,7 +113,7 @@ class Paperclip_Utils {
         $url = $urlCreator->createUrl(Array(
                 Dzit_IUrlCreator::PARAM_MODULE => $paperclipModule,
                 Dzit_IUrlCreator::PARAM_ACTION => $viewAction,
-                Dzit_IUrlCreator::PARAM_PATH_INFO_PARAMS => Array($viewKey, $item->getTimestamp)
+                Dzit_IUrlCreator::PARAM_PATH_INFO_PARAMS => Array($viewKey, $item->getTimestamp())
         )
         );
         return $url;
@@ -144,7 +144,7 @@ class Paperclip_Utils {
         $url = $urlCreator->createUrl(Array(
                 Dzit_IUrlCreator::PARAM_MODULE => $paperclipModule,
                 Dzit_IUrlCreator::PARAM_ACTION => $downloadAction,
-                Dzit_IUrlCreator::PARAM_PATH_INFO_PARAMS => Array($viewKey, $item->getTimestamp)
+                Dzit_IUrlCreator::PARAM_PATH_INFO_PARAMS => Array($viewKey, $item->getTimestamp())
         )
         );
         return $url;
