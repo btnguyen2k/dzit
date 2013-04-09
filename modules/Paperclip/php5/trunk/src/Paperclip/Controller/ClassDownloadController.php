@@ -31,15 +31,22 @@ class Paperclip_Controller_DownloadController implements Dzit_IController {
          */
         $requestParser = Dzit_RequestParser::getInstance();
         $viewKey = $requestParser->getPathInfoParam(2);
-        $viewValue = isset($_SESSION["PAPERCLIP_$viewKey"]) ? "PAPERCLIP_$viewKey" : NULL;
+        $viewValue = isset($_SESSION["PAPERCLIP_$viewKey"]) ? $_SESSION["PAPERCLIP_$viewKey"] : NULL;
         $id = $viewValue !== NULL ? $viewValue['id'] : NULL;
+        $onetime = FALSE;
         if ($viewValue !== NULL && $viewValue['onetime']) {
+            $onetime = TRUE;
             unset($_SESSION["PAPERCLIP_$viewKey"]);
         }
         $item = $dao->getAttachment($id);
         if ($item !== NULL) {
-            header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-            header("Expires: Sat, 1 Jan 2011 00:00:00 GMT"); // Date in the past
+            if ( $onetime ) {
+                header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+                header("Expires: Sat, 1 Jan 2011 00:00:00 GMT"); // Date in the past
+            } else {
+                header("Cache-Control: public, max-age=3600");
+                header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $item->getTimestamp()).' GMT');
+            }
             header('Content-Disposition: attachment; filename="' . $item->getFilename() . '"');
             if ($item->getMimetype()) {
                 header('Content-type: ' . $item->getMimeType());

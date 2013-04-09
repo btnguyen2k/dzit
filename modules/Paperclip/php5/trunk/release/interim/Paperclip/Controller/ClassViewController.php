@@ -42,8 +42,8 @@ class Paperclip_Controller_ViewController implements Dzit_IController {
                 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
                 header("Expires: Sat, 1 Jan 2011 00:00:00 GMT"); // Date in the past
             } else {
-                header("Last-Modified: " . gmdate("D, d M Y H:i:s", $item->getTimestamp()) . " GMT");
-                //header("Expires: " . gmdate("D, d M Y H:i:s", time() + 3600) . " GMT");
+                header("Cache-Control: public, max-age=3600");
+                header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $item->getTimestamp()).' GMT');
             }
             if ($item->getMimetype()) {
                 header('Content-type: ' . $item->getMimeType());
