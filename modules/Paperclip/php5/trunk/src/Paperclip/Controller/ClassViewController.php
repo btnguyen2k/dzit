@@ -31,10 +31,10 @@ class Paperclip_Controller_ViewController implements Dzit_IController {
          */
         $requestParser = Dzit_RequestParser::getInstance();
         $viewKey = $requestParser->getPathInfoParam(2);
-        $viewValue = Commons_Utils_SessionUtils::getSessionEntry("PAPERCLIP_$viewKey");
+        $viewValue = isset($_SESSION["PAPERCLIP_$viewKey"]) ? "PAPERCLIP_$viewKey" : NULL;
         $id = $viewValue !== NULL ? $viewValue['id'] : NULL;
         if ($viewValue !== NULL && $viewValue['onetime']) {
-            Commons_Utils_SessionUtils::deleteSessionEntry("PAPERCLIP_$viewKey");
+            unset($_SESSION["PAPERCLIP_$viewKey"]);
         }
         $item = $dao->getAttachment($id);
         if ($item !== NULL) {
