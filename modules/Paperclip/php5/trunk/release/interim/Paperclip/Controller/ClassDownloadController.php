@@ -9,7 +9,7 @@
  *
  * @package     Paperclip
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassDownloadController.php 250 2013-04-09 04:52:01Z btnguyen2k $
+ * @version     $Id: ClassDownloadController.php 251 2013-04-09 05:07:27Z btnguyen2k $
  * @since       File available since v0.1
  */
 
@@ -32,6 +32,7 @@ class Paperclip_Controller_DownloadController implements Dzit_IController {
         $requestParser = Dzit_RequestParser::getInstance();
         $viewKey = $requestParser->getPathInfoParam(2);
         $viewValue = isset($_SESSION["PAPERCLIP_$viewKey"]) ? $_SESSION["PAPERCLIP_$viewKey"] : NULL;
+        $viewValue = is_array($viewValue) ? $viewValue : Array();
         $id = $viewValue !== NULL ? $viewValue['id'] : NULL;
         $onetime = FALSE;
         if ($viewValue !== NULL && $viewValue['onetime']) {

@@ -32,6 +32,7 @@ class Paperclip_Controller_ViewController implements Dzit_IController {
         $requestParser = Dzit_RequestParser::getInstance();
         $viewKey = $requestParser->getPathInfoParam(2);
         $viewValue = isset($_SESSION["PAPERCLIP_$viewKey"]) ? $_SESSION["PAPERCLIP_$viewKey"] : NULL;
+        $viewValue = is_array($viewValue) ? $viewValue : Array();
         $id = $viewValue !== NULL ? $viewValue['id'] : NULL;
         if ($viewValue !== NULL && $viewValue['onetime']) {
             unset($_SESSION["PAPERCLIP_$viewKey"]);
