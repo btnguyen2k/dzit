@@ -108,7 +108,7 @@ class Paperclip_Utils {
         $viewEntry = Array('id' => $id, 'onetime' => $onetimeView, 'timestamp' => time());
         $viewKey = md5("view$id");
         if ( !isset($_SESSION["PAPERCLIP_$viewKey"]) ) {
-            $_SESSION["PAPERCLIP_$viewKey"] = $viewKey;
+            $_SESSION["PAPERCLIP_$viewKey"] = $viewEntry;
         }
         $url = $urlCreator->createUrl(Array(
                 Dzit_IUrlCreator::PARAM_MODULE => $paperclipModule,
