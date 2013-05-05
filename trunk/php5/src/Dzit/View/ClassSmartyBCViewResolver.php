@@ -38,7 +38,7 @@
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since       Class available since v0.2
  */
-class Dzit_View_SmartyViewResolver implements Dzit_IViewResolver {
+class Dzit_View_SmartyBCViewResolver implements Dzit_IViewResolver {
 
     private $templateDir = '';
     private $smartyCacheDir = '', $smartyCompileDir = '', $smartyConfigDir = '';
