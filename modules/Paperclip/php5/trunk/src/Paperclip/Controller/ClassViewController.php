@@ -45,6 +45,12 @@ class Paperclip_Controller_ViewController implements Dzit_IController {
             } else {
                 $timeStrItem = gmdate('D, d M Y H:i:s ', $item->getTimestamp()) . 'GMT';
                 $timeStrExpiry = gmdate('D, d M Y H:i:s ', time()+3600) . 'GMT';
+                $etag = md5($timeStrItem);
+
+                header('Cache-Control: public, max-age=3600');
+                header("ETag: \"$etag\"");
+                header("Last-Modified: $timeStrItem");
+                header("Expires: $timeStrExpiry");
 
                 $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : FALSE;
                 $if_none_match = isset($_SERVER['HTTP_IF_NONE_MATCH']) ? $_SERVER['HTTP_IF_NONE_MATCH'] : FALSE;
@@ -52,12 +58,6 @@ class Paperclip_Controller_ViewController implements Dzit_IController {
                     header('HTTP/1.1 304 Not Modified');
                     return;
                 }
-
-                $etag = md5($timeStrItem);
-                header('Cache-Control: public, max-age=3600');
-                header("ETag: \"$etag\"");
-                header("Last-Modified: $timeStrItem");
-                header("Expires: $timeStrExpiry");
             }
             if ($item->getMimetype()) {
                 header('Content-type: ' . $item->getMimeType());
@@ -65,7 +65,7 @@ class Paperclip_Controller_ViewController implements Dzit_IController {
             header('Content-length: ' . $item->getFilesize());
             echo $item->getFilecontent();
         } else {
-            header('HTTP/1.0 404 Not Found', TRUE, 404);
+            header('HTTP/1.1 404 Not Found', TRUE, 404);
         }
     }
 }
