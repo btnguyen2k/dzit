@@ -9,7 +9,7 @@
  *
  * @package     Paperclip
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassViewController.php 255 2013-05-10 21:23:43Z btnguyen2k $
+ * @version     $Id: ClassViewController.php 256 2013-05-11 17:16:25Z btnguyen2k $
  * @since       File available since v0.1
  */
 
@@ -28,18 +28,18 @@ class Paperclip_Controller_ViewController implements Dzit_IController {
         $dao = Ddth_Dao_BaseDaoFactory::getInstance()->getDao(DAO_PAPERCLIP);
         /**
          * @var Dzit_RequestParser
-        */
+         */
         $requestParser = Dzit_RequestParser::getInstance();
         $viewKey = $requestParser->getPathInfoParam(2);
         $viewValue = isset($_SESSION["PAPERCLIP_$viewKey"]) ? $_SESSION["PAPERCLIP_$viewKey"] : NULL;
         $viewValue = is_array($viewValue) ? $viewValue : Array();
         $id = isset($viewValue['id']) ? $viewValue['id'] : NULL;
-        if ($viewValue['onetime']) {
+        if (isset($viewValue['onetime']) && $viewValue['onetime']) {
             unset($_SESSION["PAPERCLIP_$viewKey"]);
         }
         $item = $dao->getAttachment($id);
         if ($item !== NULL) {
-            if ($viewValue['onetime']) {
+            if (isset($viewValue['onetime']) && $viewValue['onetime']) {
                 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
                 header("Expires: Sat, 1 Jan 2011 00:00:00 GMT"); // Date in the past
             } else {

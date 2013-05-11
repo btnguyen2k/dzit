@@ -33,15 +33,13 @@ class Paperclip_Controller_DownloadController implements Dzit_IController {
         $viewKey = $requestParser->getPathInfoParam(2);
         $viewValue = isset($_SESSION["PAPERCLIP_$viewKey"]) ? $_SESSION["PAPERCLIP_$viewKey"] : NULL;
         $viewValue = is_array($viewValue) ? $viewValue : Array();
-        $id = $viewValue !== NULL ? $viewValue['id'] : NULL;
-        $onetime = FALSE;
-        if ($viewValue !== NULL && $viewValue['onetime']) {
-            $onetime = TRUE;
+        $id = isset($viewValue['id']) ? $viewValue['id'] : NULL;
+        if (isset($viewValue['onetime']) && $viewValue['onetime']) {
             unset($_SESSION["PAPERCLIP_$viewKey"]);
         }
         $item = $dao->getAttachment($id);
         if ($item !== NULL) {
-            if ( $onetime ) {
+            if (isset($viewValue['onetime']) && $viewValue['onetime']) {
                 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
                 header("Expires: Sat, 1 Jan 2011 00:00:00 GMT"); // Date in the past
             } else {
