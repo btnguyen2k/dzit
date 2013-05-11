@@ -9,7 +9,7 @@
  *
  * @package     Paperclip
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassDownloadController.php 255 2013-05-10 21:23:43Z btnguyen2k $
+ * @version     $Id: ClassDownloadController.php 257 2013-05-11 17:18:46Z btnguyen2k $
  * @since       File available since v0.1
  */
 
@@ -67,6 +67,7 @@ class Paperclip_Controller_DownloadController implements Dzit_IController {
             echo $item->getFilecontent();
         } else {
             header('HTTP/1.1 404 Not Found', TRUE, 404);
+            echo "File not found!";
         }
     }
 }

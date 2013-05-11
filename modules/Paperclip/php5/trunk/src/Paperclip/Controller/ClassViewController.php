@@ -59,6 +59,7 @@ class Paperclip_Controller_ViewController implements Dzit_IController {
                     return;
                 }
             }
+            header('Content-Disposition: inline; filename="' . $item->getFilename() . '"');
             if ($item->getMimetype()) {
                 header('Content-type: ' . $item->getMimeType());
             }
@@ -66,6 +67,7 @@ class Paperclip_Controller_ViewController implements Dzit_IController {
             echo $item->getFilecontent();
         } else {
             header('HTTP/1.1 404 Not Found', TRUE, 404);
+            echo "File not found!";
         }
     }
 }

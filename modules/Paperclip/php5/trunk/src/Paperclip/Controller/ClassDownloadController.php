@@ -67,6 +67,7 @@ class Paperclip_Controller_DownloadController implements Dzit_IController {
             echo $item->getFilecontent();
         } else {
             header('HTTP/1.1 404 Not Found', TRUE, 404);
+            echo "File not found!";
         }
     }
 }
