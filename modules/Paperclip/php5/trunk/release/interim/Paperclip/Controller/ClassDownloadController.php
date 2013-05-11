@@ -9,7 +9,7 @@
  *
  * @package     Paperclip
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassDownloadController.php 252 2013-04-09 07:24:24Z btnguyen2k $
+ * @version     $Id: ClassDownloadController.php 255 2013-05-10 21:23:43Z btnguyen2k $
  * @since       File available since v0.1
  */
 

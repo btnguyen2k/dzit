@@ -9,7 +9,7 @@
  *
  * @package     Paperclip
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassViewController.php 252 2013-04-09 07:24:24Z btnguyen2k $
+ * @version     $Id: ClassViewController.php 255 2013-05-10 21:23:43Z btnguyen2k $
  * @since       File available since v0.1
  */
 
@@ -33,8 +33,8 @@ class Paperclip_Controller_ViewController implements Dzit_IController {
         $viewKey = $requestParser->getPathInfoParam(2);
         $viewValue = isset($_SESSION["PAPERCLIP_$viewKey"]) ? $_SESSION["PAPERCLIP_$viewKey"] : NULL;
         $viewValue = is_array($viewValue) ? $viewValue : Array();
-        $id = $viewValue !== NULL ? $viewValue['id'] : NULL;
-        if ($viewValue !== NULL && $viewValue['onetime']) {
+        $id = isset($viewValue['id']) ? $viewValue['id'] : NULL;
+        if ($viewValue['onetime']) {
             unset($_SESSION["PAPERCLIP_$viewKey"]);
         }
         $item = $dao->getAttachment($id);
