@@ -59,7 +59,7 @@ class Paperclip_Controller_DownloadController implements Dzit_IController {
                     return;
                 }
             }
-            header('Content-Disposition: attachment; filename="' . $item->getFilename() . '"');
+            header('Content-Disposition: inline; filename="' . $item->getMetadataEntry(Paperclip_Bo_BoPaperclip::META_FILENAME) . '"');
             if ($item->getMimetype()) {
                 header('Content-type: ' . $item->getMimeType());
             }

@@ -9,7 +9,7 @@
  *
  * @package     Paperclip
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassDownloadController.php 257 2013-05-11 17:18:46Z btnguyen2k $
+ * @version     $Id: ClassDownloadController.php 258 2013-05-11 17:37:48Z btnguyen2k $
  * @since       File available since v0.1
  */
 
@@ -59,7 +59,7 @@ class Paperclip_Controller_DownloadController implements Dzit_IController {
                     return;
                 }
             }
-            header('Content-Disposition: attachment; filename="' . $item->getFilename() . '"');
+            header('Content-Disposition: inline; filename="' . $item->getMetadataEntry(Paperclip_Bo_BoPaperclip::META_FILENAME) . '"');
             if ($item->getMimetype()) {
                 header('Content-type: ' . $item->getMimeType());
             }
