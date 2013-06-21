@@ -121,6 +121,10 @@ function dzitErrorHandler($errno, $errstr, $errfile='', $errline=0, $env=Array()
     if ( !defined('REPORT_ERROR') ) {
         return FALSE;
     }
+    if (!(error_reporting() & $errno)) {
+        // This error code is not included in error_reporting
+        return FALSE;
+    }
 ?>
 <style>
 .ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 13px; margin-bottom: 4px; }
@@ -131,10 +135,6 @@ function dzitErrorHandler($errno, $errstr, $errfile='', $errline=0, $env=Array()
 .ui-state-error {border: 1px solid #cd0a0a; background-color: #fef1ec; color: #cd0a0a; }
 </style>
 <?php
-    //if (!(error_reporting() & $errno)) {
-    //    // This error code is not included in error_reporting
-    //    return;
-    //}
     $halt = FALSE;
     switch ($errno) {
         case E_USER_ERROR:
