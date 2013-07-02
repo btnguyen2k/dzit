@@ -72,7 +72,8 @@ class Paperclip_Utils {
      */
     public static function createUrlView($attachment, $urlCreator, $paperclipModule='paperclip', $viewAction='view',
             $absoluteUrl=FALSE, $onetimeView=FALSE, $storageDir=NULL) {
-        $viewEntry = Array(self::ATTR_ID=>$attachment->getId(), self::ATTR_ONETIME=>$onetimeView, self::ATTR_TIMESTAMP=>time());
+        $id = $attachment->getId();
+        $viewEntry = Array(self::ATTR_ID=>$id, self::ATTR_ONETIME=>$onetimeView, self::ATTR_TIMESTAMP=>time());
         if ( $attachment->isExternalStorage() && $storageDir != NULL ) {
             $viewEntry[self::ATTR_STORAGE_DIR] = $storageDir;
         }
@@ -104,7 +105,8 @@ class Paperclip_Utils {
      */
     public static function createUrlDownload($attachment, $urlCreator, $paperclipModule='paperclip', $downloadAction='download',
             $absoluteUrl=FALSE, $onetimeView=FALSE, $storageDir=NULL) {
-        $viewEntry = Array(self::ATTR_ID=>$attachment->getId(), self::ATTR_ONETIME=>$onetimeView, self::ATTR_TIMESTAMP=>time());
+        $id = $attachment->getId();
+        $viewEntry = Array(self::ATTR_ID=>$id, self::ATTR_ONETIME=>$onetimeView, self::ATTR_TIMESTAMP=>time());
         if ( $attachment->isExternalStorage() && $storageDir != NULL ) {
             $viewEntry[self::ATTR_STORAGE_DIR] = $storageDir;
         }
