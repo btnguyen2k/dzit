@@ -219,8 +219,36 @@ class Paperclip_Bo_BoPaperclip extends Quack_Bo_BaseBo {
         return $this;
     }
 
+    /**
+     * Is file stored in an external storage?
+     *
+     * @return boolean
+     */
     public function isExternalStorage() {
         $externalStorage = $this->getMetadataEntry(self::META_EXTERNAL_STORAGE);
         return $externalStorage != NULL && $externalStorage;
+    }
+
+    /**
+     * Gets URL to file (only available when isExternalStorage() returns TRUE).
+     *
+     * @param string $staticUrlPrefix
+     */
+    public function getUrl($staticUrlPrefix=NULL) {
+        if ( !$this->isExternalStorage() ) {
+            return NULL;
+        }
+        $fileDir = $this->getMetadataEntry(self::META_FILE_DIR);
+        $fileDiskName = $this->getMetadataEntry(self::META_FILE_DISK_NAME);
+        $file = $fileDir!=NULL ? new Ddth_Commons_File($fileDiskName, $fileDir) : new Ddth_Commons_File($fileDiskName);
+        $filePath = $file->getPathname();
+        if ( $filePath[0] == '/' ) {
+            $filePath = substr($filePath, 1);
+        }
+        $urlPrefix = $staticUrlPrefix!=NULL ? $staticUrlPrefix : '';
+        if ( $urlPrefix!='' && $urlPrefix[strlen($urlPrefix)-1]!='/' ) {
+            $urlPrefix .= '/';
+        }
+        return $urlPrefix . $filePath;
     }
 }
