@@ -38,25 +38,50 @@ abstract class Paperclip_Bo_BasePaperclipDao extends Quack_Bo_BaseDao implements
 
     /**
      * (non-PHPdoc)
+     * @see Paperclip_Bo_IPaperclipDao::updateAttachment()
+     */
+    public function updateAttachment($attachment, $storageDir=NULL) {
+        if ( $attachment->isExternalStorage() ) {
+            if ( $storageDir == NULL ) {
+                throw new Exception('Storage dir is NULL!');
+            }
+            $fileContent = $attachment->getFilecontent();
+            $destFile = Paperclip_Utils::buildFile($storageDir,
+                    $attachment->getMetadataEntry(Paperclip_Bo_BoPaperclip::META_FILE_DISK_NAME),
+                    $attachment->getMetadataEntry(Paperclip_Bo_BoPaperclip::META_FILE_DIR)
+            );
+            Paperclip_Utils::saveToFile($fileContent, $destFile);
+            $attachment->setFilecontent(NULL);
+        }
+
+        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
+        $params = Array(Paperclip_Bo_BoPaperclip::COL_ID  => $attachment->getId(),
+                Paperclip_Bo_BoPaperclip::COL_FILECONTENT => $attachment->getFilecontent(),
+                Paperclip_Bo_BoPaperclip::COL_FILESIZE    => $attachment->getFilesize(),
+                Paperclip_Bo_BoPaperclip::COL_FILESTATUS  => $attachment->getFilestatus(),
+                Paperclip_Bo_BoPaperclip::COL_METADATA    => $attachment->getMetadata(),
+                Paperclip_Bo_BoPaperclip::COL_MIMETYPE    => $attachment->getMimetype(),
+                Paperclip_Bo_BoPaperclip::COL_OWNER       => $attachment->getOwner(),
+                Paperclip_Bo_BoPaperclip::COL_TIMESTAMP   => $attachment->getTimestamp()
+        );
+
+        $this->execNonSelect($sqlStm, $params);
+        $this->invalidateCache($attachment);
+    }
+
+    /**
+     * (non-PHPdoc)
      * @see Paperclip_Bo_IPaperclipDao::createAttachment()
      */
     public function createAttachment($params = Array()) {
-        //file content
-        if ( isset($params[Paperclip_Bo_IPaperclipDao::PARAM_CONTENT]) ) {
-            $content = $params[Paperclip_Bo_IPaperclipDao::PARAM_CONTENT];
-            $filesize = strlen($content);
-        } else if ( isset($params[Paperclip_Bo_IPaperclipDao::PARAM_FILE_LOCATION]) ) {
-            $filelocation = $params[Paperclip_Bo_IPaperclipDao::PARAM_FILE_LOCATION];
-            $filesize = filesize($filelocation);
-            $content = Paperclip_Utils::getFileContent($filelocation);
-        } else {
+        //verify file content
+        if ( !isset($params[Paperclip_Bo_IPaperclipDao::PARAM_CONTENT]) && !isset($params[Paperclip_Bo_IPaperclipDao::PARAM_FILE_LOCATION]) ) {
             return NULL;
         }
 
-        // $id = uniqid('', TRUE);
         $id = Quack_Util_IdUtils::id64hex(0, 16);
         $timestamp = time();
-        $filename = $params[Paperclip_Bo_IPaperclipDao::PARAM_FILENAME];
+        $logicalFilename = $params[Paperclip_Bo_IPaperclipDao::PARAM_FILENAME];
         $mimetype = $params[Paperclip_Bo_IPaperclipDao::PARAM_MIMETYPE];
         $status = isset($params[Paperclip_Bo_IPaperclipDao::PARAM_STATUS]) ? $params[Paperclip_Bo_IPaperclipDao::PARAM_STATUS] : NULL;
         $owner = isset($params[Paperclip_Bo_IPaperclipDao::PARAM_OWNER]) ? $params[Paperclip_Bo_IPaperclipDao::PARAM_OWNER] : NULL;
@@ -64,14 +89,48 @@ abstract class Paperclip_Bo_BasePaperclipDao extends Quack_Bo_BaseDao implements
         $metadata = is_array($extraMetadata) ? $extraMetadata : Array();
         $metadata[Paperclip_Bo_BoPaperclip::META_FILENAME] = $filename;
 
-        $sqlParams = Array(Paperclip_Bo_BoPaperclip::COL_ID=>$id,
-                Paperclip_Bo_BoPaperclip::COL_FILECONTENT=>$content,
-                Paperclip_Bo_BoPaperclip::COL_FILESIZE=>$filesize,
-                Paperclip_Bo_BoPaperclip::COL_FILESTATUS=>$status,
-                Paperclip_Bo_BoPaperclip::COL_METADATA=>json_encode($metadata),
-                Paperclip_Bo_BoPaperclip::COL_MIMETYPE=>$mimetype,
-                Paperclip_Bo_BoPaperclip::COL_OWNER=>$owner,
-                Paperclip_Bo_BoPaperclip::COL_TIMESTAMP=>$timestamp
+        if ( isset($params[Paperclip_Bo_IPaperclipDao::PARAM_CONTENT]) ) {
+            $fileContent = $params[Paperclip_Bo_IPaperclipDao::PARAM_CONTENT];
+            $filesize = strlen($content);
+        } else if ( isset($params[Paperclip_Bo_IPaperclipDao::PARAM_FILE_LOCATION]) ) {
+            $fileLocation = $params[Paperclip_Bo_IPaperclipDao::PARAM_FILE_LOCATION];
+            $filesize = filesize($fileLocation);
+        }
+
+        if ( isset($params[Paperclip_Bo_IPaperclipDao::PARAM_EXTERNAL_STORAGE]) && $params[Paperclip_Bo_IPaperclipDao::PARAM_EXTERNAL_STORAGE] ) {
+            //store file content in external storage
+            $metadata[Paperclip_Bo_BoPaperclip::META_EXTERNAL_STORAGE] = TRUE;
+            $metadata[Paperclip_Bo_BoPaperclip::META_FILE_DIR] = date('Y/m', $timestamp);
+            $metadata[Paperclip_Bo_BoPaperclip::META_FILE_DISK_NAME] = $id . '.' . $pathinfo['extension'];
+            $destFile = Paperclip_Utils::buildFile($params[Paperclip_Bo_IPaperclipDao::PARAM_STORAGE_DIR],
+                    $metadata[Paperclip_Bo_BoPaperclip::META_FILE_DISK_NAME],
+                    $metadata[Paperclip_Bo_BoPaperclip::META_FILE_DIR],
+                    TRUE);
+            if ( isset($params[Paperclip_Bo_IPaperclipDao::PARAM_CONTENT]) ) {
+                Paperclip_Utils::saveToFile($fileContent, $destFile);
+                $fileContent = NULL;
+            } else if ( isset($params[Paperclip_Bo_IPaperclipDao::PARAM_FILE_LOCATION]) ) {
+                $fileLocation = $params[Paperclip_Bo_IPaperclipDao::PARAM_FILE_LOCATION];
+                move_uploaded_file($fileLocation, $destFile->getPathname());
+                $fileContent = NULL;
+            } else {
+                //not possible
+            }
+        } else {
+            //store file content in db table
+            if ( isset($params[Paperclip_Bo_IPaperclipDao::PARAM_FILE_LOCATION]) ) {
+                $fileContent = Paperclip_Utils::getFileContent($fileLocation);
+            }
+        }
+
+        $sqlParams = Array(Paperclip_Bo_BoPaperclip::COL_ID => $id,
+                Paperclip_Bo_BoPaperclip::COL_FILECONTENT   => $fileContent,
+                Paperclip_Bo_BoPaperclip::COL_FILESIZE      => $filesize,
+                Paperclip_Bo_BoPaperclip::COL_FILESTATUS    => $status,
+                Paperclip_Bo_BoPaperclip::COL_METADATA      => json_encode($metadata),
+                Paperclip_Bo_BoPaperclip::COL_MIMETYPE      => $mimetype,
+                Paperclip_Bo_BoPaperclip::COL_OWNER         => $owner,
+                Paperclip_Bo_BoPaperclip::COL_TIMESTAMP     => $timestamp
         );
 
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
@@ -108,24 +167,5 @@ abstract class Paperclip_Bo_BasePaperclipDao extends Quack_Bo_BaseDao implements
             $result = NULL;
         }
         return $result;
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see Paperclip_Bo_IPaperclipDao::updateAttachment()
-     */
-    public function updateAttachment($attachment) {
-        $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
-        $params = Array(Paperclip_Bo_BoPaperclip::COL_ID => $attachment->getId(),
-                Paperclip_Bo_BoPaperclip::COL_FILECONTENT => $attachment->getFilecontent(),
-                Paperclip_Bo_BoPaperclip::COL_FILESIZE => $attachment->getFilesize(),
-                Paperclip_Bo_BoPaperclip::COL_FILESTATUS => $attachment->getFilestatus(),
-                Paperclip_Bo_BoPaperclip::COL_METADATA => $attachment->getMetadata(),
-                Paperclip_Bo_BoPaperclip::COL_MIMETYPE => $attachment->getMimetype(),
-                Paperclip_Bo_BoPaperclip::COL_OWNER => $attachment->getOwner(),
-                Paperclip_Bo_BoPaperclip::COL_TIMESTAMP => $attachment->getTimestamp()
-        );
-        $this->execNonSelect($sqlStm, $params);
-        $this->invalidateCache($attachment);
     }
 }

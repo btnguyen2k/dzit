@@ -1,7 +1,10 @@
 <?php
 class Paperclip_Bo_BoPaperclip extends Quack_Bo_BaseBo {
 
-    const META_FILENAME = 'filename';
+    const META_FILE_NAME          = 'file_name';        //(string) logical file name
+    const META_FILE_DISK_NAME     = 'file_disk_name';   //(string) file on disk
+    const META_FILE_DIR           = 'file_dir';         //(string) sub-directory (if any) that stores file on disk
+    const META_EXTERNAL_STORAGE   = 'external_storage'; //(bool) is file stored outside database table?
 
     const COL_ID = 'pc_id';
     const COL_TIMESTAMP = 'pc_timestamp';
@@ -214,5 +217,10 @@ class Paperclip_Bo_BoPaperclip extends Quack_Bo_BaseBo {
             $this->metadata = json_encode($this->objMetadata);
         }
         return $this;
+    }
+
+    public function isExternalStorage() {
+        $externalStorage = $this->getMetadataEntry(self::META_EXTERNAL_STORAGE);
+        return $externalStorage != NULL && $externalStorage;
     }
 }
