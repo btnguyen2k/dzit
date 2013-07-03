@@ -81,7 +81,7 @@ abstract class Paperclip_Bo_BasePaperclipDao extends Quack_Bo_BaseDao implements
 
         $id = Quack_Util_IdUtils::id64hex(0, 16);
         $timestamp = time();
-        $logicalFilename = $params[Paperclip_Bo_IPaperclipDao::PARAM_FILENAME];
+        $logicalFilename = $params[Paperclip_Bo_IPaperclipDao::PARAM_FILE_NAME];
         $mimetype = $params[Paperclip_Bo_IPaperclipDao::PARAM_MIMETYPE];
         $status = isset($params[Paperclip_Bo_IPaperclipDao::PARAM_STATUS]) ? $params[Paperclip_Bo_IPaperclipDao::PARAM_STATUS] : NULL;
         $owner = isset($params[Paperclip_Bo_IPaperclipDao::PARAM_OWNER]) ? $params[Paperclip_Bo_IPaperclipDao::PARAM_OWNER] : NULL;
