@@ -143,11 +143,20 @@ abstract class Paperclip_Bo_BasePaperclipDao extends Quack_Bo_BaseDao implements
      * (non-PHPdoc)
      * @see Paperclip_Bo_IPaperclipDao::deleteAttachment()
      */
-    public function deleteAttachment($attachment) {
+    public function deleteAttachment($attachment, $storageDir=NULL) {
         $sqlStm = $this->getStatement('sql.' . __FUNCTION__);
         $params = Array(Paperclip_Bo_BoPaperclip::COL_ID => $attachment->getId());
         $this->execNonSelect($sqlStm, $params);
         $this->invalidateCache($attachment);
+        if ( $attachment->isExternalStorage() && $storageDir==NULL ) {
+            $destFile = Paperclip_Utils::buildFile($storageDir,
+                    $attachment->getMetadataEntry(Paperclip_Bo_BoPaperclip::META_FILE_DISK_NAME),
+                    $attachment->getMetadataEntry(Paperclip_Bo_BoPaperclip::META_FILE_DIR)
+            );
+            if ( file_exists($destFile->getPathname()) ) {
+                @unlink($destFile->getPathname());
+            }
+        }
     }
 
     /**

@@ -24,8 +24,9 @@ interface Paperclip_Bo_IPaperclipDao extends Ddth_Dao_IDao {
      * Deletes an attachment.
      *
      * @param Paperclip_Bo_BoPaperclip $attachment
+     * @param string|Ddth_Commons_File $storageDir
     */
-    public function deleteAttachment($attachment);
+    public function deleteAttachment($attachment, $storageDir);
 
     /**
      * Gets an attachment by id.
