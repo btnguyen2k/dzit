@@ -148,7 +148,7 @@ abstract class Paperclip_Bo_BasePaperclipDao extends Quack_Bo_BaseDao implements
         $params = Array(Paperclip_Bo_BoPaperclip::COL_ID => $attachment->getId());
         $this->execNonSelect($sqlStm, $params);
         $this->invalidateCache($attachment);
-        if ( $attachment->isExternalStorage() && $storageDir==NULL ) {
+        if ( $attachment->isExternalStorage() && $storageDir!=NULL ) {
             $destFile = Paperclip_Utils::buildFile($storageDir,
                     $attachment->getMetadataEntry(Paperclip_Bo_BoPaperclip::META_FILE_DISK_NAME),
                     $attachment->getMetadataEntry(Paperclip_Bo_BoPaperclip::META_FILE_DIR)
