@@ -13,8 +13,8 @@ class Paperclip_Utils {
      */
     public static function buildFile($rootDir, $filename, $partitionDir=NULL, $autoCreateDir=FALSE, $dirUnixMode=0711) {
         $parent = $partitionDir!=NULL ? new Ddth_Commons_File($partitionDir, $rootDir) : $rootDir;
-        if ( $autoCreateDir ) {
-            mkdir($parent->getPathname(), $dirUnixMode, TRUE);
+        if ( $autoCreateDir && ! file_exists($parent->getPathname()) ) {
+            @mkdir($parent->getPathname(), $dirUnixMode, TRUE);
         }
         return new Ddth_Commons_File($filename, $parent);
     }
