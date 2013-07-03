@@ -87,7 +87,7 @@ abstract class Paperclip_Bo_BasePaperclipDao extends Quack_Bo_BaseDao implements
         $owner = isset($params[Paperclip_Bo_IPaperclipDao::PARAM_OWNER]) ? $params[Paperclip_Bo_IPaperclipDao::PARAM_OWNER] : NULL;
         $extraMetadata = isset($params[Paperclip_Bo_IPaperclipDao::PARAM_METADATA]) ? $params[Paperclip_Bo_IPaperclipDao::PARAM_FILENAME] : NULL;
         $metadata = is_array($extraMetadata) ? $extraMetadata : Array();
-        $metadata[Paperclip_Bo_BoPaperclip::META_FILENAME] = $filename;
+        $metadata[Paperclip_Bo_BoPaperclip::META_FILE_NAME] = $filename;
 
         if ( isset($params[Paperclip_Bo_IPaperclipDao::PARAM_CONTENT]) ) {
             $fileContent = $params[Paperclip_Bo_IPaperclipDao::PARAM_CONTENT];
