@@ -43,3 +43,4 @@ interface Paperclip_Bo_IPaperclipDao extends Ddth_Dao_IDao {
     */
     public function updateAttachment($attachment, $storageDir=NULL);
 }
+
