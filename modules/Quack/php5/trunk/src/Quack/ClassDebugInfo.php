@@ -51,12 +51,12 @@ class Quack_DebugInfo {
         return ini_get('memory_limit');
     }
 
-    public function getSqlLog() {
+    public function getSqlLog($maxSqlLength = 200) {
         $sqlLog = Ddth_Dao_BaseDaoFactory::getQueryLog();
         for ($i = 0; $i < count($sqlLog); $i++) {
             $sql = $sqlLog[$i][0];
-            if (strlen($sql) > 200) {
-                $sqlLog[$i][0] = substr($sql, 0, 197) . '...';
+            if (strlen($sql) > $maxSqlLength) {
+                $sqlLog[$i][0] = substr($sql, 0, $maxSqlLength-3) . '...';
             }
         }
         return $sqlLog;
