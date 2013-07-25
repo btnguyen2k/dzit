@@ -195,7 +195,7 @@ class Paperclip_Utils {
         //validate file type
         $allowedFileTypes = isset($params[self::PAPERCLIP_ALLOWED_FILETYPES]) ? $params[self::PAPERCLIP_ALLOWED_FILETYPES] : Array('*');
         if ( !is_array($allowedFileTypes) ) {
-            $allowedFileTypes = Array($allowedFileTypes);
+            $allowedFileTypes = preg_split('/[,:;]+/', strtolower($allowedFileTypes));
         }
         if ( !self::isValidFileExtension($file['name'], $allowedFileTypes) ) {
             return Array(self::PAPERCLIP_ERROR_FILETYPE, $file['name']);
