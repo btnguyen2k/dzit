@@ -1,0 +1,1 @@
+Dzit (or Dzit Framework) is a PHP Application Framework.
